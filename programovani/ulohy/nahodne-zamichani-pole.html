@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Náhodné zamíchání pole - Fisher-Yates Shuffle | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="../index.html">Úvod</a>
+    <a href="../ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__content -->
+  <main class="site-main__content" id="metodika">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Náhodné zamíchání pole - Fisher-Yates Shuffle
+      </h1>
+
+      <p class="link--anchor">
+        <a href="#meta">▼ Úvodní informace</a>
+      </p>
+
+    </header>
+
+    <p>
+      Síla úlohy spočívá v její triviálnosti. Kromě cyklů nejsou potřeba žádné jiné znalosti.
+    </p>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Napište program, který náhodně přehází prvky v poli pomocí Fisher-Yates Shuffle. Jako vstup programu uvažujte velikost pole. Hodnota 
+        bude rovna desetinásobku klíče prvku (tzn. na klíči 3 bude hodnota 30). Výsledek vypište ve tvaru <code>klíč – hodnota</code>, 
+        a to před i po zamíchání.
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 6</li>
+      <li><b>Výstup (příklad):</b><br>
+        0 - 0 <br> 1 - 10 <br> 2 - 20 <br> 3 - 30 <br> 4 - 40 <br> 5 – 50 <br> ----- <br>
+        0 - 30 <br> 1 - 40 <br> 2 - 10 <br> 3 - 0 <br> 4 - 20 <br> 5 - 50
+        </li>
+    </ul>
+
+    <p>
+      Pro vysvětlení použité metody je možné použít přiložený pomocný soubor <code>fisher-yates-shuffle.png</code>, kde je pomocí obrázku popsáno, 
+      jak algoritmus funguje. Je možné takový rozbor provést na tabuli. Vygenerujeme náhodné číslo ze stále zkracujícího se intervalu (maximum 
+      se rovná indexu nejvyššího prvku, minimum 0) a nejvyšší prvek prohodíme s náhodně vybraným prvkem (prohodíme jejich hodnoty), zároveň nejvyšší prvek zneaktivníme 
+      (proběhne výše zmíněné snížení intervalu). Takto pokračujeme, dokud nám nezůstane jeden samotný prvek. Specifický případ k řešení 
+      je v případě, že vylosujeme nejvyšší prvek. Existují dva způsoby řešení (které mají stejný výsledek). Můžeme prvek prohodit sám 
+      se sebou, nebo prohození vynechat. Tato speciální situace je naznačena v typovém příkladu v pomocném slidu.
+    </p>
+ 
+    <a href="files/nahodne-zamichani-pole/fisher-yates-shuffle.png" target="_blank"><img src="files/nahodne-zamichani-pole/fisher-yates-shuffle.png" alt="Fisher Yates Shuffle" class="img--align-center"></a>
+    
+    <p>
+      Samotný program je koncipován velice jednoduše. Nachází se pod názvem  <code>fisher-yates-shuffle</code> v 
+      příslušném programovacím jazyce. Budeme potřebovat tři cykly. V prvním naplníme pole hodnotami a zároveň vypíšeme v požadovaném tvaru, v druhém provedeme 
+      zamíchání pole a ve třetím vypíšeme zamíchané pole. Během programování by každý měl pracovat samostatně. 
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#1-cpp">fisher-yates-shuffle.cpp</a>
+  <a href="#1-js">fisher-yates-shuffle.js</a>
+  <a href="#1-py">fisher-yates-shuffle.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="1-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+#include &lt;time.h&gt;
+#include &lt;stdlib.h&gt;
+using namespace std;
+
+int main() {
+
+  // Deklarace a inicializace 
+  const int vel = 7; // Inicializujeme velikost pole 
+  int pole[vel]; // Deklarujeme pole o velikosti
+
+  // Cyklus pro naplneni pole cisly
+  for(int i = 0; i < vel; i++) {
+
+    // Na index vlozime hodnotu
+    pole[i] = i * 10;
+
+    // Vypiseme ve tvaru klic - hodnota
+    cout << i << " - " << pole[i] << endl;
+
+  }
+
+  cout << "-----" << endl;
+
+  // Nastavime seed pro generovani pseudonahodneho cisla
+  srand(time(NULL));
+
+  // Cyklus pro randomizaci
+  for (int i = vel - 1; i > 0; i--) {
+
+    // Deklarujeme a inicializujeme
+    int j = rand() % (i + 1); // Inicializujeme, ziskame nahodnou pozici
+
+    // Provedeme vymenu
+    swap(pole[i], pole[j]);
+
+  }
+
+  // Cyklus pro vypsani pole
+  for(int i = 0; i < vel; i++) {
+
+    // Vypiseme ve tvaru klic - hodnota
+    cout << i << " - " << pole[i] << endl;
+
+  }
+  
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="1-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 7; // Inicializujeme velikost pole
+var pole = []; // Deklarujeme pole
+
+// Cykls pro nauplneni pole cisly
+for(var i = 0; i < vel; i++) {
+
+  // Na index vlozime hodnotu
+  pole[i] = i * 10;
+
+  // Vypiseme ve tvaru klic - hodnota
+  console.log(i + " - " + pole[i]);
+
+}
+
+// Vypiseme oddelovac
+console.log("-----");
+
+// Cyklus pro randomizaci
+for (var i = vel - 1; i > 0 ;i--) {
+
+  // Deklarujeme a inicializujeme
+  var j = Math.floor(Math.random() * (i + 1)); // Inicializujeme, ziskame nahodnou pozici
+
+  // Prohodime hodnoty
+  [pole[j], pole[i]] = [pole[i], pole[j]];
+
+}
+
+
+// Cyklus pro vypsani pole
+for(var i = 0; i < vel; i++) {
+
+  // Vypiseme ve tvaru klic - hodnota
+  console.log(i + " - " + pole[i]);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="1-py">
+<pre data-language="py">
+  # Importujeme knihovnu pseudonahodnych cisel
+  import random
+  
+  # Deklarace a inicializace
+  vel = 7 # Inicializujeme velikost pole
+  pole = [] # Deklarujeme pole
+  
+  # Cyklus pro naplneni pole cisly
+  for i in range(vel):
+
+    # Na index vlozime hodnotu
+    pole.append(i * 10)
+
+    # Vypiseme ve tvaru klic - hodnota
+    print(i, "-", pole[i])
+
+  # Vypiseme oddelovac
+  print("-----")
+  
+  # Cyklus pro randomizaci
+  for i in range(vel-1, -1, -1):
+  
+    # Deklarujeme a inicializujeme
+    j = random.randrange(i + 1) # Inicializujeme, ziskame nahodnou pozici
+
+    # Prohodime hodnoty
+    pole[i], pole[j] = pole[j], pole[i]
+
+  # Cyklus pro vypsani pole
+  for i in range(vel):
+  
+    # Vypiseme ve tvaru klic - hodnota
+    print(i, "-", pole[i])
+</pre>
+</div>
+</div>
+</div>
+
+    <p>
+      Jediné, co může působit problém, je neznalost vytvoření (pseudo)náhodného čísla z nějakého intervalu. Jelikož je řešení v jednotlivých programovacích jazycích 
+      odlišné, budeme hned na začátku úlohy studenty buď instruovat (řekneme/napíšeme řešení tvorby náhodného čísla), nebo je necháme, aby si tyto informace 
+      zjistili z otevřených zdrojů (nikoliv od souseda). Dle dovedností skupiny by se autor spíše přikláněl k druhé možnosti řešení.
+    </p>
+
+    <p>
+      Za zmínku stojí, že v jazyce C++ je nutné přidat náhodný seed. V ukázce je použit příkaz <code>srand(time(NULL))</code>, který za seed považuje čas v sekundách 
+      od Epoch time (unixový čas). Pokud pracujeme v tomto jazyce, doporučuje se demonstrovat zadání náhodného čísla a poté několikrát spustit kompilovaný exe 
+      program, aby bylo vidět, že výsledné pole je stále randomizováno.
+    </p>
+
+    <p>
+      Po úspěšném vyřešení je možné pokračovat v diskusi nad tímto příkladem. Vhodné je v ní vysvětlit náhodná a pseudonáhodná čísla v souvislosti s informatikou.
+    </p>
+
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse
+    </h3>
+    <ol>
+      <li>
+        Jedná se doopravdy o zcela náhodné zamíchání? Pokud ne, jak se těmto náhodným číslům říká (najděte na internetu)? 
+      </li>
+      <li>
+        Co je to seed a k čemu slouží (najděte na internetu)?
+      </li>
+      <li>
+        Dokážete vymyslet, kde se taková pseudonáhodná čísla dají uplatnit?
+      </li>
+      <li>
+        Proč nemůže počítač generovat zcela náhodná čísla?
+      </li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+    <ul>
+      <li>
+        Neočekávají se problémy, které by studenti nebyli schopni sami vyřešit.
+      </li>
+    </ul>
+    
+
+  </main>
+
+  <!-- site-main__side -->
+  <aside class="site-main__side" id="meta">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title">
+        Úvodní informace
+      </h2>
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        Úloha má za cíl demonstrovat jednu z nejznámějších a nejpoužívanějších metod, sloužící k náhodnému zamíchání pole, známou jako 
+        Fisher-Yates Shuffle. Metoda je velice jednoduchá k pochopení i naprogramování. Proto se hodí k procvičení cyklů. 
+      </p>
+
+      <p class="link--anchor">
+        <a href="#metodika">▲ Metodika</a>
+      </p>
+    
+    </header>
+
+    <h3>
+      Cíle úlohy
+    </h3>
+    <ul>
+      <li>
+        Procvičení:
+        <ul>
+          <li>Cykly</li>
+        </ul>
+      </li>
+      <li>Získání (pseudo)náhodného čísla ze zadaného intervalu</li>
+      <li>Hledání relevantních informací v internetových zdrojích</li>
+      <li>Získání poznatků o (pseudo)náhodných číslech</li>
+    </ul>
+
+    <h3>
+      Časová náročnost
+    </h3>
+    <p>
+      1 vyučovací hodina
+    </p>
+
+    <h3>
+      Obtížnost
+    </h3>
+    <img src="../assets/img/2.png" alt="**">
+
+    <h3>
+      Prerekvizity
+    </h3>
+    <ul>
+      <li>Cykly</li>
+    </ul>
+
+    <h3>
+      Výsledné programy
+    </h3>
+    <ul>
+      <li>fisher-yates-shuffle <a href="files/nahodne-zamichani-pole/fisher-yates-shuffle.cpp">cpp</a> <a href="files/nahodne-zamichani-pole/fisher-yates-shuffle.js">js</a> <a href="files/nahodne-zamichani-pole/fisher-yates-shuffle.py">py</a></li>
+    </ul>
+
+    <h3>
+      Soubory
+    </h3>
+
+    <ul>
+      <li><a href="files/nahodne-zamichani-pole/nahodne-zamichani-pole.docx">Metodika</a></li>
+      <li><a href="files/nahodne-zamichani-pole/fisher-yates-shuffle.png" target="_blank">fisher-yates-shuffle.png</a></li>
+    </ul>
+
+  </aside>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/scripts.js"></script>
+
+</body>
+</html>

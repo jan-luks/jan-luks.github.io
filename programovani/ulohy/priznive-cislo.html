@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Příznivé číslo | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="../index.html">Úvod</a>
+    <a href="../ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__content -->
+  <main class="site-main__content" id="metodika">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Příznivé číslo
+      </h1>
+
+      <p class="link--anchor">
+        <a href="#meta">▼ Úvodní informace</a>
+      </p>
+
+    </header>
+
+    <p>
+      Síla této úlohy spočívá v její složitosti za použití znalostí cyklů a pole. V první řadě je třeba si vysvětlit, co to příznivá čísla jsou.
+    </p>
+
+    <p>
+      K vysvětlení je možné použít pomocný obrázek <code>priznive-cislo.png</code>, ve kterém je popsán způsob, jak jsou tato čísla vypočtena.
+    </p>
+
+    <a href="files/priznive-cislo/priznive-cislo.png" target="_blank"><img src="files/priznive-cislo/priznive-cislo.png" alt="Příznivé číslo" class="img--align-center"></a>
+
+    <p>
+      V posloupnosti s limitem N jsou nejprve v prvním kroku vyřazena všechna sudá čísla. Je možné tento první krok vyřešit tak, že při inicializaci 
+      pole budou sudé indexy přeskočeny a pole naplněno pouze lichými čísly. V dalším kroku zjistíme číslo, které je druhé nevyřazené (po jedničce). 
+      Jedná se o číslo 3, tudíž nyní odstraníme z posloupnosti každé třetí nevyřazené číslo (nikoliv násobek – poté by se jednalo v podstatě o 
+      Eratosthenovo síto). Dále pokračujeme obdobně dalšími čísly, a to do té doby, dokud procházením nenarazíme na konec pole. Je samozřejmě 
+      možné toto vysvětlení provést analogicky na tabuli.
+    </p>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymyslete program, který vypíše všechna příznivá čísla do limitu N včetně. Pro řešení využijte výhod pole.
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 300</li>
+      <li>
+        <b>Výstup:</b><br>1, 3, 7, 9, 13, 15, 21, 25, 31, 33, 37, 43, 49, 51, 63, 67, 69, 73, 75, 79, 87, 93, 99, 105, 111, 115, 127, 129, 133, 135, 
+        141, 151, 159, 163, 169, 171, 189, 193, 195, 201, 205, 211, 219, 223, 231, 235, 237, 241, 259, 261, 267, 273, 283, 285, 289, 297
+      </li>
+    </ul>
+
+    <p>
+      Tuto úlohu nedoporučuje autor zadat studentům k samostatnému řešení díky svojí obtížnosti.
+    </p>
+
+    <p>
+      Složité bude pro studenty pravděpodobně uchopení úlohy. První krok, kdy se odstraňují z pole všechna sudá čísla, je v podstatě plně separátní 
+      činnost, oproti dalším úkonům, které už budou následně opakovány. Můžeme si dopomoci brainstormingem, kdy rozebereme algoritmus.
+    </p>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse - rozbor algoritmu
+    </h3>
+
+    <ol>
+      <li>Můžeme si již při inicializaci pole nějak pomoci?</li>
+      <li>Kolik budeme pro řešení potřebovat pomocných proměnných?</li>
+      <li>Jaké informace v nich budeme uchovávat?</li>
+    </ol>
+
+    <hr>
+
+    <p>
+      Po nepovinné diskusi se ujistíme, že studenti rozumí algoritmu a necháme je následně naprogramovat jejich řešení. Výsledný vzorový příklad je 
+      označen jako <code>priznive-cislo</code> v příslušném programovacím jazyce. Autor doporučuje jej odprezentovat a následně i vysvětlit. 
+      Je možné, že někteří studenti mohli přistupovat k řešení odlišným způsobem, to můžeme zohlednit v následné reflektivní diskusi.
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#1-cpp">priznive-cislo.cpp</a>
+  <a href="#1-js">priznive-cislo.js</a>
+  <a href="#1-py">priznive-cislo.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="1-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a inicializace
+  int n = 300; // Inicializujeme pocet cisel
+  int pole[n + 1]; // Deklarujeme pole o spravne velikosti
+  int poc = 0; // Inicializujeme pocitadlo
+  int vym = 2; // Inicializujeme pozici cisla, podle ktereho budeme vymazavat
+
+  // Pole pro prvotni naplneni, provedeme jiz prvni krok, kdy se zbavime vsech sudych cisel
+  for(int i = 0; i <= n; i++) {
+
+    // Pokud je index lichy
+    if(i % 2 == 1) {
+
+      // Pridame cislo na index
+      pole[i] = i;
+
+    }
+
+    // Pokud je sude
+    else {
+
+      // Vynulujeme
+      pole[i] = 0;
+
+    }
+
+  }    
+  
+  // Vnejsi cyklus pro opakovani 
+  for(int i = 2; i <= n; i++) {
+
+    // Vnitrni cyklus pro nalezeni cisla, ktere nam urci jaka cisla vymazat
+    for(int j = 1; j <= n; j++) {
+
+      // Pokud se jedna o jakekoliv cislo
+      if(pole[j] != 0) {
+
+        // Pricteme k pocitadlu 1
+        poc++;
+
+      }
+
+      // Pokud se jsme nasli hledane cislo
+      if(poc == i) {
+
+        // Ulozime cislo, podle ktereho budeme vymazavat
+        vym = pole[j];
+
+        // Resetujeme pocitadlo
+        poc = 0;
+
+        // Prerusime vnitrni cyklus
+        break;
+
+      }
+
+      // Pokud jsme dosli na konec, mame hotovo
+      if(j == n) {
+
+        // Ulozime si cislo, podle ktereho ukoncime vnejsi cyklus
+        vym = -1;
+
+        // Prerusime vnitrni cyklus
+        break;
+      }
+
+    }
+
+    // Pokud jsme na konci programu
+    if(vym == -1) {
+
+        // Prerusime vnejsi cyklus
+        break;
+    }
+
+    // Cyklus pro mazani cisel
+    for(int j = 1; j <= n; j++) {
+
+      // Pokud je jakekoliv cislo
+      if(pole[j] != 0) {
+
+        // Zvedneme pocitadlo o 1
+        poc++;
+
+        // Pokud dojdeme k zadanemu poctu
+        if(poc == vym) {
+
+          // Vymazeme cislo v poli
+          pole[j] = poc = 0;
+
+        }
+
+      }
+
+    }
+
+    // Vyresetujeme pocitadlo
+    poc = 0;
+
+  }
+
+  // Cyklus pro vypsani priznivych cisel
+  for(int i = 1; i <= n; i++) {
+
+    // Pokud se na indexu nachazi cislo
+    if(pole[i] != 0) {
+
+      // Vypiseme ho
+      cout << i << ", ";
+
+    }
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="1-js">
+<pre data-language="js">
+// Deklarace a inicializace
+n = 300; // Inicializujeme pocet cisel
+pole = []; // Deklarujeme pole o spravne velikosti
+poc = 0; // Inicializujeme pocitadlo
+vym = 2; // Inicializujeme pozici cisla, podle ktereho budeme vymazavat
+
+// Pole pro prvotni naplneni, provedeme jiz prvni krok, kdy se zbavime vsech sudych cisel
+for(i = 0; i <= n; i++) {
+
+  // Pokud je index lichy
+  if(i % 2 == 1) {
+
+    // Pridame cislo na index
+    pole[i] = i;
+
+  }
+
+  // Pokud je sude
+  else {
+
+    // Vynulujeme
+    pole[i] = 0;
+
+  }
+
+}    
+
+// Vnejsi cyklus pro opakovani 
+for(i = 2; i <= n; i++) {
+
+  // Vnitrni cyklus pro nalezeni cisla, ktere nam urci jaka cisla vymazat
+  for(j = 1; j <= n; j++) {
+
+    // Pokud se jedna o jakekoliv cislo
+    if(pole[j] != 0) {
+
+      // Pricteme k pocitadlu 1
+      poc++;
+
+    }
+
+    // Pokud se jsme nasli hledane cislo
+    if(poc == i) {
+
+      // Ulozime cislo, podle ktereho budeme vymazavat
+      vym = pole[j];
+
+      // Resetujeme pocitadlo
+      poc = 0;
+
+      // Prerusime vnitrni cyklus
+      break;
+
+    }
+
+    // Pokud jsme dosli na konec, mame hotovo
+    if(j == n) {
+
+      // Ulozime si cislo, podle ktereho ukoncime vnejsi cyklus
+      vym = -1;
+
+      // Prerusime vnitrni cyklus
+      break;
+
+    }
+
+  }
+
+  // Pokud jsme na konci programu
+  if(vym == -1) {
+
+    // Prerusime vnejsi cyklus
+    break;
+  }
+
+  // Cyklus pro mazani cisel
+  for(j = 1; j <= n; j++) {
+
+    // Pokud je jakekoliv cislo
+    if(pole[j] != 0) {
+
+      // Zvedneme pocitadlo o 1
+      poc++;
+
+      // Pokud dojdeme k zadanemu poctu
+      if(poc == vym) {
+
+        // Vymazeme cislo v poli
+        pole[j] = poc = 0;
+
+      }
+
+    }
+
+  }
+
+  // Vyresetujeme pocitadlo
+  poc = 0;
+
+}
+
+// Cyklus pro vypsani priznivych cisel
+for(i = 1; i <= n; i++) {
+
+  // Pokud se na indexu nachazi cislo
+  if(pole[i] != 0) {
+
+    // Vypiseme ho
+    console.log(i);
+
+  }
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="1-py">
+<pre data-language="py">
+# Deklarace a inicializace
+n = 300 # Inicializujeme pocet cisel
+pole = [] # Deklarujeme pole o spravne velikosti
+poc = 0 # Inicializujeme pocitadlo
+vym = 2 # Inicializujeme pozici cisla, podle ktereho budeme vymazavat
+
+# Pole pro prvotni naplneni, provedeme jiz prvni krok, kdy se zbavime vsech sudych cisel
+for i in range(n + 1):
+
+  # Pokud je index lichy
+  if(i % 2 == 1):
+
+    # Pridame cislo na index
+    pole.append(i)
+
+  # Pokud je sude
+  else:
+
+    # Vynulujeme
+    pole.append(0)    
+
+# Vnejsi cyklus pro opakovani 
+for i in range(2, n + 1):
+
+  # Vnitrni cyklus pro nalezeni cisla, ktere nam urci jaka cisla vymazat
+  for j in range(n + 1):
+
+    # Pokud se jedna o jakekoliv cislo
+    if(pole[j] != 0):
+
+      # Pricteme k pocitadlu 1
+      poc += 1
+
+    # Pokud se jsme nasli hledane cislo
+    if(poc == i):
+
+      # Ulozime cislo, podle ktereho budeme vymazavat
+      vym = pole[j]
+
+      # Resetujeme pocitadlo
+      poc = 0
+
+      # Prerusime vnitrni cyklus
+      break
+
+    # Pokud jsme dosli na konec, mame hotovo
+    if(j == n):
+
+      # Ulozime si cislo, podle ktereho ukoncime vnejsi cyklus
+      vym = -1
+
+      # Prerusime vnitrni cyklus
+      break
+
+  # Pokud jsme na konci programu
+  if(vym == -1):
+
+    # Prerusime vnejsi cyklus
+    break
+
+  # Cyklus pro mazani cisel
+  for j in range(n + 1):
+
+    # Pokud je jakekoliv cislo
+    if(pole[j] != 0):
+
+      # Zvedneme pocitadlo o 1
+      poc += 1
+
+      # Pokud dojdeme k zadanemu poctu
+      if(poc == vym):
+
+        # Vymazeme cislo v poli
+        pole[j] = poc = 0
+
+
+
+  # Vyresetujeme pocitadlo
+  poc = 0
+
+# Cyklus pro vypsani priznivych cisel
+for i in range(n + 1):
+
+  # Pokud se na indexu nachazi cislo
+  if(pole[i] != 0):
+
+    # Vypiseme ho
+    print(i, end=", ")
+</pre>
+</div>
+</div>
+</div>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse - reflexe řešení
+    </h3>
+
+    <ol>
+      <li>Pokud bychom odstraňovali násobky čísel (kromě samotných čísel), jaký by byl výsledek? – Tuto otázku zařadíme pouze tehdy, pokud studenti znají Eratosthenovo síto.</li>
+      <li>V čem vám přišla úloha zákeřná?</li>
+      <li>Co vám dělalo největší problém při řešení úlohy?</li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+
+    <ul>
+      <li>
+        <i>Student nedokáže aplikovat první krok (odstranění sudých čísel).</i> - Toto je pravděpodobný, zároveň ale lehce řešitelný problém, který je popsán výše. Zde je nutné 
+        studentovi říct, že se v tomto případě jedná o unikátní separátní operaci, která se provádí pouze jedinkrát na začátku a poté již nikoli. 
+      </li>
+      <li>
+        <i>Student má problém algoritmus vymyslet (případně poskládat).</i> - V tomto případě je se studentem nutné úlohu společně rozložit na menší separátní celky (zbavení 
+        se sudých čísel, odstranění nevyřazených čísel, výpis) a zaměřit se na část, které nerozumí. Možností je také nechat studenty, kteří algoritmu rozumí, aby vysvětlení 
+        té hůře pochopitelné části zkusili vysvětlit sami.
+      </li>
+    </ul>
+
+  </main>
+
+  <!-- site-main__side -->
+  <aside class="site-main__side" id="meta">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title">
+        Úvodní informace
+      </h2>
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        V této úloze budou studenti vypisovat příznivá čísla (v angličtině Lucky numbers) do limitu N. Jedná se o úlohu, která se 
+        svojí obtížností zařazuje mezi ty těžké, a to z důvodu provedení mnoha početních operací. Obtížnější je také pro 
+        studenty pochopit, jak poskládat jednotlivé úkony tak, aby tvořily funkční celek. Příznivá čísla sama o sobě 
+        nemají žádný význam a slouží pouze pro procvičení.
+      </p>
+
+      <p class="link--anchor">
+        <a href="#metodika">▲ Metodika</a>
+      </p>
+    
+    </header>
+
+    <h3>
+      Cíle úlohy
+    </h3>
+    <ul>
+      <li>
+        Procvičení:
+        <ul>
+          <li>Pole</li>
+          <li>Cykly</li>
+          <li>Vnořené cykly</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>
+      Časová náročnost
+    </h3>
+    <p>
+      2 vyučovací hodiny
+    </p>
+
+    <h3>
+      Obtížnost
+    </h3>
+    <img src="../assets/img/5.png" alt="*****">
+
+    <h3>
+      Prerekvizity
+    </h3>
+    <ul>
+      <li>Pole</li>
+      <li>Cykly</li>
+      <li>Vnořené cykly</li>
+      <li>Úloha volně navazuje na <a href="hledani-prvocisel.html" target="_blank">Hledání prvočísel, Eratosthenovo síto</a></li>
+    </ul>
+
+    <h3>
+      Výsledné programy
+    </h3>
+    <ul>
+      <li>priznive-cislo <a href="files/priznive-cislo/priznive-cislo.cpp">cpp</a> <a href="files/priznive-cislo/priznive-cislo.js">js</a> <a href="files/priznive-cislo/priznive-cislo.py">py</a></li>
+    </ul>
+
+    <h3>
+      Soubory
+    </h3>
+
+    <ul>
+      <li><a href="files/priznive-cislo/priznive-cislo.docx">Metodika</a></li>
+      <li><a href="files/priznive-cislo/priznive-cislo.png" target="_blank">priznive-cislo.png</a></li>
+    </ul>
+    
+
+  </aside>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/scripts.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dokonalé číslo | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="../index.html">Úvod</a>
+    <a href="../ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__content -->
+  <main class="site-main__content" id="metodika">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Dokonalé číslo
+      </h1>
+      <p class="link--anchor">
+        <a href="#meta">▼ Úvodní informace</a>
+      </p>
+
+    </header>
+
+    <p>
+      Úloha je rozdělena dvou příkladů. V prvním budou studenti psát program, který bude pouze hledat dokonalá čísla. V druhé části program, který 
+      bude všechna přirozená čísla vypisovat podle součtu jejich dělitelů. Dokonalé číslo je takové číslo, u kterého platí, že součet všech 
+      jeho dělitelů (kromě sebe samého) se rovná číslu samotnému. 6 je dokonalé číslo, protože součet jeho dělitelů (1+2+3) je roven 6.
+    </p>
+
+    <p>
+      Pro vysvětlení, co jsou to dokonalá čísla, můžeme zvolit dva způsoby:
+    </p>
+
+    <ol>
+      <li>Necháme studenty vyhledat význam na internetu.</li>
+      <li>
+        Napíšeme na tabuli dvě čísla pod sebe, a to 6 a 28. Vypíšeme k nim všechny jejich dělitele oddělené čárkou (včetně jedničky, kromě sebe samého). 
+        Konstatujeme, že se jedná o dokonalá čísla právě díky dělitelům a necháme studenty přemýšlet. Pokud nenaleznou odpověď, tak jim princip 
+        představíme. V tomto bodě by měli všichni pochopit, jaká čísla jsou dokonalá.
+      </li>
+    </ol>
+
+    <h2>
+      Výpis dokonalých čísel
+    </h2>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymyslete program, který vypíše všechna dokonalá čísla v limitu N. 
+      </i>
+    </p>
+    
+    <ul>
+      <li><b>Vstup:</b><br> 10000</li>
+      <li><b>Výstup:</b><br>6, 28, 496, 8128</li>
+    </ul>
+
+    <p>
+      Páté dokonalé číslo je 35 550 336, proto není nutné nastavovat limit N větší, než je 10 000.
+    </p>
+
+    <p>
+      Je možné, ještě před samotným programováním, zařadit brainstorming. V něm se můžeme zeptat na to, jestli je nutné využití pomocné proměnné a co do ní budeme ukládat.
+    </p>
+
+    <p>
+      Následně mohou studenti již pracovat na svých programech zcela samostatně. Po vyřešení je vhodné promítnout hotový program <code>1_dokonale-cislo</code> a rozebereme ho se 
+      studenty. V úloze není nijak zohledněna efektivnost algoritmu. Ta je se studenty řešena dále v diskusi.
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#1-cpp">1_dokonale-cislo.cpp</a>
+  <a href="#1-js">1_dokonale-cislo.js</a>
+  <a href="#1-py">1_dokonale-cislo.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="1-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+  
+int main() {
+
+  // Deklarace a inicializace
+  int n = 10000; // Inicializujeme posledni zkousene cislo
+
+  // Cyklus pro testovani jednotlivych cisel
+  for(int i = 1; i <= n; i++) {
+
+    // Deklarace a inicializace
+    int pom = 0; // Inicializujeme pomocnou promennou
+
+    // Vnitrni cyklus pro testovani danneho cisla
+    for(int j = i/2; j > 0; j--) {
+
+      // Pokud je cislo delitelne
+      if(i % j == 0) {
+
+        // Pridame do pomocne delitele
+        pom += j;
+
+      }
+
+      // Otestujeme jestli je jiz cislo vetsi
+      if(pom > i) {
+
+        // Prerusime vnitrni cyklus
+        break;
+
+      }
+
+    }
+
+    // Pokud soucet delitelu se rovna cislu
+    if(pom == i) {
+
+      // Vypiseme ho
+      cout << i << ", ";
+        
+    }
+
+  }
+    
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="1-js">
+<pre data-language="js">
+// Deklarace a inicializace
+n = 10000; // Inicializujeme posledni zkousene cislo
+
+// Cyklus pro testovani jednotlivych cisel
+for(i = 1; i <= n; i++) {
+
+  // Deklarace a inicializace
+  pom = 0; // Inicializujeme pomocnou promennou
+
+  // Vnitrni cyklus pro testovani danneho cisla
+  for(j = Math.floor(i/2); j > 0; j--) {
+
+    // Pokud je cislo delitelne
+    if(i % j == 0) {
+
+      // Pridame do pomocne delitele
+      pom += j;
+
+    }
+
+    // Otestujeme jestli je jiz cislo vetsi
+    if(pom > i) {
+
+      // Prerusime vnitrni cyklus
+      break;
+
+    }
+
+  }
+
+  // Pokud soucet delitelu se rovna cislu
+  if(pom == i) {
+
+    // Vypiseme ho
+    console.log(i);
+      
+  }
+    
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="1-py">
+<pre data-language="py">
+# Deklarace a inicializace
+n = 10000 # Inicializujeme posledni zkousene cislo
+
+# Cyklus pro testovani jednotlivych cisel
+for i in range(1, n + 1):
+
+  # Deklarace a inicializace
+  pom = 0 # Inicializujeme pomocnou promennou
+
+  # Vnitrni cyklus pro testovani danneho cisla
+  for j in range(int(i/2), 0, -1):
+
+    # Pokud je cislo delitelne
+    if(i % j == 0):
+
+      # Pridame do pomocne delitele
+      pom += j
+
+    # Otestujeme jestli je jiz cislo vetsi
+    if(pom > i):
+
+      # Prerusime vnitrni cyklus
+      break
+
+  # Pokud soucet delitelu se rovna cislu
+  if(pom == i):
+
+    # Vypiseme ho
+    print(i, end=", ")
+</pre>
+</div>
+</div>
+</div>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse
+    </h3>
+
+    <ol>
+      <li>Vyplatí se testovat dělitele od největšího možného, nebo obráceně?</li>
+      <li>Kdo z vás přerušil cyklus, když byl dělitel větší než samotné číslo?</li>
+      <li>Najdete ve svém programu další možnost, jak by se dal zefektivnit?</li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+
+    <ul>
+      <li>Neočekávají se problémy, které by mohly studentům znemožnit nalezení řešení.</li>
+    </ul>
+
+    <hr>
+
+    <h2>
+      Třídění podle součtu dělitelů
+    </h2>
+
+    <p>
+      V druhém příkladu budou mít studenti za úkol roztřídit jednotlivá čísla v limitu N mezi čísla dokonalá, abundantní a deficientní. Pojmenování těchto čísel není v našem případě 
+      vůbec podstatné, proto se můžeme spokojit se zadáním, ve kterém jsou pojmy vysvětleny.
+    </p>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymyslete program, který roztřídí všechna čísla v limitu N mezi abundantní (součet dělitelů je větší než číslo), deficientní (součet dělitelů je menší než číslo) a 
+        dokonalá čísla (součet je roven číslu). 
+      </i>
+    </p>
+    
+    <ul>
+      <li><b>Vstup:</b><br> 30</li>
+      <li>
+        <b>Výstup:</b><br>
+        Abundantni cisla jsou: 12, 18, 20, 24, 30 <br>
+        Deficientni cisla jsou: 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 19, 21, 22, 23, 25, 26, 27, 29 <br>
+        Dokonala cisla jsou: 6, 28 <br>
+      </li>
+    </ul>
+
+    <p>
+      K úloze se dá přistupovat dvěma různými způsoby:
+    </p>
+
+    <ol>
+      <li>Pro každý výpis si algoritmus projde všechna čísla a vždy vypíše jen ta relevantní.</li>
+      <li>Součty dělitelů budou ukládány do pole, kde indexem bude přirozené číslo a hodnotou součet dělitelů.</li>
+    </ol>
+
+    <p>
+      Úspornost v počtu iterací ve druhém způsobu oproti prvnímu je dramatická. Proto je se studenty dobré vhodný přístup nejprve rozebrat, pomůžeme si 
+      následující otázkou. <i>Mohli bychom v tomto příkladu využít výhod pole?</i> Po správné odpovědi je necháme pracovat na svých programech.
+    </p>
+
+    <p>
+      Výsledný program je uložen pod názvem <code>2_dokonale-cislo</code>. Je vhodné jej studentům po úspěšném vyřešení opět promítnout a 
+      vysvětlit princip fungování. Za zmínku stojí upravený způsob výpočtu jednotlivých dělitelů, kdy testujeme pouze z intervalu od 1 do odmocniny z daného 
+      čísla. V případě nalezení dělitele přičteme do pomocné proměnné kromě samotného dělitele i výsledný podíl, který je také dělitelem. Toto 
+      zajistí velkou výpočetní úsporu. Dále můžeme pokračovat závěrečnou diskusí.
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#2-cpp">2_dokonale-cislo.cpp</a>
+  <a href="#2-js">2_dokonale-cislo.js</a>
+  <a href="#2-py">2_dokonale-cislo.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="2-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a inicializace
+  int n = 30; // Inicializujeme posledni zkousene cislo
+  int pole[n+1] = {0}; // Inicializujeme resetovane pole
+
+  // Cyklus pro zjisteni souctu delitelu
+  for(int i = 1; i <= n; i++) {
+
+    // Vnitrni cyklus pro testovani kazdeho cisla
+    for(int j = sqrt(i); j > 0; j--) {
+
+      // Pokud je dane cislo delitel
+      if(i % j == 0) {              
+
+        // Pricteme ho do pole
+        pole[i] += j;
+
+        // Pokud druhy delitel odvozeny od prvniho neni stejny jako prvni
+        if (j != i / j && i / j != i) {
+
+          // Pricteme ho do pole
+          pole[i] += i / j;
+
+        }
+
+      }
+
+    }
+
+  }
+
+  // Vypis cisel, kde soucet jeho delitelu je mensi, nez cislo
+  cout << "Abundantni cisla jsou: ";
+
+  // Cyklus pro vypsani cisel
+  for(int i = 2; i <= n; i++) {
+
+    // Pokud je hodnota v poli (soucet delitelu) mensi nez cislo
+    if(pole[i] > i) {
+
+      // Vypiseme ho
+      cout << i << ", ";
+
+    }
+
+  }
+
+  // Oddelime novou radkou
+  cout << endl;
+  
+  // Vypis cisel, kde soucet jeho delitelu je vetsi, nez cislo
+  cout << "Deficientni cisla jsou: ";
+
+  // Cyklus pro vypsani cisel
+  for(int i = 2; i <= n; i++) {
+
+    // Pokud je hodnota v poli (soucet delitelu) vetsi nez cislo
+    if(pole[i] < i) {
+
+      // Vypiseme ho
+      cout << i << ", ";
+
+    }
+
+  }
+
+  // Oddelime novou radkou
+  cout << endl;
+
+  // Vypis cisel, kde soucet jeho delitelu je rovna cislu
+  cout << "Dokonala cisla jsou: ";
+
+  // Cyklus pro vypsani cisel
+  for(int i = 2; i <= n; i++) {
+
+    // Pokud je hodnota v poli (soucet delitelu) rovna cislu
+    if(pole[i] == i) {
+
+      // Vypiseme ho
+      cout << i << ", ";
+
+    }
+      
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="2-js">
+<pre data-language="js">
+// Deklarace a inicializace
+n = 30; // Inicializujeme posledni zkousene cislo
+pole = []; // Inicializujeme pole
+pole.push(0); // Pushneme na nulovy index nulu
+
+// Cyklus pro zjisteni souctu delitelu
+for(i = 1; i <= n; i++) {
+
+  // Pridame do pole prvek o nulove hodnote
+  pole.push(0);
+
+  // Vnitrni cyklus pro testovani kazdeho cisla
+  for(j = Math.floor(Math.sqrt(i)); j > 0; j--) {
+
+    // Pokud je dane cislo delitel
+    if(i % j == 0) {              
+
+      // Pricteme ho do pole
+      pole[i] += j;
+
+      // Pokud druhy delitel odvozeny od prvniho neni stejny jako prvni
+      if (j != i / j && i / j != i) {
+
+        // Pricteme ho do pole
+        pole[i] += i / j;
+
+      }
+
+    }
+
+  }
+
+}
+
+// Vypis cisel, kde soucet jeho delitelu je mensi, nez cislo
+console.log("Abundantni cisla jsou: ");
+
+// Cyklus pro vypsani cisel
+for(i = 2; i <= n; i++) {
+
+  // Pokud je hodnota v poli (soucet delitelu) mensi nez cislo
+  if(pole[i] > i) {
+
+    // Vypiseme ho
+    console.log(i);
+
+  }
+
+}
+
+// Vypis cisel, kde soucet jeho delitelu je vetsi, nez cislo
+console.log("Deficientni cisla jsou: ");
+
+// Cyklus pro vypsani cisel
+for(i = 2; i <= n; i++) {
+
+  // Pokud je hodnota v poli (soucet delitelu) vetsi nez cislo
+  if(pole[i] < i) {
+
+    // Vypiseme ho
+    console.log(i);
+
+  }
+
+}
+
+// Vypis cisel, kde soucet jeho delitelu je rovna cislu
+console.log("Dokonala cisla jsou: ");
+
+// Cyklus pro vypsani cisel
+for(i = 2; i <= n; i++) {
+
+  // Pokud je hodnota v poli (soucet delitelu) rovna cislu
+  if(pole[i] == i) {
+
+    // Vypiseme ho
+    console.log(i);
+
+  }
+    
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="2-py">
+<pre data-language="py">
+# Importujeme matematickou knihovnu
+import math
+
+# Deklarace a inicializace
+n = 30 # Inicializujeme posledni zkousene cislo
+pole = [] # Inicializujeme pole
+pole.append(0) # Pridame na nulovy index nulu
+
+# Cyklus pro zjisteni souctu delitelu
+for i in range(n + 1):
+
+  # Pridame do pole prvek o nulove hodnote
+  pole.append(0)
+
+  # Vnitrni cyklus pro testovani kazdeho cisla
+  for j in range(int(math.sqrt(i)), 0, -1):
+
+    # Pokud je dane cislo delitel
+    if(i % j == 0):            
+
+      # Pricteme ho do pole
+      pole[i] += j
+
+      # Pokud druhy delitel odvozeny od prvniho neni stejny jako prvni
+      if (j != i / j and i / j != i):
+
+        # Pricteme ho do pole
+        pole[i] += i / j
+
+
+# Vypis cisel, kde soucet jeho delitelu je mensi, nez cislo
+print("Abundantni cisla jsou: ", end="")
+
+# Cyklus pro vypsani cisel
+for i in range (2, n + 1):
+
+  # Pokud je hodnota v poli (soucet delitelu) mensi nez cislo
+  if(pole[i] > i):
+
+    # Vypiseme ho
+    print(i, ', ', sep="", end="")
+
+
+# Vypis cisel, kde soucet jeho delitelu je vetsi, nez cislo
+print("\nDeficientni cisla jsou: ", end="")
+
+# Cyklus pro vypsani cisel
+for i in range (2, n + 1):
+
+  # Pokud je hodnota v poli (soucet delitelu) vetsi nez cislo
+  if(pole[i] < i):
+
+    # Vypiseme ho
+    print(i, ', ', sep="", end="")
+
+
+# Vypis cisel, kde soucet jeho delitelu je rovna cislu
+print("\nDokonala cisla jsou: ", end="")
+
+# Cyklus pro vypsani cisel
+for i in range (2, n + 1):
+
+  # Pokud je hodnota v poli (soucet delitelu) rovna cislu
+  if(pole[i] == i):
+
+    # Vypiseme ho
+    print(i, ', ', sep="", end="")
+</pre>
+</div>
+</div>
+</div>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse
+    </h3>
+
+    <ol>
+      <li>Jakým způsobem se v prezentovaném programu dosáhlo efektivnosti?</li>
+      <li>Co vás na úloze bavilo?</li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+
+    <ul>
+      <li>Neočekávají se problémy.</li>
+    </ul>
+
+  </main>
+
+  <!-- site-main__side -->
+  <aside class="site-main__side" id="meta">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title">
+        Úvodní informace
+      </h2>
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        V této úloze budou mít studenti za úkol najít všechna dokonalá čísla v limitu N. Nejdříve studenti pouze vypisují 
+        dokonalá čísla, poté v dalším příkladu třídí všechna čísla podle určitého kritéria. Jedná se o matematický 
+        konstrukt, který nemá přesah do reálného světa a slouží pouze k procvičení práce s polem a cykly.
+      </p>
+
+      <p class="link--anchor">
+        <a href="#metodika">▲ Metodika</a>
+      </p>
+    
+    </header>
+
+    <h3>
+      Cíle úlohy
+    </h3>
+    <ul>
+      <li>
+        Procvičení:
+        <ul>
+          <li>Pole</li>
+          <li>Cykly</li>
+          <li>Vnořené cykly</li>
+          <li>Funkce knihovní</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>
+      Časová náročnost
+    </h3>
+    <p>
+      2 vyučovací hodiny
+    </p>
+
+    <h3>
+      Obtížnost
+    </h3>
+    <img src="../assets/img/3.png" alt="***">
+
+    <h3>
+      Prerekvizity
+    </h3>
+    <ul>
+      <li>Pole</li>
+      <li>Cykly</li>
+      <li>Vnořené cykly</li>
+      <li>Funkce knihovní (není nutné)</li>
+    </ul>
+
+    <h3>
+      Výsledné programy
+    </h3>
+    <ul>
+      <li>1_dokonale-cislo <a href="files/dokonale-cislo/1_dokonale-cislo.cpp">cpp</a> <a href="files/dokonale-cislo/1_dokonale-cislo.js">js</a> <a href="files/dokonale-cislo/1_dokonale-cislo.py">py</a></li>
+      <li>2_dokonale-cislo <a href="files/dokonale-cislo/2_dokonale-cislo.cpp">cpp</a> <a href="files/dokonale-cislo/2_dokonale-cislo.js">js</a> <a href="files/dokonale-cislo/2_dokonale-cislo.py">py</a></li>
+    </ul>
+
+    <h3>
+      Soubory
+    </h3>
+    <ul>
+      <li><a href="files/dokonale-cislo/dokonale-cislo.docx">Metodika</a></li>
+    </ul>
+
+  </aside>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/scripts.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hledání prvočísel, Eratosthenovo síto | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="../index.html">Úvod</a>
+    <a href="../ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__content -->
+  <main class="site-main__content" id="metodika">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Hledání prvočísel, Eratosthenovo síto
+      </h1>
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        Tato úloha je rozdělena na dvě části. V první fázi jsou studenti postaveni před problém – najdi všechna prvočísla
+         menší než N a následnému vylepšení programu. V druhé jde o programovou realizaci síta.
+      </p>
+
+      <p class="link--anchor">
+        <a href="#meta">▼ Úvodní informace</a>
+      </p>
+
+    </header>
+
+    <p>
+      Zadání je pro obě části stejné a může znít takto: 
+      <i class="task">
+        Najděte nejefektivnější algoritmus pro hledání prvočísel v zadaném limitu. Pro práci s číselným rozsahem využijte 
+        prvků indexovaného pole, kde jednotlivé klíče pole budou reprezentovat celočíselnou testovanou posloupnost a 
+        hodnoty pole budou určovat prvočíselnost oněch klíčů.
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 100</li>
+      <li><b>Výstup:</b><br>2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97</li>
+    </ul>
+
+    <hr>
+
+    <h2>
+      Dedukce - hledání hrubou silou
+    </h2>
+    <p>
+      Pomocí brainstormingu zde můžeme hned na začátku přijít na definici prvočísla. Položme tedy studentům otázku: <i>Co je to prvočíslo?</i>
+    </p>
+    <p>
+      Je pravděpodobné, že v tomto případě dojdeme rychle ke správné odpovědi, jelikož se jedná o známou definici. Pro kontrolu ještě
+      můžeme přidat další otázku: <i>Kdo si myslí, že číslo 80 je prvočíslo?</i>
+    </p>
+    <p>
+      Kdo se přihlásí, zjevně nepochopil definici. Je proto nutné vysvětlit, proč tomu tak není. Pokračujme v otázkách i dále: 
+      <i>Jak spolehlivě zjistíme, že nějaké číslo je prvočíslo?</i>
+    </p>
+    <p>
+      Někdo se vytasí s poučkami o ciferných součtech, sudosti a dalších poučkách pro jednotlivé dělitele, ale ty nepokryjí všechny případy. Je 
+      třeba diskusi směřovat k závěru, že se mně číslo N nepodaří vydělit beze zbytku čísly od 2 do N-1. Možná někdo už přijde s odmocninou 
+      (viz níže). Abychom to ale nasměrovali žádoucím směrem, můžeme vyslovit požadavek, že chceme nejjednodušší algoritmus z hlediska 
+      zápisu, resp. náročnosti na pochopení, takže návrh na odmocninu a podobné zlepšováky oceníme, ale prozatím vynecháme.
+    </p>
+    <p>
+      Po brainstormingu definice prvočísla pracují studenti samostatně na svých programech. Pravděpodobným výstupem této samostatné práce jsou 
+      řešení hrubou silou (více, či méně efektivní).
+    </p>
+    <p>
+      Efektivita se odvíjí od způsobu, jakým je při zjišťování testována dělitelnost beze zbytku:
+      <ul>
+        <li>Všechna menší čísla než je zjišťované číslo N – velká zátěž</li>
+        <li>Všechna menší čísla než je N/2 – velká až střední zátěž</li>
+        <li>Všechna menší čísla než je odmocnina z N – malá zátěž</li>
+      </ul>
+    </p>
+
+    <p>
+      Další důvody negativního ovlivnění rychlosti:
+      <ul>
+        <li>Při nalezení dělitele není cyklus ukončen a nadále testuje zbytek možných dělitelů</li>
+        <li>Možný dělitel je testováni od největšího čísla po nejmenší</li>
+      </ul>
+    </p>
+    <p>
+      V dalším kroku je vhodné promítnout přiložený program <code>1_brute-force</code> v preferovaném jazyce a provést diskusi. 
+      Pro začátek mohou studenti hledat odlišnosti v jejich a promítaném programu (ve skupinách, či dohromady). 
+      Algoritmus je velice málo efektivní a zahrnuje všechny nedostatky shrnuté výše. 
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#1-cpp">1_brute-force.cpp</a>
+  <a href="#1-js">1_brute-force.js</a>
+  <a href="#1-py">1_brute-force.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="1-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 100; // Inicializace limitu - do kolika cisel hledame
+  bool pole[vel + 1]; // Deklarujeme velikost pole 
+  pole[0] = pole[1] = 0; // 0 a 1 nejsou prvocisla
+
+  // Pripravime si pole - projdeme ho
+  for(int i = 2; i <= vel; i++) {
+
+    // Naplnime ho hodnotou true
+    pole[i] = 1;
+
+  }
+
+  // Projdeme pole
+  for(int i = 2; i <= vel; i++) {
+
+    // Kazde cislo budeme zkouset delit cisly mensimi nez je ono samotne a vetsi nez nebo rovno 2
+    for(int k = i - 1; k >= 2; k--) {
+
+      // Pokud najdeme delitele jakehokoliv delitele
+      if(i % k == 0) {
+
+        // Cislo neni prvocislo
+        pole[i] = 0;
+        
+      }
+
+    }
+
+  }
+  
+  // Projdeme pole
+  for(int i = 0; i <= vel; i++) {
+
+    // Pokud je cislo prvocislem
+    if(pole[i] == 1) {
+
+      // Vypiseme ho
+      cout << i << endl;
+
+    }
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="1-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 100; // Inicializace limitu - do kolika cisel hledame
+var pole = []; // Deklarujeme pole
+pole[0] = pole[1] = false; // 0 a 1 nejsou prvocisla
+
+// Pripravime si pole - projdeme ho
+for(var i = 2; i <= vel; i++) {
+
+  // Naplnime ho hodnotou true
+  pole[i] = true;
+
+}
+
+// Projdeme pole
+for(var i = 2; i <= vel; i++) {
+
+  // Kazde cislo budeme zkouset delit cisly mensimi nez je ono samotne a vetsi nez nebo rovno 2
+  for(var k = i - 1; k >= 2; k--) {
+
+    // Pokud najdeme delitele jakehokoliv delitele
+    if(i % k == 0) {
+
+      // Cislo neni prvocislo
+      pole[i] = false;
+
+    }      
+
+  }
+
+}
+
+// Projdeme pole
+for(var i = 0; i <= vel; i++) {
+
+  // Pokud je cislo prvocislem
+  if(pole[i] == true) {
+
+    // Vypiseme ho
+    console.log(i); 
+
+  }
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="1-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 100 # Inicializace limitu - do kolika cisel hledame
+pole = [] # Deklarujeme pole
+pole.extend([False, False]) # Do pole pridame na indexy 0 a 1 false - nejsou prvocisla
+
+# Pripravime si pole
+for i in range(2, vel + 1):
+
+  # Pridame pokazde novy prvek pole, ktery nastavime na True
+  pole.append(True)
+
+# Projdeme pole
+for i in range(2, vel + 1):
+
+  # Kazde cislo budeme zkouset delit cisly mensimi nez je ono samotne a vetsi nez nebo rovno 2
+  for k in range(i - 1, 2, -1):
+
+    # Pokud najdeme delitele jakehokoliv delitele
+    if i % k == 0:
+
+      # Cislo neni prvocislo
+      pole[i] = False
+
+# Projdeme pole
+for i in range(0, vel + 1):
+
+  # Pokud je cislo prvocislem
+  if pole[i] == True:
+
+    # Vypiseme ho
+    print(i)
+</pre>
+</div>
+</div>
+</div>
+
+    <p>
+      Je pravděpodobné, že studenti nedokáží přijít na minimální počet testovaných čísel, tedy odmocnina z testovaného čísla N.
+    </p>
+
+    <p>
+      Pokud přišel někdo z nich na limit N/2, položme otázku: <i>Můžeme jít ještě níž?</i>
+    </p>
+
+    <p>      
+      V případě, že všichni testovali až do čísla N-1: <i>Je nutné testovat všechna čísla?</i>
+    </p>
+
+    <p>
+      Když žádná z těchto otázek nepodpoří navedení na správnou cestu, nic se neděje a prostě jim to vysvětlíme. Jestliže postupuji od 2 
+      dále a poprvé se mi podaří N vydělit nějakým A, pak N / A má celočíselný výsledek, který označíme B, a toto B je logicky větší 
+      než A (kdyby nebylo, našli bychom ho dříve než A) a je to taky dělitel, jež je logicky menší než N. Odmocnina je pak jasná 
+      hranice, protože čím větší je A, tím menší je B, ale stále je A < B a tou odmocninou najdeme hranici, kdy A = B (i když 
+      jen teoretickou – často nevyjde celočíselně). K odbornému vysvětlení je možné provést důkaz:
+    </p>
+
+    <p class="--align-center">
+      Nechť N je součin libovolných přirozených čísel A a B, která jsou větší než 1 a zároveň menší než N: <br>
+      <code>N = A * B</code><br>
+      <code>1 &lt; A ≤ B &lt; N</code>
+    </p>
+    <p class="--align-center">
+      Výraz A je větší nebo rovno B vynásobíme A a B, vzniknou dvě rovnice: <br>
+      <code>A<sup>2</sup> ≤ A * B</code><br>
+      <code>A * B ≤ B<sup>2</sup></code>
+    </p>
+    <p class="--align-center">
+      Následně můžeme nerovnice sloučit a dosadit N: <br>
+      <code>A<sup>2</sup> ≤ N ≤ B<sup>2</sup></code><br>
+    </p>
+    <p class="--align-center">
+      Jelikož počítáme v množině přirozených čísel, můžeme výsledný výraz odmocnit, z čehož vyplívá, že není možné, aby obě čísla 
+      byla zároveň větší, než je odmocnina z N:<br>
+      <code>A ≤ &#8730;N ≤ B</code><br>
+    </p>
+
+    <p>
+      Nemělo by se ale zapomenout i na vysvětlení ukončení cyklu a proč je lepší testovat dělitelnost od dvojky výše. Takovou otázku 
+      můžeme položit opět studentům, protože odpověď je triviální. <i>Jaká je pravděpodobnost, že číslo vydělím 2?</i> 50 %.
+      <i>Jaká je pravděpodobnost, že číslo vydělím 3?</i> 33 %.
+    </p>
+
+    <p>
+      Následně by měli studenti upravit svůj program podle diskutovaných výkonových zlepšení. V případě nutnosti ukážeme způsob,
+      jak se ve zvoleném programovacím jazyce implementuje matematická knihovna a práci s ní.
+    </p>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse
+    </h3>
+    <ol>
+      <li>
+        Najdete rozdíly mezi vaším a promítaným programem?
+      </li>
+      <li>
+        Mají tyto odchylky vliv na celkový výkon programu?
+      </li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+    <ul>
+      <li>
+        <i>Student nedokáže implementovat algoritmus definice prvočísla.</i> – Explicitní navedení na libovolném prvočísle pomocí důkazu. Proč je číslo 7 prvočíslo?
+      </li>
+      <li>
+        <i>Student neví, jak do programu zahrnout čísla 0 a 1.</i> – Vysvětlit všem, že se jedná o ukázku toho, že nastanou situace, kdy není možné algoritmus 
+        použít na všechnu množinu čísel a je nutné některé prvky upravit (v našem případě vyjmout) „natvrdo“.
+      </li>
+    </ul>
+
+    <hr>
+
+    <h2>
+      Eratosthenovo síto
+    </h2>
+    <p>
+      Po předchozí diskusi představíme Eratosthenovo síto. Je dobré použít přiložený soubor <code>eratosthenovo-sito.gif</code>, který znovu poslouží k dedukci a následné 
+      debatě nad způsobem fungování síta.
+    </p>
+    <a href="files/hledani-prvocisel/eratosthenovo-sito.gif" target="_blank"><img src="files/hledani-prvocisel/eratosthenovo-sito.gif" alt="eratosthenovo sito gif" class="img--align-center"></a>
+    <p>
+      Princip Eratosthenovo síta je následující: Pro čísla z rozsahu 2 až N vezmeme nejmenší číslo (v prvním kroku 2). Toto číslo je zároveň prvočíslem. 
+      Odstraníme všechny jeho násobky v rozsahu. Poté pokračujeme dalším číslem (v druhém kroku 3) a provedeme stejnou operaci. 
+      Takto pokračujeme až do doby, kdy je další číslo odmocninou z N (důvod byl popsán v první fázi), všechna zbylá čísla 
+      jsou prvočísla.
+    </p>
+    <p>
+      Toto je možné vysvětlit také pomocí přiloženého souboru: <code>eratosthenovo-sito.png</code>.
+    </p>
+    <a href="files/hledani-prvocisel/eratosthenovo-sito.png" target="_blank"><img src="files/hledani-prvocisel/eratosthenovo-sito.png" alt="eratosthenovo sito png" class="img--align-center"></a>
+    <p>
+      Studenti mají za úkol samostatně implementovat Eratosthenovo síto. Pro rychlejší práci mohou použít již napsaný program z první fáze a 
+      pouze v něm opravit cyklus, který určuje prvočíselnost. Výsledný program je přiložen jako <code>2_eratosthenovo-sito</code>. 
+    </p>
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#2-cpp">2_eratosthenovo-sito.cpp</a>
+  <a href="#2-js">2_eratosthenovo-sito.js</a>
+  <a href="#2-py">2_eratosthenovo-sito.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="2-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+
+int main() {
+
+    // Deklarace a inicializace
+    const int vel = 100; // Inicializace limitu - do kolika cisel hledame
+    bool pole[vel + 1]; // Deklarujeme velikost pole 
+    pole[0] = pole[1] = 0; // 0 a 1 nejsou prvocisla
+
+    // Pripravime si pole - projdeme ho
+    for(int i = 2; i <= vel; i++) {
+
+        // Naplnime ho hodnotou true
+        pole[i] = 1;
+
+    }
+
+    // Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+    for(int i = 2; i <= sqrt(vel); i++) {
+
+        // Pokud najdeme prvocislo
+        if(pole[i] == 1) {
+
+            // Projdeme si pole vzdy o nasobky prvocisla
+            for(int j = i * i; j <= vel; j += i) {
+
+                // Kazdy nasobek je delitelny prvocislem
+                pole[j] = 0;
+
+            }
+
+        }
+
+    }
+
+    // Projdeme pole
+    for(int i = 0; i <= vel; i++) {
+
+        // Pokud je cislo prvocislem
+        if(pole[i] == 1) {
+
+            // Vypiseme ho
+            cout << i << endl;
+
+        }
+
+    }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="2-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 100; // Inicializace limitu - do kolika cisel hledame
+var pole = []; // Deklarujeme velikost pole 
+pole[0] = pole[1] = false; // 0 a 1 nejsou prvocisla
+
+// Pripravime si pole - projdeme ho
+for(var i = 2; i <= vel; i++) {
+
+    // Naplnime ho hodnotou true
+    pole[i] = true;
+
+}
+
+// Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+for(var i = 2; i <= Math.sqrt(vel + 1); i++) {
+
+    // Pokud najdeme prvocislo
+    if(pole[i] == true) {
+
+        // Projdeme si pole vzdy o nasobky prvocisla
+        for(var j = i * i; j <= vel; j += i) {
+
+            // Kazdy nasobek je delitelny prvocislem
+            pole[j] = false;
+
+        }
+
+    }
+
+}    
+
+// Projdeme pole
+for(var i = 0; i <= vel; i++) {
+
+    // Pokud je cislo prvocislem
+    if(pole[i] == true) {
+
+        // Vypiseme ho
+        console.log(i);
+
+    }
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="2-py">
+<pre data-language="py">
+# Importujeme matematickou knihovnu
+import math
+
+# Deklarace a inicializace
+vel = 100 # Inicializace limitu - do kolika cisel hledame
+pole = [] # Deklarujeme pole
+pole.extend([False, False]) # Do pole pridame na indexy 0 a 1 false - nejsou prvocisla
+
+# Pripravime si pole
+for i in range(2, vel + 1):
+
+    # Pridame pokazde novy prvek pole, ktery nastavime na True
+    pole.append(True)
+
+# Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+for i in range(2, int(math.sqrt(vel + 1)) + 1):
+
+    # Pokud najdeme prvocislo
+    if pole[i] == True:
+
+        # Projdeme si pole vzdy o nasobky prvocisla
+        for k in range(i * i, vel + 1, i):
+
+            # Kazdy nasobek je delitelny prvocislem
+            pole[k] = False
+
+# Projdeme pole
+for i in range(vel + 1):
+
+    # Pokud je cislo prvocislem
+    if pole[i] == True:
+
+        # Vypiseme ho
+        print(i)
+</pre>
+</div>
+</div>
+</div>
+    <p>
+      Pro zpestření výuky je součástí také spustitelný soubor <code>3_porovnani-vykonu.exe</code> (samotný kód programu se nachází v souboru <code>3_porovnani-vykonu.cpp</code>). 
+      Program testuje rychlost použitých programů pomocí knihovny chrono (bez vypisování prvočísel). 
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#3-cpp">3_porovnani-vykonu.cpp</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="3-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+
+int main() {
+
+
+    // Priprava programu
+    const int vel = 10000;
+    bool pole[vel + 1];
+    pole[0] = pole[1] = 0;
+    for(int i = 2; i <= vel; i++) {
+        pole[i] = 1;
+    }
+
+    // Zaznamenani casu zacatku
+    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+
+    // Pocitani
+    for(int i = 2; i <= vel; i++) {
+        for(int k = i - 1; k >= 2; k--) {
+            if(i % k == 0) {
+                pole[i] = 0;
+            }          
+        }
+    }
+
+    // Zaznamenani casu konce
+    chrono::steady_clock::time_point end = chrono::steady_clock::now();
+
+    // Vypsani rozdilu casu
+    cout << "Cas nutny k vypoctu prvocisel v rozsahu <2, " << vel << "> pomoci prvniho programu = " << chrono::duration_cast<chrono::microseconds>(end - begin).count() << " mikrosekund" << endl;
+
+
+    // Pripraveni pole znovu
+    for(int i = 2; i <= vel; i++) {
+        pole[i] = 1;
+    }
+
+    // Zaznamenani casu zacatku
+    chrono::steady_clock::time_point begin2 = chrono::steady_clock::now();
+
+    // Pocitani
+    for(int i = 2; i <= sqrt(vel); i++) {
+        if(pole[i] == true) {
+            for(int k = i * i; k <= vel; k += i) {
+                pole[k] = false;
+            }
+        }
+    }
+
+    // Zaznamenani casu konce
+    chrono::steady_clock::time_point end2 = chrono::steady_clock::now(); 
+
+    // Vypsani rozdilu casu   
+    cout << "Cas nutny k vypoctu prvocisel v rozsahu <2, " << vel << "> pomoci druheho programu (Eratosthenovo sito) = " << chrono::duration_cast<chrono::microseconds>(end2 - begin2).count() << " mikrosekund" << endl;
+    
+    // Podil dvou vyslednych casu
+    cout << "Druhy program je priblizne " << (end - begin)/(end2 - begin2) << "x rychlejsi" << endl;
+
+    // Prevence uzavreni exe po vykonani mereni
+    system("pause");
+
+}
+</pre>
+</div>
+</div>
+</div>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse
+    </h3>
+    <ol>
+      <li>
+        Jakým způsobem funguje Eratosthenovo síto?
+      </li>
+      <li>
+        Jaká je horní mez zkoumaných čísel?
+      </li>
+      <li>
+        Kolikrát rychlejší bude Eratosthenovo síto, než program promítaný v první fázi?
+      </li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+    <ul>
+      <li>
+        Se znalostmi z první části se nepředpokládají dílčí problémy.
+      </li>
+    </ul>
+
+  </main>
+
+  <!-- site-main__side -->
+  <aside class="site-main__side" id="meta">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title">
+        Úvodní informace
+      </h2>
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        Tato úloha vychází z populární a intuitivní metody hledání všech prvočísel v poli o určité velikosti. 
+        Studenti nejprve vymýšlí vlastní metody, jakými by dosáhli výčtu všech prvočísel v zadaném limitu. 
+        Poté jsou navedeni na princip Eratosthenovo síta a jeho následnou implementaci.
+      </p>
+
+      <p class="link--anchor">
+        <a href="#metodika">▲ Metodika</a>
+      </p>
+    
+    </header>
+
+    <h3>
+      Cíle úlohy
+    </h3>
+    <ul>
+      <li>
+        Procvičení:
+        <ul>
+          <li>Cykly</li>
+          <li>Vnořené cykly</li>
+          <li>Pole</li>
+        </ul>
+      </li>
+      <li>
+        Podněcování skupinového brainstormingu
+      </li>
+    </ul>
+
+    <h3>
+      Časová náročnost
+    </h3>
+    <p>
+      2 vyučovací hodiny
+    </p>
+
+    <h3>
+      Obtížnost
+    </h3>
+    <img src="../assets/img/3.png" alt="***">
+
+    <h3>
+      Prerekvizity
+    </h3>
+    <ul>
+      <li>Cykly a vnořené cykly</li>
+      <li>Pole</li>
+      <li>Definice prvočísla (je případně součástí úvodního brainstormingu)</li>
+      <li>Matematická knihovna (funkce pro práci s odmocninou), případně ji lze představit v průběhu výuky</li>
+    </ul>
+
+    <h3>
+      Výsledné programy
+    </h3>
+    <ul>
+      <li>1_brute-force <a href="files/hledani-prvocisel/1_brute-force.cpp">cpp</a> <a href="files/hledani-prvocisel/1_brute-force.js">js</a> <a href="files/hledani-prvocisel/1_brute-force.py">py</a></li>
+      <li>2_eratosthenovo-sito <a href="files/hledani-prvocisel/2_eratosthenovo-sito.cpp">cpp</a> <a href="files/hledani-prvocisel/2_eratosthenovo-sito.js">js</a> <a href="files/hledani-prvocisel/2_eratosthenovo-sito.py">py</a></li>
+      <li>3_porovnani-vykonu <a href="files/hledani-prvocisel/3_porovnani-vykonu.cpp">cpp</a> <a href="files/hledani-prvocisel/3_porovnani-vykonu.exe">exe</a></li>
+    </ul>
+
+    <h3>
+      Soubory
+    </h3>
+    <ul>
+      <li><a href="files/hledani-prvocisel/hledani-prvocisel.docx" target="_blank">Metodika</a></li>
+      <li><a href="files/hledani-prvocisel/eratosthenovo-sito.gif" target="_blank">eratosthenovo-sito.gif</a></li>
+      <li><a href="files/hledani-prvocisel/eratosthenovo-sito.png" target="_blank">eratosthenovo-sito.png</a></li>
+    </ul>
+
+  </aside>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/scripts.js"></script>
+
+</body>
+</html>

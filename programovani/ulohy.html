@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Úlohy | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head clear-box">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="index.html">Úvod</a>
+    <a href="ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__side -->
+  <aside class="site-main__side">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title --like-h1">
+        Specifikujte úlohu
+      </h2>
+
+    </header>
+
+    <!-- form -->
+    <form class="form">
+
+      <!-- field -->
+      <label class="field">
+
+        <!-- field -->
+        <span class="field__label">
+          Obtížnost
+        </span>
+
+        <!-- input -->
+        <select name="difficulty" id="difficulty" class="input">
+          <option value="">Vyberte</option>
+        </select>
+
+      </label>
+
+      <!-- field -->
+      <label class="field">
+
+        <!-- field -->
+        <span class="field__label">
+          Časová náročnost
+        </span>
+
+        <!-- input -->
+        <select name="time" id="time" class="input">
+          <option value="">Vyberte</option>
+        </select>
+
+      </label>
+
+      <!-- field -->
+      <label class="field">
+
+        <!-- field -->
+        <span class="field__label">
+          Téma
+        </span>
+
+        <!-- input -->
+        <select name="theme" id="theme" multiple class="input"></select>
+
+      </label>
+
+      <!-- button -->
+      <input type="reset" value="Zrušit výběr" class="button">
+
+    </form>
+
+  </aside>
+
+  <!-- site-main__content -->
+  <main class="site-main__content">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Úlohy
+      </h1>
+
+    </header>
+
+    <!-- example---list, #result -->
+    <div class="example---list" id="result"></div>
+
+    <!-- example---list, #result -->
+    <div class="flash flash--type-error" id="empty">
+      Současnému výběru neodpovídá žádná úloha...
+    </div>
+
+  </main>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot clear-box">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="assets/js/jquery.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/ulohy.js"></script>
+
+<!-- #template -->
+<div style="display:none;" id="template">
+  
+  <!-- example -->
+  <div class="example">
+
+    <!-- example__title -->
+    <h2 class="example__title">
+      %title
+    </h2>
+    
+    <!-- example__excerpt -->
+    <p class="example__excerpt">
+      %description
+    </p>
+    
+    <!-- example__link -->
+    <a href="%url" class="example__link">
+      Více informací o úloze zde
+    </a>
+  
+  </div>
+
+</div>
+
+</body>
+</html>

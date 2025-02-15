@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nejmenší společný násobek, největší společný dělitel, Euklidův algoritmus | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="../index.html">Úvod</a>
+    <a href="../ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__content -->
+  <main class="site-main__content" id="metodika">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Nejmenší společný násobek, největší společný dělitel, Euklidův algoritmus
+      </h1>
+
+      <p class="link--anchor">
+        <a href="#meta">▼ Úvodní informace</a>
+      </p>
+
+    </header>
+
+    <p>
+      Tato úloha slouží k procvičení jednoduchého příkladu na hledání NSN a NSD. Můžeme jí rozdělit na dvě fáze, 
+      v první budou studenti pomocí metody hrubé síly hledat NSN, NSD. V druhé budou počítat NSD pomocí 
+      Euklidova algoritmu a NSN pomocí nalezeného vzorečku na internetu. 
+    </p>
+
+    <p>
+      Jednotlivé fáze úlohy je možné řešit nezávisle na sobě (tudíž třeba jen jednu z nich). Autor ale nedoporučuje přistoupit 
+      pouze k druhé části bez předchozího vyřešení první.
+    </p>
+
+    <p>
+      Zadání je pro obě fáze stejné: 
+      <i class="task">
+        Vymyslete vlastní funkce pro výpočet největšího společného dělitele a nejmenšího společného násobku. Pro výpočet využijte 
+        vlastních funkcí <code>nejvetsiDelitel</code> a <code>nejmensiNasobek</code>.
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 77, 28</li>
+      <li><b>Výstup:</b><br>Nejvetsi spolecny delitel cisel 77 a 28 je: 7, nejmensi spolecny nasobek je: 308</li>
+    </ul>
+
+    <hr>
+
+    <h2>
+      Dedukce - hledání hrubou silou
+    </h2>
+
+    <p>
+      V první fázi úlohy by studenti neměli mít s ničím problémy. Na úloze díky její jednoduchosti pracují samostatně bez předchozí 
+      diskuse. Jediný problém může nastat v době, kdy ve snaze najít co nejlepší řešení bude vymýšlet složité postupy, které ho 
+      můžou zmást. Jednoduchou dedukcí dojdou k tomu, že v případě hledání NSN budou testovat větší číslo než je jedno z těch 
+      zadaných a zkoušet, jestli se jedná o dělitele v obou případech. Dané číslo poté vypíší. Obdobě to funguje i při 
+      hledání NSD, kdy naopak testujeme dělitelnost od jednoho ze zadaných čísel do 1 pro obě čísla. 
+    </p>
+
+    <p>
+      Výsledný program <code>1_brute-force</code> je velice primitivní. Za zajímavost stojí zmínit, že v ukázce všech jazyků je přidána řádka 
+      popsaná jako „Kontrolni vraceni 0“. Toto je podstatné například u jazyka C++, kdy bez tohoto příkazu kompilátor ve 
+      většině případů vrátí chybu, jelikož nebyly ošetřeny všechny možnosti. Obdobný problém může nastat i u dalších 
+      jazyků. Než tuto skutečnost prozradíme, tak můžeme zahájit diskusi dle otázek v sekci Otázky do diskuse.
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#1-cpp">1_brute-force.cpp</a>
+  <a href="#1-js">1_brute-force.js</a>
+  <a href="#1-py">1_brute-force.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="1-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+// Deklarace a inicializace funkci
+int nejvetsiDelitel(int i, int j); // Funkce pro nalezeni nejvetsiho spolecneho delitele
+int nejmensiNasobek(int i, int j); // Funkce pro nalezeni nejmensiho spolecneho nasobku
+
+
+int main() {
+
+  // Demonstrace
+  cout << "Nejvetsi spolecny delitel cisel 77 a 28 je: " << nejvetsiDelitel(77, 28) << ", nejmensi spolecny nasobek je: " << nejmensiNasobek(77, 28) << endl; 
+  cout << "Nejvetsi spolecny delitel cisel 1517 a 2952 je: " << nejvetsiDelitel(1517, 2952) << ", nejmensi spolecny nasobek je: " << nejmensiNasobek(1517, 2952) << endl; 
+
+}
+
+// Funkce pro nalezeni nejvetsiho spolecneho delitele
+int nejvetsiDelitel(int i, int j) {
+
+  // Otestujeme nejprve cisla na nuly
+  if (i == 0 || j == 0) {
+
+    // Vratime nulu
+    return 0
+
+  }
+
+  // Cyklus na testovani delitele
+  for(int k = j; k >= 1; k--) {
+
+    // Pokud najdu cislo, ktere je delitelem
+    if(i % k == 0 && j % k == 0) {
+
+      // Vratim ho
+      return k;
+
+    }
+
+  }
+  
+  // Kontrolni vraceni 0
+  return 0;
+    
+}
+
+// Funkce pro nalezeni nejmensiho spolecneho nasobku
+int nejmensiNasobek(int i, int j) {
+
+  // Cyklus na testovani nasobku
+  for(int k = i; k <= i*j; k++) {
+
+    // Pokud najdu cislo, ktere je nasobkem
+    if(k % i == 0 && k % j == 0) {
+
+      // Vratim ho
+      return k;
+
+    }
+
+  }
+
+  // Kontrolni vraceni 0
+  return 0;
+    
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="1-js">
+<pre data-language="js">
+// Demonstrace
+console.log("Nejvetsi spolecny delitel cisel 77 a 28 je: " + nejvetsiDelitel(77, 28) + ", nejmensi spolecny nasobek je: " + nejmensiNasobek(77, 28));
+console.log("Nejvetsi spolecny delitel cisel 1517 a 2952 je: " + nejvetsiDelitel(1517, 2952) + ", nejmensi spolecny nasobek je: " + nejmensiNasobek(1517, 2952));
+
+// Funkce pro nalezeni nejvetsiho spolecneho delitele
+function nejvetsiDelitel(i, j) {
+
+  // Otestujeme nejprve cisla na nuly
+  if (i == 0 || j == 0) {
+
+    // Vratime nulu
+    return 0
+
+  }
+
+  // Cyklus na testovani delitele
+  for(var k = j; k >= 1; k--) {
+
+    // Pokud najdu cislo, ktere je delitelem
+    if(i % k == 0 && j % k == 0) {
+
+      // Vratim ho
+      return k;
+
+    }
+
+  }
+
+  // Kontrolni vraceni 0
+  return 0;
+
+}
+
+// Funkce pro nalezeni nejmensiho spolecneho nasobku
+function nejmensiNasobek(i, j) {
+
+  // Cyklus na testovani nasobku
+  for(var k = i; k <= i*j; k++) {
+
+    // Pokud najdu cislo, ktere je nasobkem
+    if(k % i == 0 && k % j == 0) {
+
+      // Vratim ho
+      return k;
+
+    }
+
+  }
+
+  // Kontrolni vraceni 0
+  return 0;
+    
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="1-py">
+<pre data-language="py">
+# Funkce pro nalezeni nejvetsiho spolecneho delitele
+def nejvetsiDelitel(i, j):
+
+  # Otestujeme nejprve cisla na nuly
+  if i == 0 or j == 0:
+      
+    # Vratime nulu
+    return 0
+
+  # Cyklus na testovani delitele
+  for k in range(i, 0, -1):
+
+    # Pokud najdu cislo, ktere je delitelem
+    if i % k == 0 and j % k == 0:
+
+      # Vratim ho
+      return k
+  
+  # Kontrolni vraceni 0
+  return 0
+
+# Funkce pro nalezeni nejmensiho spolecneho nasobku
+def nejmensiNasobek(i, j):
+
+  # Cyklus na testovani nasobku
+  for k in range(i, i*j+1):
+
+    # Pokud najdu cislo, ktere je nasobkem
+    if k % i == 0 and k % j == 0:
+
+      # Vratim ho
+      return k
+  
+  # Kontrolni vraceni 0
+  return 0
+
+
+# Demonstrace
+print("Nejvetsi spolecny delitel cisel 77 a 28 je:", nejvetsiDelitel(77, 28), ", nejmensi spolecny nasobek je:", nejmensiNasobek(77, 28))
+print("Nejvetsi spolecny delitel cisel 77 a 28 je:", nejvetsiDelitel(1517, 2952), ", nejmensi spolecny nasobek je:", nejmensiNasobek(1517, 2952))
+</pre>
+</div>
+</div>
+</div>
+
+    <p>
+      Je vhodné na toto navázat po vyřešení příkladů studenty promítnutím ukázkového příkladu a rozebrat jednotlivé části programu. Autor důrazně 
+      doporučuje provést demonstraci ve vícero jazycích, kdy odstraníme tento kontrolní return a sledujeme překladače kterých jazyků si s 
+      tím poradí.
+    </p>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse
+    </h3>
+    <ol>
+      <li>Má libovolná dvojice přirozených čísel vždy nejmenší společný násobek? A jak je to u největšího společného dělitele?</li>
+      <li>Co bude výstupem programu po zadání čísel 13 a 23 (poznámka: jedná se o prvočísla)?</li>
+      <li>Co musíme zadat za čísla, aby funkce u NSD nebo NSN vrátila číslo 0?</li>
+      <li>Z jakého důvodu tedy máme u obou promítnutých funkcí „Kontrolni vraceni 0“?</li>
+      <li>Proč zrovna jazyk C++ musí obsahovat tento řádek a například Python nebo JavaScript ne? (tip: Podívejte se do způsobu deklarace funkce v jednotlivých jazycích)</li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+    <ul>
+      <li>
+        <i>Studentovi ve striktním jazyku nefunguje program kvůli chybějícímu vrácení.</i> – Postup řešení tohoto problému je popsán výše. Je možné taky 
+        studenty pobídnout ke zkopírování chyby do internetového vyhledávače a tak dojít k nalezení odpovědi.
+      </li>
+    </ul>
+
+    <hr>
+
+    <h2>
+      Euklidův algoritmus
+    </h2>
+
+    <p>
+      V druhé fázi si napíšeme efektivnější program na výpočet NSN a NSD. Úlohu si rozdělíme na dvě části. V první budeme počítat NSD pomocí Euklidova algoritmu. 
+      K vysvětlení Euklidova algoritmu je vhodné využít pomocný slide s názvem <code>eukliduv_algoritmus.png</code>.
+    </p>
+
+    <a href="files/eukliduv-algoritmus/eukliduv-algoritmus.png" target="_blank"><img src="files/eukliduv-algoritmus/eukliduv-algoritmus.png" alt="Euklidův algoritmus" class="img--align-center"></a>
+    
+    <p>
+      Důrazně je doporučeno promítnout pomocný slide, či provést rozbor na tabuli. Vysvětlení vlastními slovy: <i>Mějme číslo A a B. Pro nalezení NSD 
+      budeme odečítat od čísla A číslo B, dokud nám nevznikne zbytek po dělení. Hodnotu čísla B uložíme do A a zbytek po dělení vložíme do B. 
+      Toto opakujeme do doby, než bude zbytek nulový. V případě, že je zbytek nulový, tak jsme našli největšího společného dělitele.</i>
+    </p>  
+    
+    <p>
+      Dále dáme studentům volný prostor, aby na internetu našli způsob, jakým se dá efektivně vypočítat nejmenší společný násobek dvou čísel. Měli by 
+      vyhledávat na internetu fráze typu „least common multiple algorithm“, případě podobné výrazy. Narazit by měli (např. zde: 
+      <a href="https://stackoverflow.com/a/3154503" target="_blank">https://stackoverflow.com/a/3154503</a>) na vzoreček: 
+      <code>NSN(a,b)=(a*b)÷NSD(a,b)</code>. Toto se již jednoduše zapracuje do funkce. Výsledný program 
+      <code>2_eukliduv-algoritmus</code> bychom měli studentům předvést a následně v případě potřeby vysvětlit.
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#2-cpp">2_eukliduv-algoritmus.cpp</a>
+  <a href="#2-js">2_eukliduv-algoritmus.js</a>
+  <a href="#2-py">2_eukliduv-algoritmus.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="2-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+// Deklarace a inicializace funkci
+int nejvetsiDelitel(int i, int j); // Funkce pro nalezeni nejvetsiho spolecneho delitele
+int nejmensiNasobek(int i, int j); // Funkce pro nalezeni nejmensiho spolecneho nasobku
+
+
+int main() {
+
+  // Demonstrace
+  cout << "Nejvetsi spolecny delitel cisel 77 a 28 je: " << nejvetsiDelitel(77, 28) << ", nejmensi spolecny nasobek je: " << nejmensiNasobek(77, 28) << endl; 
+  cout << "Nejvetsi spolecny delitel cisel 1517 a 2952 je: " << nejvetsiDelitel(1517, 2952) << ", nejmensi spolecny nasobek je: " << nejmensiNasobek(1517, 2952) << endl; 
+
+}
+
+// Funkce pro nalezeni nejvetsiho spolecneho delitele
+int nejvetsiDelitel(int i, int j) {
+
+  // Otestujeme nejprve cisla na nuly
+  if (i == 0 || j == 0) {
+
+    // Vratime nulu
+    return 0
+
+  }
+    
+  // Pokud najdu cislo, ktere je delitelem
+  if(i % j == 0) {
+
+    // Vratim ho
+    return j;
+
+  }
+
+  // Jinak
+  else {
+
+    // Zavolam funkci s prohozenymi parametry
+    return nejvetsiDelitel(j, i % j);
+
+  }
+    
+}
+
+// Funkce pro nalezeni nejmensiho spolecneho nasobku
+int nejmensiNasobek(int i, int j) {
+
+  // Vratime nasobek pomoci vzorecku
+  return (i * j) / (nejvetsiDelitel(i, j));
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="2-js">
+<pre data-language="js">
+// Demonstrace
+console.log("Nejvetsi delitel cisel 77 a 28 je: " + nejvetsiDelitel(77, 28) + ", nejmensi spolecny nasobek je: " + nejmensiNasobek(77, 28));
+console.log("Nejvetsi delitel cisel 1517 a 2952 je: " + nejvetsiDelitel(1517, 2952) + ", nejmensi spolecny nasobek je: " + nejmensiNasobek(1517, 2952));
+
+// Funkce pro nalezeni nejvetsiho spolecneho delitele
+function nejvetsiDelitel(i, j) {
+
+  // Otestujeme nejprve cisla na nuly
+  if (i == 0 || j == 0) {
+
+    // Vratime nulu
+    return 0
+
+  }
+
+  // Pokud najdu cislo, ktere je delitelem
+  if(i % j == 0) {
+
+    // Vratim ho
+    return j;
+
+  }
+
+  // Jinak
+  else {
+
+    // Zavolam funkci s prohozenymi parametry
+    return nejvetsiDelitel(j, i % j);
+
+  }
+    
+}
+
+// Funkce pro nalezeni nejmensiho spolecneho nasobku
+function nejmensiNasobek(i, j) {
+
+  // Vratime nasobek pomoci nalezeneho vzorecku
+  return i * j / (nejvetsiDelitel(i, j));  
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="2-py">
+<pre data-language="py">
+# Funkce pro nalezeni nejvetsiho spolecneho delitele
+def nejvetsiDelitel(i, j):
+
+  # Otestujeme nejprve cisla na nuly
+  if i == 0 or j == 0:
+      
+    # Vratime nulu
+    return 0
+
+  # Pokud najdu cislo, ktere je delitelem
+  if(i % j == 0):
+
+    # Vratim ho
+    return j
+
+  # Jinak
+  else:
+
+    # Zavolam funkci s prohozenymi parametry
+    return nejvetsiDelitel(j, i % j)
+
+# Funkce pro nalezeni nejmensiho spolecneho nasobku
+def nejmensiNasobek(i, j):
+
+  # Vratime nasobek pomoci nalezeneho vzorecku
+  return int(i * j / (nejvetsiDelitel(i, j)))
+
+# Demonstrace
+print("Nejvetsi delitel cisel 77 a 28 je:", nejvetsiDelitel(77, 28), ", nejmensi spolecny nasobek je: ", nejmensiNasobek(77, 28))
+print("Nejvetsi delitel cisel 1517 a 2952 je:", nejvetsiDelitel(1517, 2952), ", nejmensi spolecny nasobek je: ", nejmensiNasobek(1517, 2952))  
+</pre>
+</div>
+</div>
+</div>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse
+    </h3>
+    <ol>
+      <li>Co se stane s Euklidovým algoritmem, pokud je číslo B větší než A? Má toto nějaký vliv na funkčnost?</li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+    <ul>
+      <li>
+        Neočekávají se žádné problémy.
+      </li>
+    </ul>
+
+  </main>
+
+  <!-- site-main__side -->
+  <aside class="site-main__side" id="meta">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title">
+        Úvodní informace
+      </h2>
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        V této úloze budou studenti hledat nejmenší společný násobek a největší společný dělitel dvou různých čísel. Nejdříve budou 
+        studenti hledat NSN a NSD pomocí vlastních metod (testování hrubou silou), následně pomocí Euklidova algoritmu. Součástí 
+        je i vyhledávání na internetu. 
+      </p>
+
+      <p class="link--anchor">
+        <a href="#metodika">▲ Metodika</a>
+      </p>
+    
+    </header>
+
+    <h3>
+      Cíle úlohy
+    </h3>
+    <ul>
+      <li>
+        Procvičení:
+        <ul>
+          <li>Cykly</li>
+          <li>Funkce vlastní (pro druhou část)</li>
+          <li>Rekurze (pro druhou část)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>
+      Časová náročnost
+    </h3>
+    <p>
+      1 vyučovací hodina
+    </p>
+
+    <h3>
+      Obtížnost
+    </h3>
+    <img src="../assets/img/1.png" alt="*">
+
+    <h3>
+      Prerekvizity
+    </h3>
+    <ul>
+      <li>Cykly</li>
+      <li>Funkce vlastní (pro druhou část)</li>
+      <li>Rekurze (pro druhou část)</li>
+    </ul>
+
+    <h3>
+      Výsledné programy
+    </h3>
+    <ul>
+      <li>1_brute-force <a href="files/eukliduv-algoritmus/1_brute-force.cpp">cpp</a> <a href="files/eukliduv-algoritmus/1_brute-force.js">js</a> <a href="files/eukliduv-algoritmus/1_brute-force.py">py</a></li>
+      <li>2_eukliduv-algoritmus <a href="files/eukliduv-algoritmus/2_eukliduv-algoritmus.cpp">cpp</a> <a href="files/eukliduv-algoritmus/2_eukliduv-algoritmus.js">js</a> <a href="files/eukliduv-algoritmus/2_eukliduv-algoritmus.py">py</a></li>
+    </ul>
+
+    <h3>
+      Soubory
+    </h3>
+    <ul>
+      <li><a href="files/eukliduv-algoritmus/eukliduv-algoritmus.docx">Metodika</a></li>
+      <li><a href="files/eukliduv-algoritmus/eukliduv-algoritmus.png" target="_blank">eukliduv-algoritmus.png</a></li>
+    </ul>
+
+  </aside>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/scripts.js"></script>
+
+</body>
+</html>

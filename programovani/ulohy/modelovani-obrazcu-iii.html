@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modelování obrazců III | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="../index.html">Úvod</a>
+    <a href="../ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__content -->
+  <main class="site-main__content" id="metodika">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Modelování obrazců III
+      </h1>
+
+      <p class="link--anchor">
+        <a href="#meta">▼ Úvodní informace</a>
+      </p>
+
+    </header>
+
+    <p>
+      Úlohu si rozdělíme na tři příklady. V prvním budou studenti modelovat pyramidy, v další z nich sestaví diamant a nakonec, zcela nezávisle na 
+      předchozích úlohách, vytvoří kosočtverec. Jednotlivé příklady mohou být řešeny v pořadí, které zvolí učitel, nebo mohou být vynechány. 
+      Důrazným doporučením je ale v případě modelování diamantu předem vyřešit příklad Pyramida (obě varianty).
+    </p>
+
+    <hr>
+
+    <h2>
+      Pyramida
+    </h2>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymodelujte pomocí zástupného znaku (hvězdičky) pyramidu. Velikost pyramidy (počet pater) bude zadávat uživatel na vstupu, výstupem bude 
+        obrazec složený z hvězdiček ve tvaru pyramidy. K oddělení jednotlivých hvězdiček použijte mezeru. 
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 4</li>
+      <li>
+        <b>Výstup:</b><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;*<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;*&emsp;*&emsp;*<br>
+        &nbsp;&nbsp;&emsp;*&emsp;*&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*&emsp;*&emsp;*&emsp;*
+      </li>
+    </ul>
+
+    <p>
+      Úlohu je možné řešit bez pomocných proměnných, ale apriori odsuzuje ke zbytečnému hledání použitelné matematické formule, což není cílem tohoto 
+      příkladu. Pokud máme slabší skupinu, je vhodné provést řízený brainstorming pomocí otázek v sekci Otázky do diskuse – rozbor algoritmu níže a 
+      následně vysvětlit princip algoritmu. Výsledkem brainstormingu by mělo být nalezení využití pomocné proměnné (počítání mezer vlevo od 
+      hvězdiček). Její použití je v příkladu příhodné a usnadňuje nalezení funkčního řešení. Pro lepší ilustraci můžeme cílený výstup 
+      namalovat na tabuli nebo použijeme pomocný slide <code>pyramida.png</code>.      
+    </p>
+
+    <a href="files/modelovani-obrazcu-iii/pyramida.png" target="_blank"><img src="files/modelovani-obrazcu-iii/pyramida.png" alt="Pyramida" class="img--align-center"></a>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse - rozbor algoritmu
+    </h3>
+
+    <ol>
+      <li>Budeme potřebovat pomocnou proměnnou?</li>
+      <li>K čemu nám pomůže?</li>
+      <li>Na jakou hodnotu nastavíme pomocnou proměnnou ve vztahu ke vstupní hodnotě?</li>
+    </ol>
+
+    <hr>
+
+    <p>
+      Vnější cyklus bude obstarávat řádky a vnitřní cyklus jednotlivé buňky (výpis znaků). Pomocná proměnná nám bude sloužit jako počítadlo mezer (míst bez hvězdiček) a 
+      bude nastavena na vstupní hodnotu zmenšenou o 1. Při každém průchodu vnějšího cyklu bude dekrementována (zmenšena o 1). Vnitřní cyklus bude mít nastavený limit 
+      iterační proměnné na menší nebo rovný součtu vstupní proměnné a iterační proměnné vnějšího cyklu zmenšený o 1 (<code>vstupní proměnná + iterační proměnná 
+        vnějšího cyklu - 1</code>). S těmito poznatky se edukanti pustí do samostatné práce, kde by výsledkem měl být funkční program dle specifikace výše. 
+        Ten je uložen pod názvem <code>pyramida</code>. Je vhodné jej studentům ukázat a případně vysvětlit.
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#1-cpp">pyramida.cpp</a>
+  <a href="#1-js">pyramida.js</a>
+  <a href="#1-py">pyramida.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="1-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 4; // Inicializace velikosti pyramidy
+  int pom = vel - 1; // Inicializace pomocne promenne
+
+  // Vnejsi cyklus pro radky
+  for(int i = 1; i <= vel; i++) {
+      
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= vel + i - 1; j++) {
+
+      // Pro zacatecni prazdne bunky
+      if(pom >= j) {
+
+        // Vypiseme pouze mezeru
+        cout << "  ";
+
+      }
+
+      // Pokud jsme jiz v limitu
+      else {
+
+        // Vypiseme hvezdicku
+        cout << "* ";
+
+      }
+
+    }            
+
+    // Vypiseme novou radku
+    cout << endl;
+
+    // Pridame sloupec pocitadlu
+    pom--;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="1-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 4; // Inicializace velikosti pyramidy
+pom = vel - 1; // Inicializace pomocne promenne
+
+// Vnejsi cyklus pro radky
+for(var i = 1; i <= vel; i++) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+  
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= vel + i - 1; j++) {
+
+    // Pro zacatecni prazdne bunky
+    if(pom >= j) {
+
+      // Pridame do textoveho retezce mezeru
+      rad += "  ";
+
+    }
+
+    // Pokud jsme jiz v limitu
+    else {
+
+      // Pridame do textoveho retezce hvezdicku
+      rad += "* ";
+
+    }
+
+  }            
+
+  // Vypiseme radku
+  console.log(rad);
+
+  // Pridame sloupec pocitadlu
+  pom--;
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="1-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 4; # Inicializace velikosti pyramidy
+pom = vel - 1; # Inicializace pomocne promenne
+
+# Vnejsi cyklus pro radky
+for i in range(1, vel + 1):
+    
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(1, vel + i):
+
+    # Pro zacatecni prazdne bunky
+    if(pom >= j):
+
+      # Vypiseme mezeru
+      print("  ", sep="", end="")
+
+    # Pokud jsme jiz v limitu
+    else:
+
+      # Vypiseme hvezdicku
+      print("* ", sep="", end="")           
+
+  # Vypiseme novou radku
+  print(end="\n")
+
+  # Pridame sloupec pocitadlu
+  pom -= 1
+</pre>
+</div>
+</div>
+</div>
+
+    <p>
+      Po úspěšném vyřešení vyzveme studenty, aby si onen program uložili a novou kopii upravili podle následujícího zadání.
+    </p>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymodelujte pomocí zástupného znaku (hvězdičky) pyramidu. Velikost pyramidy (počet pater) bude zadávat uživatel na vstupu, výstupem bude 
+        obrazec složený z hvězdiček ve tvaru pyramidy. K oddělení jednotlivých hvězdiček použijte mezeru. 
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 4</li>
+      <li>
+        <b>Výstup:</b><br>
+        *&emsp;*&emsp;*&emsp;*&emsp;*&emsp;*&emsp;* <br>
+        &nbsp;&nbsp;&emsp;*&emsp;*&emsp;*&emsp;*&emsp;*<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;*&emsp;*&emsp;*<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;*        
+      </li>
+    </ul>
+
+    <p>
+      K vizuálnímu uchopení může posloužit grafické znázornění, které je uloženo pod názvem <code>pyramida-obracene.png</code>. 
+    </p>
+
+    <a href="files/modelovani-obrazcu-iii/pyramida-obracene.png" target="_blank"><img src="files/modelovani-obrazcu-iii/pyramida-obracene.png" alt="Pyramida obráceně" class="img--align-center"></a>
+
+    <p>
+      Úprava spočívá v nastavení pomocné proměnné na 0 a inkrementaci v každém průchodu vnějšího cyklu. Tomu nastavíme jeho iterační proměnnou na hodnotu rovnou vstupu a v 
+      každém průchodu dekrementujeme až k dolní mezi cyklu, která je rovna hodnotě 1. U vnitřního cyklu bude iterační proměnná inkrementována od 1 do součtu iterační 
+      proměnné z vnějšího cyklu a vstupní proměnné zmenšené o 1. Studenti po pochopení algoritmu napíší vlastní řešení. Program <code>pyramida-obracene</code> 
+      bychom měli studentům předvést a vysvětlit. Opět je vyzveme, aby si program uložili.
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#2-cpp">pyramida-obracene.cpp</a>
+  <a href="#2-js">pyramida-obracene.js</a>
+  <a href="#2-py">pyramida-obracene.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="2-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 4; // Inicializace velikosti pyramidy
+  int pom = 0; // Inicializace pomocne promenne
+
+  // Vnejsi cyklus pro radky
+  for(int i = vel; i >= 1; i--) {
+      
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= vel + i - 1; j++) {
+
+      // Pro zacatecni prazdne bunky
+      if(pom >= j) {
+
+        // Vypiseme pouze mezeru
+        cout << "  ";
+
+      }
+
+      // Pokud jsme jiz v limitu
+      else {
+
+        // Vypiseme hvezdicku
+        cout << "* ";
+
+      }
+
+    }            
+
+    // Vypiseme novou radku
+    cout << endl;
+
+    // Pridame sloupec pocitadlu
+    pom++;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="2-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 4; // Inicializace velikosti pyramidy
+pom = 0; // Inicializace pomocne promenne
+
+// Vnejsi cyklus pro radky
+for(var i = vel; i >= 1; i--) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+  
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= vel + i - 1; j++) {
+
+    // Pro zacatecni prazdne bunky
+    if(pom >= j) {
+
+      // Pridame do textoveho retezce mezeru
+      rad += "  ";
+
+    }
+
+    // Pokud jsme jiz v limitu
+    else {
+
+      // Pridame do textoveho retezce hvezdicku
+      rad += "* ";
+
+    }
+
+  }            
+
+  // Vypiseme radku
+  console.log(rad);
+
+  // Pridame sloupec pocitadlu
+  pom++;
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="2-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 4 # Inicializace velikosti pyramidy
+pom = 0 # Inicializace pomocne promenne
+
+# Vnejsi cyklus pro radky
+for i in range(vel, 0, -1):
+    
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(1, vel + i):
+
+    # Pro zacatecni prazdne bunky
+    if(pom >= j):
+
+      # Vypiseme mezeru
+      print("  ", sep="", end="")
+
+    # Pokud jsme jiz v limitu
+    else:
+
+      # Vypiseme hvezdicku
+      print("* ", sep="", end="")           
+
+  # Vypiseme novou radku
+  print(end="\n")
+
+  # Pridame sloupec pocitadlu
+  pom += 1
+</pre>
+</div>
+</div>
+</div>
+
+    <hr>
+
+    <h2>
+      Diamant
+    </h2>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymodelujte pomocí zástupného znaku (hvězdičky) diamant. Velikost diamantu bude zadávat uživatel na vstupu, výstupem bude obrazec složený z 
+        hvězdiček ve tvaru diamantu. K oddělení jednotlivých hvězdiček použijte mezeru. Zadané číslo bude vždy liché. 
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 5</li>
+      <li>
+        <b>Výstup:</b><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;*<br>
+        &nbsp;&nbsp;&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*&emsp;*<br>
+        &nbsp;&nbsp;&emsp;*&emsp;*&emsp;*<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;*        
+      </li>
+    </ul>
+
+    <p>
+      Pokud tento příklad zpracováváme po pyramidách, tak důrazně doporučíme studentům, aby tvar diamantu prostudovali. Měli by nalézt podobnost s předchozím 
+      příkladem a výslednými dvěma programy, které si uložili. V případě, že podobnost nevidí, je vyzveme, aby si programy spustili za sebou v pořadí, ve 
+      kterém je vytvářeli (pokud je pořadí zachováno). Výstupem by měl být onen diamant. Jediná specifika, která potřebuje student vyřešit, jsou 
+      vypisování prostřední řádky a zkrácení vnějších cyklů, aby správně zohlednily vstupní proměnnou. Pro přiblížení algoritmu může posloužit 
+      pomocný slide <code>diamant.png</code>.
+    </p>
+
+    <a href="files/modelovani-obrazcu-iii/diamant.png" target="_blank"><img src="files/modelovani-obrazcu-iii/diamant.png" alt="Diamant" class="img--align-center"></a>
+
+    <p>
+      Necháme studenty pracovat na svých řešeních. Ukázkové řešení je uloženo v programu <code>diamant</code>, který bychom měli studentům ukázat v jednom z nabízených 
+      programovacích jazyků a rozebrat ho s nimi v případně dotazů.
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#3-cpp">diamant.cpp</a>
+  <a href="#3-js">diamant.js</a>
+  <a href="#3-py">diamant.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="3-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 7; // Inicializace velikosti trojuhelniku
+  int pom = vel/2; // Inicializace pomocne promenne
+
+  // Vnejsi cyklus pro radky
+  for(int i = 1; i <= vel; i = i + 2) {
+      
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= i + pom; j++) {
+
+      // Pro zacatecni prazdne bunky
+      if(pom >= j) {
+
+        // Vypiseme pouze mezeru
+        cout << "  ";
+
+      }
+
+      // Pokud jsme jiz v limitu
+      else {
+
+        // Vypiseme hvezdicku
+        cout << "* ";
+
+      }
+
+    }            
+
+    // Vypiseme novou radku
+    cout << endl;
+
+    // Pridame sloupec pocitadlu
+    pom--;
+
+  }
+
+  // Vyresetujeme pomocnou promennou
+  pom = 1;
+
+  // Vnejsi cyklus pro radky
+  for(int i = vel - 2; i >= 1; i = i - 2) {
+      
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= i + pom; j++) {
+
+      // Pro zacatecni prazdne bunky
+      if(pom >= j) {
+
+        // Vypiseme pouze mezeru
+        cout << "  ";
+
+      }
+
+      // Pokud jsme jiz v limitu
+      else {
+
+        // Vypiseme hvezdicku
+        cout << "* ";
+
+      }
+
+    }            
+
+    // Vypiseme novou radku
+    cout << endl;
+
+    // Pridame sloupec pocitadlu
+    pom++;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="3-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 7; // Inicializace velikosti trojuhelniku
+pom = Math.floor(vel/2); // Inicializace pomocne promenne
+
+// Vnejsi cyklus pro radky
+for(var i = 1; i <= vel; i = i + 2) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+  
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= i + pom; j++) {
+
+    // Pro zacatecni prazdne bunky
+    if(pom >= j) {
+
+      // Pridame do textoveho retezce mezeru
+      rad += "  ";
+
+    }
+
+    // Pokud jsme jiz v limitu
+    else {
+
+      // Pridame do textoveho retezce hvezdicku
+      rad += "* ";
+
+    }
+
+  }            
+
+  // Vypiseme radku
+  console.log(rad);
+
+  // Pridame sloupec pocitadlu
+  pom--;
+
+}
+
+// Vyresetujeme pomocnou promennou
+pom = 1;
+
+// Vnejsi cyklus pro radky
+for(var i = vel - 2; i >= 1; i = i - 2) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+  
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= i + pom; j++) {
+
+    // Pro zacatecni prazdne bunky
+    if(pom >= j) {
+
+      // Pridame do textoveho retezce mezeru
+      rad += "  ";
+
+    }
+
+    // Pokud jsme jiz v limitu
+    else {
+
+      // Pridame do textoveho retezce hvezdicku
+      rad += "* ";
+
+    }
+
+  }            
+
+  // Vypiseme radku
+  console.log(rad);
+
+  // Pridame sloupec pocitadlu
+  pom++;
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="3-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 7 # Inicializace velikosti trojuhelniku
+pom = int(vel/2) # Inicializace pomocne promenne
+
+# Vnejsi cyklus pro radky
+for i in range(1, vel + 1, 2):
+    
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(1, i + pom + 1):
+
+    # Pro zacatecni prazdne bunky
+    if(pom >= j):
+
+      # Vypiseme mezeru
+      print("  ", sep="", end="")
+
+    # Pokud jsme jiz v limitu
+    else:
+
+      # Vypiseme hvezdicku
+      print("* ", sep="", end="")           
+
+  # Vypiseme novou radku
+  print(end="\n")
+
+  # Pridame sloupec pocitadlu
+  pom -= 1
+
+# Vyresetujeme pomocnou promennou
+pom = 1
+
+
+# Vnejsi cyklus pro radky
+for i in range(vel - 2, 0, -2):
+    
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(1, i + pom + 1):
+
+    # Pro zacatecni prazdne bunky
+    if(pom >= j):
+
+      # Vypiseme mezeru
+      print("  ", sep="", end="")
+
+    # Pokud jsme jiz v limitu
+    else:
+
+      # Vypiseme hvezdicku
+      print("* ", sep="", end="")           
+
+  # Vypiseme novou radku
+  print(end="\n")
+
+  # Pridame sloupec pocitadlu
+  pom += 1
+</pre>
+</div>
+</div>
+</div>
+
+    <hr>
+
+    <h2>
+      Kosočtverec
+    </h2>
+
+    <p>
+      Posledním příkladem je kosočtverec, který opět částečně vychází z pyramid.
+    </p>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymodelujte pomocí zástupného znaku (hvězdičky) kosočtverec. Velikost strany kosočtverce bude zadávat uživatel na vstupu, výstupem bude obrazec 
+        složený z hvězdiček ve tvaru kosočtverce. K oddělení jednotlivých hvězdiček použijte mezeru.
+      </i>
+    </p>    
+
+    <ul>
+      <li><b>Vstup:</b><br> 4</li>
+      <li>
+        <b>Výstup:</b><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;*&emsp;*&emsp;*&emsp;*<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;*&emsp;*&emsp;*&emsp;*<br>
+        &nbsp;&nbsp;&emsp;*&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*
+      </li>
+    </ul>
+
+    <p>
+      Bystřejším studentům už by bez jakékoli nápovědy mělo být jasné, že i v tomto posledním příkladu bude určitým způsobem hrát roli pyramida. Zeptáme se 
+      tedy, jestli vidí nějakou paralelu s předcházejícími příklady. Promítneme pomocný obrázek <code>kosoctverec.png</code>.
+    </p>
+
+    <a href="files/modelovani-obrazcu-iii/kosoctverec.png" target="_blank"><img src="files/modelovani-obrazcu-iii/kosoctverec.png" alt="Kosočtverec" class="img--align-center"></a>
+
+    <p>
+      Mělo by být patrné, že pomocná proměnná se bude chovat stejně, jako ta v prvním příkladu. Nyní zbývá už jen vyřešit jednotlivé hvězdičky. Jako další 
+      dopomoc můžeme jinou barvou zakroužkovat vstupní hodnotu. Opět by si studentí dedukcí měli uvědomit, že vstupní počet je logicky totožný s počtem 
+      hvězdiček na jednotlivých řádcích (proto se jedná o kosočtverec).
+    </p>
+
+    <p>
+      Po představení necháme studenty pracovat na svých programech, vzorové řešení <code>kosoctverec</code> je dobré představit a demonstrovat jeho funkčnost.
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#4-cpp">kosoctverec.cpp</a>
+  <a href="#4-js">kosoctverec.js</a>
+  <a href="#4-py">kosoctverec.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="4-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 4; // Inicializace velikosti kosoctverce    
+  int pom = vel - 1; // Inicializace pomocne promenne
+
+  // Vnejsi cyklus pro radky
+  for(int i = 1; i <= vel; i++) {
+      
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= vel + pom; j++) {
+
+      // Pro zacatecni prazdne bunky
+      if(pom >= j) {
+
+        // Vypiseme pouze mezeru
+        cout << "  ";
+
+      }
+
+      // Pokud jsme jiz v limitu
+      else {
+
+        // Vypiseme hvezdicku
+        cout << "* ";
+
+      }
+
+    }            
+
+    // Vypiseme novou radku
+    cout << endl;
+
+    // Pridame sloupec pocitadlu
+    pom--;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="4-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 4; // Inicializace velikosti kosoctverce    
+pom = vel - 1; // Inicializace pomocne promenne
+
+// Vnejsi cyklus pro radky
+for(var i = 1; i <= vel; i++) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+  
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= vel + pom; j++) {
+
+    // Pro zacatecni prazdne bunky
+    if(pom >= j) {
+
+      // Pridame do textoveho retezce mezeru
+      rad += "  ";
+
+    }
+
+    // Pokud jsme jiz v limitu
+    else {
+
+      // Pridame do textoveho retezce hvezdicku
+      rad += "* ";
+
+    }
+
+  }            
+
+  // Vypiseme radku
+  console.log(rad);
+
+  // Pridame sloupec pocitadlu
+  pom--;
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="4-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 4 # Inicializace velikosti kosoctverce    
+pom = vel - 1 # Inicializace pomocne promenne
+
+# Vnejsi cyklus pro radky
+for i in range(1, vel + 1):
+    
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(1, vel + pom + 1):
+
+    # Pro zacatecni prazdne bunky
+    if(pom >= j):
+
+      # Vypiseme mezeru
+      print("  ", sep="", end="")
+
+    # Pokud jsme jiz v limitu
+    else:
+
+      # Vypiseme hvezdicku
+      print("* ", sep="", end="") 
+
+
+  # Vypiseme novou radku
+  print(end="\n")
+
+  # Pridame sloupec pocitadlu
+  pom -= 1
+</pre>
+</div>
+</div>
+</div>
+
+    <p>
+      Po splnění všech, či jen některých příkladů, může následovat diskusní okénko, které bude učitel moderovat.
+    </p>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse - reflexe příkladů
+    </h3>
+    
+    <ol>
+      <li>Zdálo se vám řešení dalších příkladů jednodušší?</li>
+      <li>Která část hodiny vás bavila?</li>
+      <li>Napadá vás další obrazec, který by se dal vytvořit pomocí hvězdiček? </li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+    
+    <ul>
+      <li>Nejsou očekávány žádné problémy napříč příklady. Drobné zádrhely jsou vysvětleny v metodice.</li>
+    </ul>
+
+  </main>
+
+  <!-- site-main__side -->
+  <aside class="site-main__side" id="meta">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title">
+        Úvodní informace
+      </h2>
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        V této úloze budou studenti tvořit nejprve pyramidy, které následně spojí do obrazce tvaru diamantu. Pro zpestření byl jako poslední 
+        obrazec vybrán kosočtverec, který je odvozen od pyramid. Tyto příklady jsou vhodné zejména k procvičení práce s cyklem for a 
+        vnořenými cykly.
+      </p>
+
+      <p class="link--anchor">
+        <a href="#metodika">▲ Metodika</a>
+      </p>
+    
+    </header>
+
+    <h3>
+      Cíle úlohy
+    </h3>
+    <ul>
+      <li>
+        Procvičení:
+        <ul>
+          <li>Cykly</li>
+          <li>Vnořené cykly</li>
+        </ul>
+      </li>
+      <li>Podněcování skupinového brainstormingu</li>
+    </ul>
+
+    <h3>
+      Časová náročnost
+    </h3>
+    <p>
+      1-2 vyučovací hodiny
+    </p>
+
+    <h3>
+      Obtížnost
+    </h3>
+    <img src="../assets/img/3.png" alt="***">
+
+    <h3>
+      Prerekvizity
+    </h3>
+    <ul>
+      <li>Cykly</li>
+      <li>Vnořené cykly</li>
+    </ul>
+
+    <h3>
+      Výsledné programy
+    </h3>
+    <ul>
+      <li>pyramida <a href="files/modelovani-obrazcu-iii/pyramida.cpp">cpp</a> <a href="files/modelovani-obrazcu-iii/pyramida.js">js</a> <a href="files/modelovani-obrazcu-iii/pyramida.py">py</a></li>
+      <li>pyramida-obracene <a href="files/modelovani-obrazcu-iii/pyramida-obracene.cpp">cpp</a> <a href="files/modelovani-obrazcu-iii/pyramida-obracene.js">js</a> <a href="files/modelovani-obrazcu-iii/pyramida-obracene.py">py</a></li>
+      <li>diamant <a href="files/modelovani-obrazcu-iii/diamant.cpp">cpp</a> <a href="files/modelovani-obrazcu-iii/diamant.js">js</a> <a href="files/modelovani-obrazcu-iii/diamant.py">py</a></li>
+      <li>kosoctverec <a href="files/modelovani-obrazcu-iii/kosoctverec.cpp">cpp</a> <a href="files/modelovani-obrazcu-iii/kosoctverec.js">js</a> <a href="files/modelovani-obrazcu-iii/kosoctverec.py">py</a></li>
+    </ul>
+
+    <h3>
+      Soubory
+    </h3>
+    <ul>
+      <li><a href="files/modelovani-obrazcu-iii/modelovani-obrazcu-iii.docx">Metodika</a></li>
+      <li><a href="files/modelovani-obrazcu-iii/pyramida.png" target="_blank">pyramida.png</a></li>
+      <li><a href="files/modelovani-obrazcu-iii/pyramida-obracene.png" target="_blank">pyramida-obracene.png</a></li>
+      <li><a href="files/modelovani-obrazcu-iii/diamant.png" target="_blank">diamant.png</a></li>
+      <li><a href="files/modelovani-obrazcu-iii/kosoctverec.png" target="_blank">kosoctverec.png</a></li>
+    </ul>
+    
+
+  </aside>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/scripts.js"></script>
+
+</body>
+</html>

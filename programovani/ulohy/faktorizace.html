@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faktorizace | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="../index.html">Úvod</a>
+    <a href="../ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__content -->
+  <main class="site-main__content" id="metodika">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Faktorizace
+      </h1>
+
+      <p class="link--anchor">
+        <a href="#meta">▼ Úvodní informace</a>
+      </p>
+
+    </header>
+
+    <p>
+      Jak již bylo zmíněno v úvodních informacích, tak tato úloha by měla být principiálně známá všem studentům, proto jim můžeme hned na začátku 
+      představit zadání a až poté vysvětlíme samotný algoritmus. 
+    </p>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymyslete algoritmus pro faktorizaci složených čísel. Vstupem bude přirozené číslo, které bude následně buď rozloženo na prvočísla, nebo v případě, kdy se 
+        jedná o prvočíslo, vypíše jako jediného dělitele zadané číslo. Všechny prvočinitele ukládejte do pole. Pokud programovací jazyk potřebuje znát 
+        velikost pole, udejte velikost 10000. Samotnou faktorizaci bude provádět (včetně výpisu) vlastní fuknce <code>faktorizace</code>.
+      </i>
+    </p>
+    
+    <ul>
+      <li><b>Vstup:</b><br> 2772</li>
+      <li><b>Výstup:</b><br>2, 2, 3, 3, 7, 11</li>
+      <li><b>Vstup:</b><br> 73</li>
+      <li><b>Výstup:</b><br>73</li>
+    </ul>
+
+    <p>
+      V první řadě je potřeba provést rozbor algoritmu. Můžeme jej hned zahájit diskusí (Otázky do diskuse – rozbor algoritmu).
+    </p>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse – rozbor algoritmu
+    </h3>
+
+    <ol>
+      <li>Jak bude vypadat algoritmus pro faktorizaci? Jaký by mohl být první dělitel čísla 2772?</li>
+      <li>Jak budeme postupovat dál? Kterého dělitele budeme testovat jako dalšího?</li>
+    </ol>
+
+    <hr>
+
+    <p>
+      Jak bude vypadat algoritmus pro faktorizaci čísla N? 
+      <ol>
+        <li>Začneme s D = 2</li>
+        <li>Je-li D větší než N, algoritmus končí</li>
+        <li>Zjistíme, zda je D dělitelem N
+          <ol>
+            <li>v případě, že ano, uložíme D do pole, změníme N na podíl N/D (čili: N = N/D) a pokračujeme bodem 2</li>
+            <li>v případě, že ne, zvětšíme D o 1 a pokračujeme bodem 2</li>
+          </ol>
+        </li>
+      </ol>
+    </p>
+
+    <p>
+      Pro samotné vysvětlení můžeme zvolit pomocný slide, konkrétně <code>faktorizace.png</code>.
+    </p>
+
+    <a href="files/faktorizace/faktorizace.png" target="_blank"><img src="files/faktorizace/faktorizace.png" alt="Faktorizace" class="img--align-center"></a>
+
+    <p>
+      Je vhodné také zmínit záludnost, kdy by se mohlo zdát, že bude stačit testovat pouze prvočísla (jelikož výsledkem rozkladu složeného čísla jsou vždy prvočinitelé). 
+      To je sice pravda, ale takový seznam by musel být již předdefinovaný (například v poli). Vytváření vlastní tabulky prvočísel, či samotné testování prvočíselnosti 
+      při faktorizaci, je zcela neefektivní a navíc složité.
+    </p>
+
+    <p>
+      Příklad je možné řešit samostatně i společně. U individuální práce dbáme na to, aby všichni studenti rozuměli algoritmu. Při zpracování může nastat problém u striktních 
+      programovacích jazyků, jako je například C++, kdy je nutné zadat při deklaraci velikost pole. Tendence studentů bude tam „naprat“ velké číslo a tím problém obejít 
+      (v podstatě jsme jim to zadali i v samotném zadání). Vhodné metody, jak dosáhnout nejmenší možné velikosti pole, jsou popsány v následné diskusi, která by po 
+      splnění zadání měla proběhnout. Nyní se již mohou studenti pustit do psaní algoritmu. Součástí vzorového řešení je program <code>faktorizace</code>. Po úspěšném naprogramování 
+      je vhodné program promítnout a studentům případné nejasnosti vysvětlit.
+    </p>
+
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#1-cpp">faktorizace.cpp</a>
+  <a href="#1-js">faktorizace.js</a>
+  <a href="#1-py">faktorizace.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="1-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+// Deklarace a inicializace funkci
+void faktorizace(int n); // Funkce pro vypocet jednotlivych delitelu 
+
+
+int main() {
+
+  // Faktorizuj
+  faktorizace(2772);
+
+}
+
+// Funkce pro vypocet jednotlivych delitelu
+void faktorizace(int n) {
+
+  // Deklarace a inicializace
+  int pole[10000] = {0}; // Inicializujeme vysledne pole
+  int poc = 0; // Pocitadlo, na jake hodnote pole se nachazime
+
+  // Cyklus pro testovani delitelu
+  for(int i = 2; i < n; i++) {
+
+    // Dokud je zbytek cisla delitelny beze zbytku
+    while(n % i == 0) {
+
+      // Nasli jsme delitele, ktereho zapiseme
+      pole[poc] = i;
+
+      // Pricteme k pocitadlu 1
+      poc++;
+
+      // Vydelime
+      n = n / i;
+        
+    }
+
+  }
+
+  // Pokud je cislo prvocislem, tak jediny delitel je krome jednicky samotne cislo
+  if(n != 1) {
+
+    // Proto ho zapiseme
+    pole[poc] = n;
+
+  }
+
+  // Projdeme si pole
+  for(int i = 0; i <= poc; i++) {
+
+    // Pokud neni index prazdny - nula
+    if(pole[i] != 0) {
+
+      // Vypiseme delitele
+      cout << pole[i] << ", ";
+    }
+      
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="1-js">
+<pre data-language="js">
+// Faktorizuj
+console.log(faktorizace(2772));
+
+// Funkce pro vypocet jednotlivych delitelu
+function faktorizace(n) {
+
+  // Deklarace a inicializace
+  pole = []; // Inicializujeme vysledne pole
+
+  // Cyklus pro testovani delitelu
+  for(var i = 2; i < n; i++) {
+
+    // Dokud je zbytek cisla delitelny beze zbytku
+    while(n % i == 0) {
+
+      // Pushneme (pridame) do pole prvek o hodnote aktualniho delitele
+      pole.push(i);
+
+      // Vydelime
+      n /= i;
+
+    }
+
+  }
+
+  // Pokud je cislo prvocislem, tak jediny delitel je krome jednicky samotne cislo
+  if(n != 1) {
+
+    // Proto ho zapiseme
+    pole.push(n);
+
+  }
+
+  // Vratime pole
+  return pole; 
+
+} 
+</pre>  
+</div>
+
+<div class="tabs__content" id="1-py">
+<pre data-language="py">
+# Importujeme matematickou knihovnu
+import math
+
+# Funkce pro vypocet jednotlivych delitelu
+def faktorizace(n):
+
+  # Deklarace a inicializace
+  pole = [] # Inicializujeme vysledne pole
+
+  # Cyklus pro testovani delitelu
+  for i in range(2, n):
+
+    # Dokud je zbytek cisla delitelny beze zbytku
+    while n % i == 0:
+
+      # Appendujeme (pridame) do pole prvek o hodnote aktualniho delitele
+      pole.append(i)
+
+      # Vydelime
+      n /= i
+
+  # Pokud je cislo prvocislem, tak jediny delitel je krome jednicky samotne cislo
+  if n != 1:
+
+    # Proto ho zapiseme
+    pole.append(n)
+
+  # Vratime pole
+  return pole
+
+# Faktorizuj
+print(faktorizace(2772))
+</pre>
+</div>
+</div>
+</div>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse - reflexe faktorizace
+    </h3>
+
+    <ol>
+      <li>
+        Pokud bychom programovali v striktním jazyku jako například C++, kde musíme zadat při deklaraci velikost pole, jak byste postupovali, aby byla velikost pole 
+        co možná nejmenší? (vysvětlení níže)
+      </li>
+      <li>
+        Proč je důležité nenastavovat velikost pole „natvrdo“? 
+      </li>
+      <li>
+        Co vás na úloze bavilo?
+      </li>
+    </ol>
+
+    <p>
+      Vysvětlení otázky č.1:
+    </p>
+
+    <p>
+      Existují v podstatě dva různé způsoby řešení, jak určit dostatečnou velikost pole: 
+    </p>
+
+    <ol>
+      <li>
+        Vyškrtneme ze zadání pasáž ukládání prvočinitelů do pole. Studenti ho při nalezení ihned vypíší. Tím tento problém eliminujeme, ale nejedná se o preferovanou 
+        možnost, navíc v zadání otázky se s polem počítá. 
+      </li>
+      <li>
+        Vypočítat, jaký nejvyšší možný počet prvočinitelů mají jednotlivá čísla. To lze zjistit snadno, ale neintuitivně. Platí, že každé číslo X, které je mocninou 
+        dvojky (2, 4, 8, 16, …), má větší počet prvočinitelů, než kterékoli menší číslo (viz obrázek níže). Stačí tedy pro zadané N najít nejbližší vyšší X a protože 
+        jeho prvočinitele jsou jen dvojky, snadno určíme jejich počet. Velikost pole pak bude počet-1.
+      </li>
+    </ol>
+
+    <a href="files/faktorizace/hledani_max_prvocinitelu.png" target="_blank"><img src="files/faktorizace/hledani_max_prvocinitelu.png" alt="Maximální počet prvočinitelů" class="img--align-center"></a>
+
+    <p>
+      Pokud nám to časová dotace dovolí, tak si můžeme řešení s maximální velikostí pole implementovat do již hotových příkladů. Pro to vytvoříme jednoduchý 
+      cyklus, který je součástí výsledného programu v jazyce C++ <code>faktorizace-v2.cpp</code>. 
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#3-cpp">faktorizace-v2.cpp</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="3-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+// Deklarace a inicializace funkci
+void faktorizace(int n); // Funkce pro vypocet jednotlivych delitelu 
+
+
+int main() {
+
+    // Faktorizuj
+    faktorizace(2772);
+
+}
+
+// Funkce pro vypocet jednotlivych delitelu
+void faktorizace(int n) {
+
+  // Deklarace a inicializace
+  int max = 1; // Pocitadlo, kolik muze byt maximalne prvku pole
+  int poc = 0; // Pocitadlo, na jake hodnote pole se nachazime
+
+  // Nejvice delitelu bude mit, pokud pujde o nasobky dvojky
+  for(int i = 2; i <= n; i = i * 2) {
+
+    // Pricteme 1 k velikosti
+    max++;
+
+  }
+
+  // Deklarace
+  int pole[max] = {0}; // Inicializujeme vysledne pole
+
+  // Cyklus pro testovani delitelu
+  for(int i = 2; i < n; i++) {
+
+    // Dokud je zbytek cisla delitelny beze zbytku
+    while(n % i == 0) {
+
+      // Nasli jsme delitele, ktereho zapiseme
+      pole[poc] = i;
+
+      // Pricteme k pocitadlu 1
+      poc++;
+
+      // Vydelime
+      n = n / i;
+      
+    }
+
+  }
+
+  // Pokud je cislo prvocislem, tak jediny delitel je krome jednicky samotne cislo
+  if(n != 1) {
+
+    // Proto ho zapiseme
+    pole[poc] = n;
+
+  }
+
+  // Projdeme si pole
+  for(int i = 0; i < max; i++) {
+
+    // Pokud neni index prazdny - nula
+    if(pole[i] != 0) {
+
+      // Vypiseme delitele
+      cout << pole[i] << ", ";
+    }
+    
+  }
+
+}
+</pre>
+</div>
+</div>
+</div>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+
+    <ul>
+      <li>
+        <i>Student nepochopí algoritmus.</i> - Vrátíme se zpět k demonstrativnímu příkladu, ale zvolíme číslo sudé a malé (například 36) a necháme ho rozložit na 
+        výsledek stejným způsobem. 
+      </li>
+      <li>
+        <i>Student nenajde všechny prvočíselné dělitele.</i> - Pravděpodobně bude chybět v programu vnořený cyklus, který bude testovat číslo (a následné výsledky 
+        po dělení) do té doby, než dělitelem nebude.
+      </li>
+    </ul>
+
+  </main>
+
+  <!-- site-main__side -->
+  <aside class="site-main__side" id="meta">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title">
+        Úvodní informace
+      </h2> 
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        V této úloze budeme rozkládat přirozená čísla na součin prvočinitelů. Jedná se o matematický postup, který se vyučuje na druhém 
+        stupni ZŠ. Princip by studenti tudíž měli znát. Příklad se svou obtížností zařazuje mezi ty těžké. Složitější je si uvědomit, 
+        jak přesně aplikovat princip rozkladu, aby byl univerzálně použitelný na každé přirozené číslo. 
+      </p>
+
+      <p class="link--anchor">
+        <a href="#metodika">▲ Metodika</a>
+      </p>
+    
+    </header>
+
+    <h3>
+      Cíle úlohy
+    </h3>
+    <ul>
+      <li>
+        Procvičení:
+        <ul>
+          <li>Cykly</li>
+          <li>Vnořené cykly</li>
+          <li>Funkce vlastní</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>
+      Časová náročnost
+    </h3>
+    <p>
+      1-2 vyučovací hodiny
+    </p>
+
+    <h3>
+      Obtížnost
+    </h3>
+    <img src="../assets/img/4.png" alt="****">
+
+    <h3>
+      Prerekvizity
+    </h3>
+    <ul>
+      <li>Cykly</li>
+      <li>Vnořené cykly</li>
+      <li>Funkce vlastní</li>
+      <li>Znalost definice prvočísla</li>
+      <li>Úloha volně navazuje na <a href="hledani-prvocisel.html">Hledání prvočísel, Eratosthenovo síto</a></li>
+    </ul>
+
+    <h3>
+      Výsledné programy
+    </h3>
+    <ul>
+      <li>faktorizace <a href="files/faktorizace/faktorizace.cpp">cpp</a> <a href="files/faktorizace/faktorizace.js">js</a> <a href="files/faktorizace/faktorizace.py">py</a></li>
+      <li>faktorizace-v2 <a href="files/faktorizace/faktorizace-v2.cpp">cpp</a></li>
+    </ul>
+
+    <h3>
+      Soubory
+    </h3>
+    <ul>
+      <li><a href="files/faktorizace/faktorizace.docx" target="_blank">Metodika</a></li>
+      <li><a href="files/faktorizace/faktorizace.png" target="_blank">faktorizace.png</a></li>
+      <li><a href="files/faktorizace/hledani_max_prvocinitelu.png" target="_blank">hledani_max_prvocinitelu.png</a></li>
+    </ul>
+    
+
+  </aside>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/scripts.js"></script>
+
+</body>
+</html>

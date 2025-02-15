@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modelování obrazců I | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="../index.html">Úvod</a>
+    <a href="../ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__content -->
+  <main class="site-main__content" id="metodika">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Modelování obrazců I
+      </h1>
+
+      <p class="link--anchor">
+        <a href="#meta">▼ Úvodní informace</a>
+      </p>
+
+    </header>
+
+    <p>
+      Úloha se dá rozdělit na dvě části. V první budou studenti modelovat čtverec, a to pomocí různých přístupů k řešení. V druhé budou modelovat obdélník. 
+      Jedná se o základy práce s cykly, tudíž skvěle slouží k jejich procvičení. Autor doporučuje začít čtvercem, jelikož je snazší než obdélník.
+    </p>
+
+    <hr>
+
+    <h2>
+      Čtverec vyplněný
+    </h2>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymodelujte pomocí zástupného znaku (hvězdičky) čtverec. Velikost strany bude zadávat uživatel na vstupu, výstupem bude obrazec složený z hvězdiček 
+        ve tvaru čtverce. K oddělení jednotlivých hvězdiček použijte mezeru. 
+      </i>
+    </p>
+    
+    <ul>
+      <li><b>Vstup:</b><br> 4</li>
+      <li>
+        <b>Výstup:</b><br>
+        *&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*
+      </li>
+    </ul>
+
+    <p>
+      Existují v zásadě dva způsoby, jak k řešení příkladu přistupovat:
+    </p>
+
+    <ol>
+      <li>
+        Jednodušším je použití jen jednoho cyklu, ve kterém se iterační proměnná pohybuje v intervalu <code>&lt;1, N<sup>2</sup>&gt;</code>, kde N je strana čtverce. Pro oddělení 
+        jednotlivých řádků bude sloužit podmínka. V každé iteraci vypíšeme jednu hvězdičku (z estetických důvodů doplníme za hvězdičku ještě mezeru). 
+        Pokud je iterační proměnná dělitelná stranou čtverce N, pak odřádkujeme. K tomu poslouží operátor modulo (zbytek po dělení). Je vhodné 
+        modulo na začátku hodiny zopakovat.
+      </li>
+      <li>
+        Je možné taktéž použít i místo jednoho cyklu dva, kde oba budou mít iterační proměnnou z intervalu <code>&lt;1, N&gt;</code>. Vnitřní cyklus se bude starat o 
+        vypisování hvězdiček a mezer, vnější cyklus o nové řádky. Tento způsob se může zdát (dle schopností skupiny) složitější, leč je přehlednější. 
+      </li>
+    </ol>
+
+    <p>
+      Je vhodné vyřešit příklad oběma způsoby (minimálně bychom je měli představit). Pokud studenti naleznou jedno z řešení, můžeme je podnítit k nalezení druhého pomocí 
+      návodných otázek. <i>Vymysli řešení za použití pouze jednoho cyklu.</i> Vše ale záleží na schopnostech dané skupiny.
+    </p>
+
+    <p>
+      V případě použití jednoho cyklu můžeme zvolit následující postup rozboru algoritmu (za situace, kdy si neví rady). Nejprve budeme chtít po studentech, aby pouze vypsali 
+      celkový počet hvězdiček, které budou nutné pro vymodelování čtverce. Výsledkem bádání je N<sup>2</sup> pro vytvoření příslušného počtu hvězdiček. Poté jen stačí 
+      vyřešit, kdy je nutné vložit mezi hvězdičky novou řádku. Rozbor v případě problémů můžeme provést na tabuli. Napíšeme si sekvenci šestnácti hvězdiček (pro vstup 
+      4) a očíslujeme je od 1 jinou barvou (jako horní index). Následně oddělíme od sebe každé 4 hvězdičky pomocí svislé čáry. Zeptáme se studentů pomocí otázek 
+      položených níže v sekci Otázky do diskuse – rozbor algoritmu.
+    </p>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse - rozbor algoritmu
+    </h3>
+
+    <ol>
+      <li>Jaký vztah má číslo u oddělené hvězdičky k zadané straně čtverce?</li>
+      <li>Jakou aritmetickou operací zjistíme, že se jedná o násobek vstupní strany čtverce?</li>
+    </ol>
+
+    <hr>
+
+    <p>
+      Tím jsme dostatečně vysvětlili řešení za použití jednoho cyklu. V případě vypracovávání této varianty necháme studenty pracovat samostatně na svých programech. Výsledné 
+      řešení pod názvem <code>ctverec</code> je vhodné studentům promítnout a v případě dotazů vysvětlit. 
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#1-cpp">ctverec.cpp</a>
+  <a href="#1-js">ctverec.js</a>
+  <a href="#1-py">ctverec.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="1-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 4; // Inicializace velikosti ctverce
+
+  // Cyklus pro namalovani obrazce
+  for(int i = 1; i <= vel * vel; i++) {
+
+    // Vypiseme hvezdicky
+    cout << "* ";
+
+    // Pokud jsme dosli na konec radky 
+    if(i % vel == 0)
+
+      // Vypiseme novou radku
+      cout << endl;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="1-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 4; // Inicializace velikosti ctverce
+var rad = ""; // Inicalizujeme promennou pro vypsani radky 
+
+// Cyklus pro namalovani obrazce
+for(var i = 1; i <= vel * vel; i++) {
+
+  // Pridame do textoveho retezce hvezdicku
+  rad += "* ";
+
+  // Pokud jsme dosli na konec radky 
+  if(i % vel == 0) {
+
+    // Vypiseme radku
+    console.log(rad);
+
+    // Smazeme textovy retezec
+    rad = "";
+
+  }
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="1-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 4 # Inicializace velikosti ctverce
+
+# Vnitrni cyklus pro jednotlive hvezdicky
+for j in range(1, vel * vel + 1):           
+
+    # Vypiseme hvezdicky
+    print("* ", sep="", end="")
+
+    # Pokud jsme dosli na konec radky 
+    if(j % vel == 0):
+
+      # Vypiseme novou radku    
+      print(end="\n")
+</pre>
+</div>
+</div>
+</div>
+
+    <p>
+      V situaci s vnořenými cykly by nemělo dojít k žádným problémům. Výsledný příklad je prezentován jako <code>ctverec-vnoreny</code> v příslušném programovacím jazyce. 
+      Bude se pravděpodobně jednat o preferovanější variantu studentů. Můžeme také ukázat pomocný slide <code>ctverec.png</code>, který tento způsob řešení zachycuje s 
+      vysvětlením jednotlivých cyklů. 
+    </p>
+
+    <a href="files/modelovani-obrazcu-i/ctverec.png" target="_blank"><img src="files/modelovani-obrazcu-i/ctverec.png" alt="Čtverec vyplněný" class="img--align-center"></a>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#2-cpp">ctverec-vnoreny.cpp</a>
+  <a href="#2-js">ctverec-vnoreny.js</a>
+  <a href="#2-py">ctverec-vnoreny.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="2-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 4; // Inicializace velikosti ctverce
+
+  // Vnejsi cyklus pro radky
+  for(int i = 1; i <= vel; i++) {
+
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= vel; j++) {            
+
+      // Vypiseme hvezdicky
+      cout << "* ";
+
+    }
+
+    // Vypiseme novou radku
+    cout << endl;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="2-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 4; // Inicializace velikosti ctverce
+
+// Vnejsi cyklus pro radky
+for(var i = 1; i <= vel; i++) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= vel; j++) {            
+
+    // Pridame do textoveho retezce hvezdicku
+    rad += "* ";
+
+  }
+
+  // Vypiseme radku
+  console.log(rad);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="2-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 4 # Inicializace velikosti ctverce
+
+# Vnejsi cyklus pro radky
+for i in range(1, vel + 1):
+
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(1, vel + 1):           
+
+    # Vypiseme hvezdicky
+    print("* ", sep="", end="")
+
+  # Vypiseme novou radku    
+  print(end="\n")
+</pre>
+</div>
+</div>
+</div>
+
+    <p>
+      Dále je možné pokračovat diskusí nad jednotlivými možnostmi řešení a vybízením k sebereflexi. Pro určité usměrnění slouží i níže poskytnuté Otázky do 
+      diskuse – reflexe příkladu.
+    </p>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse – reflexe příkladu
+    </h3>
+
+    <ol>
+      <li>Která z dvou prezentovaných metod řešení vám přijde jednodušší? Která je přehlednější?</li>
+      <li>Našli byste výhody a nevýhody jednotlivých způsobů řešení?</li>
+    </ol>
+
+    <hr>
+
+    <h2>
+      Čtverec obrys
+    </h2>
+
+    <p>
+      Jedná se o bonusový příklad, kdy je cílem vytvořit pouze obrys čtverce (bez výplně). Je vhodným rozšířením pro studenty a vyplněním případného 
+      časového přebytku (též jako domácí úkol).
+    </p>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymodelujte pomocí zástupného znaku (hvězdičky) obrys čtverce. Velikost strany bude zadávat uživatel na vstupu, výstupem bude obrazec složený 
+        z hvězdiček ve tvaru obrysu čtverce. K oddělení jednotlivých hvězdiček použijte mezeru. 
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 4</li>
+      <li>
+        <b>Výstup:</b><br>
+        *&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;&nbsp;&emsp;&nbsp;&nbsp;&nbsp;&emsp;*<br>
+        *&emsp;&nbsp;&emsp;&nbsp;&nbsp;&nbsp;&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*
+      </li>
+    </ul>
+
+    <p>
+      Pokud tento příklad zpracováváme v hodině po vytvoření čtverce oběma metodami, provedeme společný rozbor řešení, kdy necháme samotné žáky navrhnout, 
+      jakým způsobem tento příklad řešit. Učitel zde bude sloužit jako moderátor, který diskusi řídí a usměrňuje. Výsledkem diskuse by měl být způsob 
+      řešení pomocí vnořených cyklů. V případě, že by někdo chtěl použít pouze jednoduchý cyklus, tak ho vyučující upozorní, aby od toho ustoupil z důvodu 
+      složité složené podmínky.
+    </p>
+
+    <p>
+      Vnější cyklus se stará o nové řádky a vnitřní o výpis hvězdiček a mezer. Je zde navíc pouze jedna složená podmínka proti příkladu <code>ctverec-vnoreny</code>, 
+      která se stará o výpis hvězdiček v případě obrysu, nebo o výpis mezer v případě výplně. Může být taktéž promítnut pomocný obrázek <code>ctverec-obrys.png</code>. 
+      Výsledný funkční program se nachází v souboru <code>ctverec-obrys</code>.
+    </p>
+
+    <a href="files/modelovani-obrazcu-i/ctverec-obrys.png" target="_blank"><img src="files/modelovani-obrazcu-i/ctverec-obrys.png" alt="Čtverec obrys" class="img--align-center"></a>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#3-cpp">ctverec-obrys.cpp</a>
+  <a href="#3-js">ctverec-obrys.js</a>
+  <a href="#3-py">ctverec-obrys.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="3-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;  
+  
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 4; // Inicializace velikosti ctverce
+
+  // Vnejsi cyklus pro radky
+  for(int i = 1; i <= vel; i++) {
+
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= vel; j++) {            
+
+      // Vypiseme hvezdicky
+      if(i == 1 || i == vel) {
+        cout << "* ";
+      }
+      else if(j == 1 || j == vel) {
+        cout << "* ";
+      }
+
+      // Pro vnitrek vypiseme pouze mezery
+      else {
+        cout << "  ";
+      }
+
+    }
+
+    // Vypiseme novou radku
+    cout << endl;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="3-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 4; // Inicializace velikosti ctverce
+
+// Vnejsi cyklus pro radky
+for(var i = 1; i <= vel; i++) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= vel; j++) {            
+
+    // Pridame do textoveho retezce hvezdicku
+    if(i == 1 || i == vel) {
+      rad += "* ";
+    }
+    else if(j == 1 || j == vel) {
+      rad += "* ";
+    }
+
+    // Pro vnitrek pridame do textoveho retezce hvezdicku
+    else {
+      rad += "  ";
+    }
+
+  }
+
+  // Vypiseme radku
+  console.log(rad);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="3-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 4 # Inicializace velikosti ctverce
+
+# Vnejsi cyklus pro radky
+for i in range(1, vel + 1):
+
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(1, vel + 1):           
+
+    # Vypiseme hvezdicky
+    if(i == 1 or i == vel):
+      print("* ", sep="", end="")
+    
+
+    elif(j == 1 or j == vel):
+      print("* ", sep="", end="")
+    
+
+    # Pro vnitrek vypiseme pouze mezery
+    else:
+      print("  ", sep="", end="")
+
+  # Vypiseme novou radku    
+  print(end="\n")
+</pre>
+</div>
+</div>
+</div>
+
+    <hr>
+
+    <h2>
+      Obdélník vyplněný
+    </h2>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymodelujte pomocí zástupného znaku (hvězdičky) obdélník. Velikosti stran bude uživatel zadávat na vstupu (a = délka, b = výška), výstupem bude 
+        obrazec složený z hvězdiček ve tvaru obdélníka. K oddělení jednotlivých hvězdiček použijte mezeru. 
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 6, 4</li>
+      <li>
+        <b>Výstup:</b><br>
+        *&emsp;*&emsp;*&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*&emsp;*&emsp;*
+      </li>
+    </ul>
+
+    <p>
+      Metodika i způsob řešení jsou analogické k vyplněnému čtverci. Pokud zpracováváme tento příklad před čtvercem, provedeme stejný metodický postup 
+      jako je popsán u něj. Zde je pouze jedna úprava a to v případě použití vnořených cyklů, kdy bude ve vnějším cyklu horní mezí proměnná b, ve 
+      vnitřním proměnná a. To může vypadat na první pohled nelogicky. V opačné situaci (řešení po vyplněném čtverci) případné vysvětlení 
+      vynecháme a postupujeme rovnou k samostatné práci.  
+    </p>
+
+    <p>
+      Řešení s použitím jednoho cyklu je v souboru <code>obdelnik</code>, pro dva vnořené cykly v souboru <code>obdelnik-vnoreny</code>. Pro vnořený cyklus je k dispozici 
+      také pomocný slide <code>obdelnik.png</code> k lepšímu pochopení cyklů.
+    </p>
+
+    <a href="files/modelovani-obrazcu-i/obdelnik.png" target="_blank"><img src="files/modelovani-obrazcu-i/obdelnik.png" alt="Obdélník vyplněný" class="img--align-center"></a>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#4-cpp">obdelnik.cpp</a>
+  <a href="#4-js">obdelnik.js</a>
+  <a href="#4-py">obdelnik.py</a>
+  <a href="#5-cpp">obdelnik-vnoreny.cpp</a>
+  <a href="#5-js">obdelnik-vnoreny.js</a>
+  <a href="#5-py">obdelnik-vnoreny.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="4-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;  
+  
+int main() {
+
+  // Deklarace a inicializace
+  const int a = 6; // Inicializace strany obdelnika
+  const int b = 4; // Inicializace strany obdelnika
+
+  // Cyklus pro namalovani obrazce
+  for(int i = 1; i <= a * b; i++) {
+
+    // Vypiseme hvezdicky
+    cout << "* ";
+
+    // Pokud jsme dosli na konec radky 
+    if(i % a == 0)
+
+      // Vypiseme novou radku
+      cout << endl;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="4-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const a = 6; // Inicializace strany obdelnika
+const b = 4; // Inicializace strany obdelnika
+var rad = ""; // Inicalizujeme promennou pro vypsani radky
+
+// Cyklus pro namalovani obrazce
+for(var i = 1; i <= a * b; i++) {
+
+  // Pridame do textoveho retezce hvezdicku
+  rad += "* ";
+
+  // Pokud jsme dosli na konec radky 
+  if(i % a == 0) {
+
+    // Vypiseme radku
+    console.log(rad);
+
+    // Smazeme textovy retezec
+    rad = "";
+
+  }
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="4-py">
+<pre data-language="py">
+# Deklarace a inicializace    
+a = 6 # Inicializace strany obdelnika
+b = 4 # Inicializace strany obdelnika
+
+# Vnejsi cyklus pro radky
+for i in range(1, a * b + 1):
+
+  # Vypiseme hvezdicky
+  print("* ", sep="", end="")        
+
+  # Pokud jsme dosli na konec radky 
+  if(i % a == 0):
+
+    # Vypiseme novou radku
+    print(end="\n")
+</pre>
+</div>
+<div class="tabs__content" id="5-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;  
+  
+int main() {
+
+  // Deklarace a inicializace    
+  const int a = 6; // Inicializace strany obdelnika
+  const int b = 4; // Inicializace strany obdelnika
+
+  // Vnejsi cyklus pro radky
+  for(int i = 1; i <= b; i++) {
+
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= a; j++) {            
+
+      // Vypiseme hvezdicky
+      cout << "* ";
+
+    }
+
+    // Vypiseme novou radku
+    cout << endl;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="5-js">
+<pre data-language="js">
+// Deklarace a inicializace    
+const a = 6; // Inicializace strany obdelnika
+const b = 4; // Inicializace strany obdelnika
+
+// Vnejsi cyklus pro radky
+for(var i = 1; i <= b; i++) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= a; j++) {            
+
+    // Pridame do textoveho retezce hvezdicku
+    rad += "* ";
+
+  }
+
+  // Vypiseme radku
+  console.log(rad);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="5-py">
+<pre data-language="py">
+# Deklarace a inicializace    
+a = 6 # Inicializace strany obdelnika
+b = 4 # Inicializace strany obdelnika
+
+# Vnejsi cyklus pro radky
+for i in range(1, b + 1):
+
+  for j in range(1, a + 1):   
+
+    # Vypiseme hvezdicky
+    print("* ", sep="", end="")        
+
+  # Vypiseme novou radku
+  print(end="\n")
+</pre>
+</div>
+</div>
+</div>
+
+    <hr>
+
+    <h2>
+      Obdélník obrys
+    </h2>
+
+    <p>
+      Další bonusový příklad, který je analogií k obrysu čtverce. Postup řešení je obdobný.
+    </p>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymodelujte pomocí zástupného znaku (hvězdičky) obrys čtverce. Velikosti stran bude uživatel zadávat na vstupu (a = délka, b = výška), 
+        výstupem bude obrazec složený z hvězdiček ve tvaru obrysu obdélníka. K oddělení jednotlivých hvězdiček použijte mezeru.
+      </i>
+    </p>
+    
+    <ul>
+      <li><b>Vstup:</b><br> 6, 4</li>
+      <li>
+        <b>Výstup:</b><br>
+        *&emsp;*&emsp;*&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;&nbsp;&nbsp;&emsp;*<br>
+        *&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;&nbsp;&nbsp;&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*&emsp;*&emsp;*
+      </li>
+    </ul>
+
+    <p>
+      Výsledek je možné ověřit v souboru <code>obdelnik-obrys</code>. Samotný příklad může být opět doplněn pomocným obrázkem <code>obdelnik-obrys.png</code>.
+    </p>
+
+    <a href="files/modelovani-obrazcu-i/obdelnik-obrys.png" target="_blank"><img src="files/modelovani-obrazcu-i/obdelnik-obrys.png" alt="Obdélník obrys" class="img--align-center"></a>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#6-cpp">obdelnik-obrys.cpp</a>
+  <a href="#6-js">obdelnik-obrys.js</a>
+  <a href="#6-py">obdelnik-obrys.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="6-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a inicializace    
+  const int a = 6; // Inicializace strany obdelnika
+  const int b = 4; // Inicializace strany obdelnika
+
+  // Vnejsi cyklus pro radky
+  for(int i = 1; i <= b; i++) {
+
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= a; j++) {            
+
+      // Vypiseme hvezdicky
+      if(i == 1 || i == b) {
+        cout << "* ";
+      }
+      else if(j == 1 || j == a) {
+        cout << "* ";
+      }
+
+      // Pro vnitrek vypiseme pouze mezery
+      else {
+        cout << "  ";
+      }
+
+    }
+
+    // Vypiseme novou radku
+    cout << endl;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="6-js">
+<pre data-language="js">
+// Deklarace a inicializace    
+const a = 6; // Inicializace strany obdelnika
+const b = 4; // Inicializace strany obdelnika
+
+// Vnejsi cyklus pro radky
+for(var i = 1; i <= b; i++) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= a; j++) {            
+
+    // Pridame do textoveho retezce hvezdicku
+    if(i == 1 || i == b) {
+      rad += "* ";
+    }
+    else if(j == 1 || j == a) {
+      rad += "* ";
+    }
+
+    // Pro vnitrek pridame do textoveho retezce hvezdicku
+    else {
+      rad += "  ";
+    }
+
+  }
+
+  // Vypiseme radku
+  console.log(rad);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="6-py">
+<pre data-language="py">
+# Deklarace a inicializace    
+a = 6 # Inicializace strany obdelnika
+b = 4 # Inicializace strany obdelnika
+
+# Vnejsi cyklus pro radky
+for i in range(1, b + 1):
+
+  for j in range(1, a + 1):   
+
+    # Vypiseme hvezdicky
+    if(i == 1 or i == b):
+      print("* ", sep="", end="")        
+    elif(j == 1 or j == a):
+      print("* ", sep="", end="")
+    
+    # Pro vnitrek vypiseme pouze mezery
+    else:
+      print("  ", sep="", end="")
+
+
+  # Vypiseme novou radku
+  print(end="\n")
+</pre>
+</div>
+</div>
+</div>
+
+  <hr>
+
+  <h3>
+    Možné problémy
+  </h3>
+
+  <ul>
+    <li>
+      Neočekávají se problémy napříč příklady. Možné záludnosti jsou již popsány v metodice
+    </li>
+  </ul>
+
+  </main>
+
+  <!-- site-main__side -->
+  <aside class="site-main__side" id="meta">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title">
+        Úvodní informace
+      </h2>
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        Úloha Modelování obrazců I je první úloha, ve které studenti pomocí zástupného znaku (v našem případě hvězdičky) tvoří 
+        obrazce. Tyto příklady jsou vhodné zejména k procvičení práce s cyklem for a vnořenými cykly.
+      </p>
+
+      <p class="link--anchor">
+        <a href="#metodika">▲ Metodika</a>
+      </p>
+    
+    </header>
+
+    <h3>
+      Cíle úlohy
+    </h3>
+    <ul>
+      <li>
+        Procvičení:
+        <ul>
+          <li>Cykly</li>
+          <li>Vnořené cykly</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>
+      Časová náročnost
+    </h3>
+    <p>
+      1 vyučovací hodina
+    </p>
+
+    <h3>
+      Obtížnost
+    </h3>
+    <img src="../assets/img/1.png" alt="*">
+
+    <h3>
+      Prerekvizity
+    </h3>
+    <ul>
+      <li>Cykly</li>
+      <li>Vnořené cykly</li>
+    </ul>
+
+    <h3>
+      Výsledné programy
+    </h3>
+    <ul>
+      <li>ctverec <a href="files/modelovani-obrazcu-i/ctverec.cpp">cpp</a> <a href="files/modelovani-obrazcu-i/ctverec.js">js</a> <a href="files/modelovani-obrazcu-i/ctverec.py">py</a></li>
+      <li>ctverec-vnoreny <a href="files/modelovani-obrazcu-i/ctverec-vnoreny.cpp">cpp</a> <a href="files/modelovani-obrazcu-i/ctverec-vnoreny.js">js</a> <a href="files/modelovani-obrazcu-i/ctverec-vnoreny.py">py</a></li>
+      <li>ctverec-obrys <a href="files/modelovani-obrazcu-i/ctverec-obrys.cpp">cpp</a> <a href="files/modelovani-obrazcu-i/ctverec-obrys.js">js</a> <a href="files/modelovani-obrazcu-i/ctverec-obrys.py">py</a></li>
+      <li>obdelnik <a href="files/modelovani-obrazcu-i/obdelnik.cpp">cpp</a> <a href="files/modelovani-obrazcu-i/obdelnik.js">js</a> <a href="files/modelovani-obrazcu-i/obdelnik.py">py</a></li>
+      <li>obdelnik-vnoreny <a href="files/modelovani-obrazcu-i/obdelnik-vnoreny.cpp">cpp</a> <a href="files/modelovani-obrazcu-i/obdelnik-vnoreny.js">js</a> <a href="files/modelovani-obrazcu-i/obdelnik-vnoreny.py">py</a></li>
+      <li>obdelnik-obrys <a href="files/modelovani-obrazcu-i/obdelnik-obrys.cpp">cpp</a> <a href="files/modelovani-obrazcu-i/obdelnik-obrys.js">js</a> <a href="files/modelovani-obrazcu-i/obdelnik-obrys.py">py</a></li>
+    </ul>
+
+    <h3>
+      Soubory
+    </h3>
+    <ul>
+      <li><a href="files/modelovani-obrazcu-i/modelovani-obrazcu-i.docx">Metodika</a></li>
+      <li><a href="files/modelovani-obrazcu-i/ctverec.png" target="_blank">ctverec.png</a></li>
+      <li><a href="files/modelovani-obrazcu-i/ctverec-obrys.png" target="_blank">ctverec-obrys.png</a></li>
+      <li><a href="files/modelovani-obrazcu-i/obdelnik.png" target="_blank">obdelnik.png</a></li>
+      <li><a href="files/modelovani-obrazcu-i/obdelnik-obrys.png" target="_blank">obdelnik-obrys.png</a></li>
+    </ul>
+    
+
+  </aside>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/scripts.js"></script>
+
+</body>
+</html>

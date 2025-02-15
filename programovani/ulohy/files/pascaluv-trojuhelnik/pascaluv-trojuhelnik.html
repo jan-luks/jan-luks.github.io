@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="cs" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="Jan Lukš">    
+    <title>Pascalův Trojúhelník | Sbírka programovacích úloh</title>
+    <link rel="shortcut icon" href="../../../assets/img/favicon.png" type="image/png">
+  </head>
+  <style>
+    
+    body {
+      padding: 5%;
+      text-align: center;
+    }
+
+    form {
+      margin-bottom: 16px;
+    }
+
+    #triangle {
+      display: inline-block;
+      font-size: 0;
+      white-space: nowrap;
+      text-align: center;
+      padding-bottom: 17px;
+    }
+
+    #triangle span {
+      width: 55px;
+      height: 64px;
+      display: inline-block;
+      font-size: 15px;
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAABACAYAAAC+/O8/AAAABHNCSVQICAgIfAhkiAAABJxJREFUaEPtW09ImmEY90+mZo1RREWXHYQgKrpUOIisDv2HQblTRW2ww7pkm+bY2NjYmOmmXuwQbEV1mh2C/h/6H5PqMiiCwMMuURHFWJmamXveKGcu9f0+/extfIK35/3e5/f+fs/zfPL+5HJi9NFoNCqv16vmcrk6rVarj8W2XKY3aW9vl0skkr7U1NT0mpoa4djYmGtvb2/Hbre3mEymOSb3ZwwcgLoHoL7weLz7CoVClJub68OxtrbGsVgszrOzs+8A8jGA/MkEyKiDA1B3ExISNG63W1lWViaorKwMusfk5KR3aWnJDnI1Hx8fawHkr2iCjCq4jo6Olvj4+E/Z2dmJSILJyclhcz04OOAgqW5sbBydnJw8NxgMfWEXYQZEBRywlQ8S7IVvFkhQLJVKMbf/G2az2ZBUHSDTTfi2Aos/KD8kYEFE4C4k2AMSfNDQ0CAoLCyMNB/OysoKZ2hoyC0QCIZBqk8ikSptcKi1ezyed0VFRfzq6mqBWCyOGNjlAxwOB2d8fNy9vLzs4fP5r+mODsrgUGsXCoXfMjIy7jQ1NWHVFV3UqB4HBgZc29vbv10u10OqowMbnH9rb25uFtGpK7ogUT329/dTHh1hwVFp7XSTx12HRsfMzAyqRyPO6AgJDrV2GMLdeXl5PGgYwmjWFS6gwDhUj9BwsEbHteAuXpmMKSkp0rq6usRYShAXNJLqyMjI0f7+vg1Gh/K6erwCjonWjpss3bhQo8MHTq1Wv4fXoGelpaV8uVwe1dZON3HcdUiqc3Nz7tnZWQ/86vis0+leobXcWLZ23GTpxgWODgTO29bWxiGxruiCRPVoNpvPmfMajUa6zyF2nVKpZMERy06oxFjmbiVtkDTLHMscgSfAypJAUrBSYpnDOiYCg1jmCCQFKyWWOaxjIjCIZY5AUrBSYpnDOiYCg1jmCCQFKyWWOaxjIjCIZY5AUrBSYpnDOiYCg1jmCCQFKyUfc//zFZYc/FqWzMzMpMbGRkZ9JVhHHkEQunwcHBx0bW1tHYKPTOG7NlapVB/g2rijvLycX1JScuuujefn593T09Po2tig1+tfojP658JfJBL1gA/y3MtVUFAQwTnGZunq6uq5VwwsJcNOp/OKVyyoVQM8k0Zwt0pra2uJtWqMjo4egevWBoab8FaNwLOGjtOK/JM5OTmS+vp6Ikw2qK7A9OZaX1+3I38mXHn3BtMIlj0KnEMvwKHXjpyvFRUVYdcwJcipqalzexQ4+Uxgz/gYzq6InSgytoFUv8bFxcmgHq94lpkCc/lc5ImGunKenp5aQYKPcD3R2OAuN0K+lViNjsDWzpglMZCdzs5ONUj1rUwm41dVVUV1dCBH0MTEhNtqtSIz6Zuuri4dHXVQZs5/E+QVi/boCNXaqQKMCJyfVPOhHnuTkpKyoB5pG7ihrhyHh4ebUFc3b+AONTrA94z1Kkeltd8Ic4FSRaMD3hieFhcXS4KNDlRXCwsL3sXFRTu8EXXjtPYbB+cn1aCjg25rJwac/+iAeuxLS0tLh84qhA7o2t3d3YG6ur1/VLpudMCvDhW8tevptnaqzP0BbAX5X1m09zsAAAAASUVORK5CYII=) center center no-repeat;
+      padding-top: 23px;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0 -1px -17px -1px;
+    }
+
+  </style>
+  <body>
+  <form id="triangle-input">
+    <input type="number" min="1" max="100" value="8" id="rows">
+    <input type="submit">
+  </form>
+  <div id="triangle"></div>
+  <script>
+
+    // Get form input
+    var input = document.getElementById('rows');
+
+    // On submit
+    document.getElementById('triangle-input').onsubmit = function(e) {
+
+    // Prevent default
+    e.preventDefault();
+
+    // Execute triangle
+    buildTriangle(input.value);
+
+    }
+
+    // Define function
+    var buildTriangle = function(rows) {
+
+      // Define variables
+      var array = [];
+      var triangle = document.getElementById('triangle');
+      var span;
+
+      // Empty triangle
+      triangle.innerHTML = '';
+
+      // Outter loop
+      for(var i = 0; i < rows; i++ ) {
+
+        // Define array
+        array[i] = [];
+
+        // New row
+        if(i !== 0 && i !== rows) {
+          triangle.appendChild(document.createElement('br'));
+        }
+
+        // Final loop
+        for(var k = 0; k <= i; k++) {
+
+          // For first and last
+          if(k == 0 || k == i) {
+
+            // Always add 1
+            array[i][k] = 1;
+
+            // Create span
+            span = document.createElement('span');
+
+            // Add value to span
+            span.textContent = array[i][k];
+
+            // Append it
+            triangle.appendChild(span);
+
+          }
+
+          // For inner values
+          else {
+
+            // Count!
+            array[i][k] = array[i-1][k-1] + array[i-1][k];
+
+            // Create span
+            span = document.createElement('span');
+
+            // Add value to span
+            span.textContent = array[i][k];
+
+            // Append it
+            triangle.appendChild(span);
+
+          }
+
+        }
+
+      }
+
+    }
+
+  </script>
+  </body>
+</html>

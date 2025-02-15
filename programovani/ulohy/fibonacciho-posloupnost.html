@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fibonacciho posloupnost | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="../index.html">Úvod</a>
+    <a href="../ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__content -->
+  <main class="site-main__content" id="metodika">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Fibonacciho posloupnost
+      </h1>
+
+      <p class="link--anchor">
+        <a href="#meta">▼ Úvodní informace</a>
+      </p>
+
+    </header>
+
+    <p>
+      Tato úloha je rozdělena na dva samostatné příklady, které jsou na sobě nezávislé.
+    </p>
+
+    <p>
+      V prvním budeme pouze vypisovat Fibonnaciho posloupnost, v druhé N-tý prvek posloupnosti. Princip Fibonnaciho posloupnosti spočívá v tom, že 
+      N-tý prvek posloupnosti se spočte jako součet dvou prvků předchozích. První dva prvky posloupnosti jsou dané, a to 0 a 1. Třetím prvkem je 
+      součet těchto čísel, tedy 1, čtvrtým součet druhého a třetího a tak dále. Toto studentům vysvětlíme. Můžeme se zeptat, jestli někdo ví, 
+      co Fibonacciho posloupnost je. Pokud ne, tak jim ji vysvětlíme.
+    </p>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Napište program, který vypíše Fibonacciho posloupnost. Vstup označuje počet členů posloupnosti.
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 30</li>
+      <li><b>Výstup:</b><br>0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 
+        10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229</li>
+    </ul>
+
+    <p>
+      Z podstaty věci je možné k řešení přistupovat třemi způsoby:
+    </p>
+
+    <ol>
+      <li>
+        Pomocí dvou proměnných, které nám budou reprezentovat aktuální prvky posloupnosti a jedné pomocné proměnné. Výsledný program je pod názvem 
+        <code>vypis-fibonacci-promenne</code> v příslušném programovacím jazyce.
+      </li>
+      <li>
+        Pomocí pole – vytvoříme si pole do kterého budeme postupně na příslušné klíče ukládat jednotlivé hodnoty posloupnosti. Výsledný program 
+        je pod názvem <code>vypis-fibonacci-pole</code> v příslušném programovacím jazyce.
+      </li>
+      <li>
+        Vypočteme jednotlivé prvky pomocí rekurze. Výsledný program je pod názvem <code>vypis-fibonacci-rekurze</code> v příslušném programovacím jazyce.
+      </li>
+    </ol>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#1-cpp">vypis-fibonacci-promenne.cpp</a>
+  <a href="#1-js">vypis-fibonacci-promenne.js</a>
+  <a href="#1-py">vypis-fibonacci-promenne.py</a>
+  <a href="#2-cpp">vypis-fibonacci-pole.cpp</a>
+  <a href="#2-js">vypis-fibonacci-pole.js</a>
+  <a href="#2-py">vypis-fibonacci-pole.py</a>
+  <a href="#3-cpp">vypis-fibonacci-rekurze.cpp</a>
+  <a href="#3-js">vypis-fibonacci-rekurze.js</a>
+  <a href="#3-py">vypis-fibonacci-rekurze.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="1-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a incializace
+  int n = 30; // Inicializujeme velikost Fibonacciho posloupnosti
+  int c1 = 0; // Inicializujeme prvni Fibonacciho clen
+  int c2 = 1; // Inicializujeme druhĂ˝ Fibonacciho clen
+  int pom = 0; // Inicializujeme pomocnou promennou
+
+  // Vypiseme prvni dva cleny
+  cout << c1 << ", " << c2 << ", ";
+
+  // Cyklus pro vypis posloupnosti do n 
+  for(int i = 2; i < n; i++) {
+
+    // Do pomocne promenne vlozim aktualni clen
+    pom = c2;
+
+    // Do aktualniho clenu vlozim soucet
+    c2 = c1 + c2;
+
+    // Do predposledniho clenu vlozim clen z pomocne (posledni)
+    c1 = pom;
+
+    // Vypiseme nove vypocitany clen
+    cout << c2 << endl;
+
+  }
+  
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="1-js">
+<pre data-language="js">
+// Deklarace a incializace
+n = 30; // Inicializujeme velikost Fibonacciho posloupnosti
+c1 = 0; // Inicializujeme prvni Fibonacciho clen
+c2 = 1; // Inicializujeme druhy Fibonacciho clen
+pom = 0; // Inicializujeme pomocnou promennou
+
+console.log(c1 + ", " + c2 + ", " );
+
+// Cyklus pro vypis posloupnosti do n  
+for(i = 2; i < n; i++) {
+
+  // Do pomocne promenne vlozim aktualni clen
+  pom = c2;
+
+  // Do aktualniho clenu vlozim soucet
+  c2 = c1 + c2;
+
+  // Do predposledniho clenu vlozim clen z pomocne (posledni)
+  c1 = pom;
+
+  // Vypiseme nove vypocitany clen
+  console.log(c2);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="1-py">
+<pre data-language="py">
+# Deklarace a incializace
+n = 30 # Inicializujeme velikost Fibonacciho posloupnosti
+c1 = 0 # Inicializujeme prvni Fibonacciho clen
+c2 = 1 # Inicializujeme druhy Fibonacciho clen
+pom = 0 # Inicializujeme pomocnou promennou
+
+print(c1, c2, sep=", ", end=", ")
+
+# Cyklus pro plneni pole do n 
+for i in range(2, n):
+
+  # Do pomocne promenne vlozim aktualni clen
+  pom = c2
+
+  # Do aktualniho clenu vlozim soucet
+  c2 = c1 + c2
+
+  # Do predposledniho clenu vlozim clen z pomocne (posledni)
+  c1 = pom
+
+  # Vypiseme nove vypocitany clen
+  print(c2, end=", ")  
+</pre>
+</div>
+<div class="tabs__content" id="2-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a incializace
+  int n = 30; // Inicializujeme velikost Fibonacciho posloupnosti
+  int pole[n - 1]; // Inicializujeme pole
+  pole[0] = 0; // Inicializujeme prvni Fibonacciho clen
+  pole[1] = 1; // Inicializujeme druhy Fibonacciho clen
+
+  // Cyklus pro plneni pole do n 
+  for(int i = 2; i < n; i++) {
+
+    // Na klic vlozime hodnoty dvou predchozich klicu
+    pole[i] = pole[i-2] + pole[i-1];
+
+  }
+
+  // Cyklus pro vypsani posloupnosti
+  for(int i = 0; i < n; i++) {
+
+    // Vypiseme ve tvaru klic - hodnota
+    cout << i << " - " << pole[i] << endl;
+
+  }
+  
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="2-js">
+<pre data-language="js">
+// Deklarace a incializace
+n = 30; // Inicializujeme velikost Fibonacciho posloupnosti
+pole = []; // Inicializujeme pole
+pole[0] = 0; // Inicializujeme prvni Fibonacciho clen
+pole[1] = 1; // Inicializujeme druhy Fibonacciho clen
+
+// Cyklus pro plneni pole do n 
+for(i = 2; i < n; i++) {
+
+  // Na klic vlozime hodnoty dvou predchozich klicu
+  pole[i] = pole[i-2] + pole[i-1];
+
+}
+
+// Cyklus pro vypsani posloupnosti
+for(i = 0; i < n; i++) {
+
+  // Vypiseme ve tvaru klic - hodnota
+  console.log(i + " - " + pole[i]);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="2-py">
+<pre data-language="py">
+# Deklarace a incializace
+n = 30 # Inicializujeme velikost Fibonacciho posloupnosti
+pole = [] # Inicializujeme pole
+pole.append(0) # Inicializujeme prvni Fibonacciho clen
+pole.append(1) # Inicializujeme druhy Fibonacciho clen
+
+# Cyklus pro plneni pole do n 
+for i in range(2, n):
+
+  # Na klic vlozime hodnoty dvou predchozich klicu
+  pole.append(pole[i-2] + pole[i-1])
+
+
+# Cyklus pro vypsani posloupnosti
+for i in range(n):
+
+  # Vypiseme ve tvaru klic - hodnota
+  print(i, "-", pole[i])
+</pre>
+</div>
+<div class="tabs__content" id="3-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+  
+// Deklarace a inicializace funkci
+int fibonaccihoPosloupnost(int n); // Funkce pro najiti N-teho Fibonacciho cisla pomoci rekurze
+
+
+int main() {
+
+  // Deklarace a inicializace
+  int n = 30; // Inicializujeme kolikate cislo posloupnosti hledame
+
+  // Vypiseme posloupnost
+  for(int i = 0; i < n; i++) {
+    cout << fibonaccihoPosloupnost(i) << endl;
+  }
+    
+}
+
+// Funkce pro najiti N-teho Fibonacciho cisla pomoci rekurze
+int fibonaccihoPosloupnost(int n) {
+
+  // Pokud je jsme u jednicky
+  if(n <= 1) {
+
+    // Vratime 1
+    return n;
+
+  }
+
+  // V odstatnich pripadech vratime soucet dvou predchozich cisel posloupnosti
+  return fibonaccihoPosloupnost(n - 1) + fibonaccihoPosloupnost(n - 2);
+    
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="3-js">
+<pre data-language="js">
+// Deklarace a inicializace
+var n = 30; // Inicializujeme kolikate cislo posloupnosti hledame
+
+// Vypiseme posloupnost
+for(var i = 0; i < n; i++) {
+  console.log(fibonaccihoPosloupnost(i));
+}
+
+
+// Funkce pro najiti N-teho Fibonacciho cisla pomoci rekurze
+function fibonaccihoPosloupnost(n) {
+
+  // Pokud je jsme u jednicky
+  if(n <= 1) {
+
+    // Vratime 1
+    return n;
+
+  }
+
+  // V odstatnich pripadech vratime soucet dvou predchozich cisel posloupnosti
+  return fibonaccihoPosloupnost(n - 1) + fibonaccihoPosloupnost(n - 2);
+  
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="3-py">
+<pre data-language="py">
+# Funkce pro testovani prvocisla
+def fibonaccihoPosloupnost(n):
+
+  # Pokud je jsme u jednicky
+  if(n <= 1):
+
+    # Vratime 1
+    return n
+
+  # V odstatnich pripadech vratime soucet dvou predchozich cisel posloupnosti
+  return fibonaccihoPosloupnost(n - 1) + fibonaccihoPosloupnost(n - 2)
+
+
+# Deklarace a incializace
+n = 30 # Inicializujeme kolikate cislo posloupnosti hledame
+
+# Vypiseme
+for i in range(n):
+    print(fibonaccihoPosloupnost(i))
+</pre>
+</div>
+</div>
+</div>
+
+    <p>
+      Výše zmíněné způsoby přístupu jsou seřazeny podle pravděpodobného zastoupení mezi studenty. Je i možné, s přihlédnutím k okolnostem, že například 
+      rekurzivní přístup si nevybere žádný ze studentů. Algoritmus je natolik triviální, že by s ním studenti neměli mít žádné problémy.
+    </p>
+
+    <p>
+      Po zvládnutém napsání programů nyní záleží na vyučujícím, jaký zvolí další postup. Můžeme rozproudit diskusi, která je ve vlastní sekci níže, ohledně 
+      možných způsobů řešení, či studenty vyzvat, aby si sami vyzkoušeli napsat jiné řešení. Vhodné je také s nimi zkusit, pokud programují například v 
+      jazyce C++, vypsat 50 čísel posloupnosti. Pravděpodobně narazí na limit datového typu integer. Pro ilustraci poslouží seznam níže, kde je 
+      uvedeno, jaký poslední člen Fibonacciho posloupnosti daný datový typ zvládne bez přetečení vypsat (unsigned varianta vždy o jedno číslo 
+      více):
+    </p>
+
+    <ul>
+      <li>short int: 23</li>
+      <li>int: 46</li>
+      <li>long long int: 92</li>
+    </ul>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse
+    </h3>
+
+    <ol>
+      <li>Jakými dalšími způsoby se dá tato posloupnost vypsat?</li>
+      <li>Jakou výhodu/nevýhodu má ten vámi zvolený způsob?</li>
+      <li>Co se stane, pokud chceme vypsat 50 členů (v případě, že programujeme v C++)? Nastane nějaký problém? Jak ho případně ošetřit?</li>
+      <li>Jaký je rozdíl mezi unsigned integerem a integerem (v případě, že programujeme v C++)?</li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+
+    <ul>
+      <li>Nepředpokládají se dílčí problémy.</li>
+    </ul>
+
+    <hr>
+
+    <h2>
+      Výpis N-tého prvku posloupnosti
+    </h2>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Napište program, který vypíše Fibonacciho N-tý prvek. Vstup označuje, který prvek má být vypsán.
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 30</li>
+      <li><b>Výstup:</b><br>514229</li>
+    </ul>
+
+    <p>
+      Poznámka: Do posloupnosti patří taktéž nula, která je označována jako první prvek posloupnosti.
+    </p>
+
+    <p>
+      K řešení je možno přistupovat stejným způsobem jako ve výpisu posloupnosti:
+    </p>
+
+    <ol>
+      <li>Pomocí dvou proměnných – výsledný program je pod názvem <code>clen-fibonacci-promenne</code> v příslušném programovacím jazyce.</li>
+      <li>Pomocí pole – výsledný program je pod názvem <code>clen-fibonacci-pole</code> v příslušném programovacím jazyce.</li>
+      <li>Pomocí rekurze – výsledný program je pod názvem <code>clen-fibonacci-rekurze</code> v příslušném programovacím jazyce.</li>
+    </ol>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#4-cpp">clen-fibonacci-promenne.cpp</a>
+  <a href="#4-js">clen-fibonacci-promenne.js</a>
+  <a href="#4-py">clen-fibonacci-promenne.py</a>
+  <a href="#5-cpp">clen-fibonacci-pole.cpp</a>
+  <a href="#5-js">clen-fibonacci-pole.js</a>
+  <a href="#5-py">clen-fibonacci-pole.py</a>
+  <a href="#6-cpp">clen-fibonacci-rekurze.cpp</a>
+  <a href="#6-js">clen-fibonacci-rekurze.js</a>
+  <a href="#6-py">clen-fibonacci-rekurze.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="4-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a incializace
+  int n = 30; // Inicializujeme velikost Fibonacciho posloupnosti
+  int c1 = 0; // Inicializujeme prvni Fibonacciho clen
+  int c2 = 1; // Inicializujeme druhĂ˝ Fibonacciho clen
+  int pom = 0; // Inicializujeme pomocnou promennou
+
+  // Cyklus pro vypis posloupnosti do n 
+  for(int i = 2; i < n; i++) {
+
+    // Do pomocne promenne vlozim aktualni clen
+    pom = c2;
+
+    // Do aktualniho clenu vlozim soucet
+    c2 = c1 + c2;
+
+    // Do predposledniho clenu vlozim clen z pomocne (posledni)
+    c1 = pom;
+
+    // Vypiseme n-ty clen
+    if(i == n - 1) {            
+      cout << c2;
+    }
+
+  }
+  
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="4-js">
+<pre data-language="js">
+// Deklarace a incializace
+n = 30; // Inicializujeme velikost Fibonacciho posloupnosti
+c1 = 0; // Inicializujeme prvni Fibonacciho clen
+c2 = 1; // Inicializujeme druhy Fibonacciho clen
+pom = 0; // Inicializujeme pomocnou promennou
+
+// Cyklus pro vypis posloupnosti do n  
+for(i = 2; i < n; i++) {
+
+  // Do pomocne promenne vlozim aktualni clen
+  pom = c2;
+
+  // Do aktualniho clenu vlozim soucet
+  c2 = c1 + c2;
+
+  // Do predposledniho clenu vlozim clen z pomocne (posledni)
+  c1 = pom;
+
+  // Vypiseme n-ty clen
+  if(i == n - 1) {   
+    console.log(c2);
+  }
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="4-py">
+<pre data-language="py">
+# Deklarace a incializace
+n = 30 # Inicializujeme velikost Fibonacciho posloupnosti
+c1 = 0 # Inicializujeme prvni Fibonacciho clen
+c2 = 1 # Inicializujeme druhy Fibonacciho clen
+pom = 0 # Inicializujeme pomocnou promennou
+
+# Cyklus pro plneni pole do n 
+for i in range(2, n):
+
+  # Do pomocne promenne vlozim aktualni clen
+  pom = c2
+
+  # Do aktualniho clenu vlozim soucet
+  c2 = c1 + c2
+
+  # Do predposledniho clenu vlozim clen z pomocne (posledni)
+  c1 = pom
+
+  # Vypiseme n-ty clen
+  if i == n - 1:
+    print(c2)
+</pre>
+</div>
+<div class="tabs__content" id="5-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a incializace
+  int n = 30; // Inicializujeme velikost Fibonacciho posloupnosti
+  int pole[n - 1]; // Inicializujeme pole
+  pole[0] = 0; // Inicializujeme prvni Fibonacciho clen
+  pole[1] = 1; // Inicializujeme druhy Fibonacciho clen
+
+  // Cyklus pro plneni pole do n 
+  for(int i = 2; i < n; i++) {
+
+    // Na klic vlozime hodnoty dvou predchozich klicu
+    pole[i] = pole[i-2] + pole[i-1];
+
+  }
+
+  // Vypiseme n-ty clen
+  cout << pole[n - 1] << endl;
+  
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="5-js">
+<pre data-language="js">
+// Deklarace a incializace
+n = 30; // Inicializujeme velikost Fibonacciho posloupnosti
+pole = []; // Inicializujeme pole
+pole[0] = 0; // Inicializujeme prvni Fibonacciho clen
+pole[1] = 1; // Inicializujeme druhy Fibonacciho clen
+
+// Cyklus pro plneni pole do n 
+for(i = 2; i < n; i++) {
+
+  // Na klic vlozime hodnoty dvou predchozich klicu
+  pole[i] = pole[i-2] + pole[i-1];
+
+}
+
+// Vypiseme n-ty clen
+console.log(pole[n - 1]);
+</pre>  
+</div>
+
+<div class="tabs__content" id="5-py">
+<pre data-language="py">
+# Deklarace a incializace
+n = 30 # Inicializujeme velikost Fibonacciho posloupnosti
+pole = [] # Inicializujeme pole
+pole.append(0) # Inicializujeme prvni Fibonacciho clen
+pole.append(1) # Inicializujeme druhy Fibonacciho clen
+
+# Cyklus pro plneni pole do n 
+for i in range(2, n):
+
+  # Na klic vlozime hodnoty dvou predchozich klicu
+  pole.append(pole[i-2] + pole[i-1])
+
+
+# Vypiseme n-ty clen
+print(pole[n - 1])
+</pre>
+</div>
+<div class="tabs__content" id="6-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+  
+// Deklarace a inicializace funkci
+int fibonaccihoPosloupnost(int n); // Funkce pro najiti N-teho Fibonacciho cisla pomoci rekurze
+
+
+int main() {
+
+  // Deklarace a inicializace
+  int n = 30; // Inicializujeme kolikate cislo posloupnosti hledame
+
+  // Vypiseme n-ty clen
+  cout << fibonaccihoPosloupnost(n - 1) << endl;
+    
+}
+
+// Funkce pro najiti N-teho Fibonacciho cisla pomoci rekurze
+int fibonaccihoPosloupnost(int n) {
+
+  // Pokud je jsme u jednicky
+  if(n <= 1) {
+
+    // Vratime 1
+    return n;
+
+  }
+
+  // V odstatnich pripadech vratime soucet dvou predchozich cisel posloupnosti
+  return fibonaccihoPosloupnost(n - 1) + fibonaccihoPosloupnost(n - 2);
+    
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="6-js">
+<pre data-language="js">
+// Deklarace a inicializace
+var n = 30; // Inicializujeme kolikate cislo posloupnosti hledame
+
+// Vypiseme N-ty clen
+console.log(fibonaccihoPosloupnost(n - 1));
+
+
+// Funkce pro najiti N-teho Fibonacciho cisla pomoci rekurze
+function fibonaccihoPosloupnost(n) {
+
+  // Pokud je jsme u jednicky
+  if(n <= 1) {
+
+    // Vratime 1
+    return n;
+
+  }
+
+  // V odstatnich pripadech vratime soucet dvou predchozich cisel posloupnosti
+  return fibonaccihoPosloupnost(n - 1) + fibonaccihoPosloupnost(n - 2);
+  
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="6-py">
+<pre data-language="py">
+# Funkce pro testovani prvocisla
+def fibonaccihoPosloupnost(n):
+
+  # Pokud je jsme u jednicky
+  if(n <= 1):
+
+    # Vratime 1
+    return n
+
+  # V odstatnich pripadech vratime soucet dvou predchozich cisel posloupnosti
+  return fibonaccihoPosloupnost(n - 1) + fibonaccihoPosloupnost(n - 2)
+
+
+# Deklarace a incializace
+n = 30 # Inicializujeme kolikate cislo posloupnosti hledame
+
+# Vypiseme N-ty clen
+print(fibonaccihoPosloupnost(n - 1))
+</pre>
+</div>
+</div>
+</div>
+
+    <p>
+      Způsob postupu řešení je analogický k tomu ve výpise posloupnosti. Jedná se o modifikaci prvního příkladu, který můžeme využít v případě, že 
+      nám v hodině zbyde čas.
+    </p>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse
+    </h3>
+
+    <ul>
+      <li>Stejné jako v první části</li>
+    </ul>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+
+    <ul>
+      <li>Nepředpokládají se dílčí problémy.</li>
+    </ul>
+
+  </main>
+
+  <!-- site-main__side -->
+  <aside class="site-main__side" id="meta">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title">
+        Úvodní informace
+      </h2>
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        Fibonacciho posloupnost se skvěle hodí k triviálnímu testování různých dovedností. Jednoduchost výpočtu této posloupnosti 
+        nám zároveň dává velký prostor k osobní manipulaci s celkovým průběhem výuky. V prvním příkladu budou studenti tvořit 
+        program, který vypíše celou posloupnost o N členech a v druhém program vypíše právě N-tý člen.
+      </p>
+
+      <p class="link--anchor">
+        <a href="#metodika">▲ Metodika</a>
+      </p>
+    
+    </header>
+
+    <h3>
+      Cíle úlohy
+    </h3>
+    <ul>
+      <li>
+        Procvičení:
+        <ul>
+          <li>Pole</li>
+          <li>Cykly</li>
+          <li>Rekurze</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>
+      Časová náročnost
+    </h3>
+    <p>
+      1-2 vyučovací hodiny
+    </p>
+
+    <h3>
+      Obtížnost
+    </h3>
+    <img src="../assets/img/1.png" alt="*">
+
+    <h3>
+      Prerekvizity
+    </h3>
+    <ul>
+      <li>Pole</li>
+      <li>Cykly</li>
+      <li>Rekurze</li>
+    </ul>
+
+    <h3>
+      Výsledné programy
+    </h3>
+    <ul>
+      <li>vypis-fibonacci-promenne <a href="files/fibonacciho-posloupnost/vypis-fibonacci-promenne.cpp">cpp</a> <a href="files/fibonacciho-posloupnost/vypis-fibonacci-promenne.js">js</a> <a href="files/fibonacciho-posloupnost/vypis-fibonacci-promenne.py">py</a></li>
+      <li>vypis-fibonacci-pole <a href="files/fibonacciho-posloupnost/vypis-fibonacci-pole.cpp">cpp</a> <a href="files/fibonacciho-posloupnost/vypis-fibonacci-pole.js">js</a> <a href="files/fibonacciho-posloupnost/vypis-fibonacci-pole.py">py</a></li>
+      <li>vypis-fibonacci-rekurze <a href="files/fibonacciho-posloupnost/vypis-fibonacci-rekurze.cpp">cpp</a> <a href="files/fibonacciho-posloupnost/vypis-fibonacci-rekurze.js">js</a> <a href="files/fibonacciho-posloupnost/vypis-fibonacci-rekurze.py">py</a></li>
+      <li>clen-fibonacci-promenne <a href="files/fibonacciho-posloupnost/clen-fibonacci-promenne.cpp">cpp</a> <a href="files/fibonacciho-posloupnost/clen-fibonacci-promenne.js">js</a> <a href="files/fibonacciho-posloupnost/clen-fibonacci-promenne.py">py</a></li>
+      <li>clen-fibonacci-pole <a href="files/fibonacciho-posloupnost/clen-fibonacci-pole.cpp">cpp</a> <a href="files/fibonacciho-posloupnost/clen-fibonacci-pole.js">js</a> <a href="files/fibonacciho-posloupnost/clen-fibonacci-pole.py">py</a></li>
+      <li>clen-fibonacci-rekurze <a href="files/fibonacciho-posloupnost/clen-fibonacci-rekurze.cpp">cpp</a> <a href="files/fibonacciho-posloupnost/clen-fibonacci-rekurze.js">js</a> <a href="files/fibonacciho-posloupnost/clen-fibonacci-rekurze.py">py</a></li>
+    </ul>
+
+    <h3>
+      Soubory
+    </h3>
+    <ul>
+      <li><a href="files/fibonacciho-posloupnost/fibonacciho-posloupnost.docx">Metodika</a></li>
+    </ul>
+
+  </aside>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/scripts.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mersennova prvočísla | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="../index.html">Úvod</a>
+    <a href="../ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__content -->
+  <main class="site-main__content" id="metodika">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Mersennova prvočísla
+      </h1>
+
+      <p class="link--anchor">
+        <a href="#meta">▼ Úvodní informace</a>
+      </p>
+
+    </header>
+
+    <p>
+      Nejprve si představme, co jsou Mersennova prvočísla. Mersennovo prvočíslo je takové prvočíslo, pro které platí matematický zápis: 
+      M<sub>N</sub>=2<sup>N</sup>-1. K vysvětlení je možné použít pomocný soubor <code>mersennova-prvocisla.png</code>, kde jsou 
+      jednotlivá čísla (mocniny dvojky zmenšené o jedna) představena a jejich prvočíselnost verifikována. Seznámíme s jejich 
+      tvořením studenty. Součástí pomocného slidu jsou vybrané zajímavosti spojené s těmito čísly. Můžeme přidat zajímavosti 
+      o Marin Mersennovi, po kterém jsou tato čísla pojmenována (například při tvoření seznamu do něj zařadil čísla, která 
+      nejsou prvočísly a naopak).
+    </p>
+
+    <a href="files/mersennova-prvocisla/mersennova-prvocisla.png" target="_blank"><img src="files/mersennova-prvocisla/mersennova-prvocisla.png" alt="Mersennova prvočísla" class="img--align-center"></a>
+    
+    <p>
+      Mersennova prvočísla se dají ověřit efektivnější metodou (pomocí rekurentní posloupnosti) než bude naše testování hrubou silou. 
+      Samotná rekurentní posloupnost není nikterak řešena, jelikož nezapadá do celkového konceptu úlohy.
+    </p>
+
+    <p>
+      Tato úloha je rozdělena na dvě části. V první jsou studenti postaveni před problém – najdi všechna Mersennova prvočísla menší 
+      než exponent N. V druhé mají za úkol pomocí internetu najít jednoduché zefektivnění, a to aplikovat.
+    </p>
+
+    <p>
+      Zadání je pro obě části stejné a může znít takto:
+      <i class="task">
+        Vymyslete algoritmus pro hledání Mersennovo prvočísel, kde vstupní hodnota bude maximální testovaný exponent. Výstupem programu 
+        bude výčet jednotlivých prvočísel.
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 20</li>
+      <li><b>Výstup:</b><br>3, 7, 31, 127, 8191, 131071, 524287</li>
+    </ul>
+
+    <hr>
+
+    <h2>
+      Hledání hrubou silou
+    </h2>
+    <p>
+      Se studenty zahájíme diskusi o možném řešení. Tu směřujeme k nalezení toho nejjednoduššího (z pohledu programátora) – hledání hrubou silou, 
+      tedy bez ohledu na operační náročnost algoritmu. Zde nám nejde o efektivitu algoritmu.
+    </p>
+    <p>
+      Po diskusi se studenti pouštějí do samostatné práce. V případě, že někteří žáci budou rychle hotovi, můžeme jim doplnit zadání tak, že místo 
+      knihovní funkce pro výpočet mocniny si mají naprogramovat funkci vlastní (pro základ i exponent v oboru přirozených čísel). Mohou přitom 
+      využít cyklus, popřípadě rekurzi. Lze je navést návodnou otázkou: <i>Existuje jiný způsob, jak vypočítat mocninu čísla, kromě toho, 
+      který používáš?</i>
+    </p>
+    <p>
+      Po skončení je možné zařadit diskusi žákovských řešení (není ale nutná) nebo promítnout přiložený program <code>1_brute-force<b>A</b></code> v námi zvoleném jazyce, 
+      který společně s žáky probereme. 
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#1-cpp">1_brute-forceA.cpp</a>
+  <a href="#1-js">1_brute-forceA.js</a>
+  <a href="#1-py">1_brute-forceA.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="1-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+// Deklarace a inicializace funkci
+bool jePrvocislo(int i); // Funkce pro testovani prvocisla
+
+
+int main() {
+
+	// Deklarace a inicializace 
+	const int i = 20; // Inicializujeme posledni testovane cislo
+
+	// Cyklus pro testovani cisel
+	for(int j = 2; j <= i; j++) {
+
+		// Inicializujeme mocninu v poradi
+		int k = pow(2, j) - 1;
+
+		// Pokud se jedna o prvocislo
+		if(jePrvocislo(k)) {
+
+			// Vypiseme ho
+			cout << k << endl;
+
+		}
+
+	}
+
+}
+
+// Funkce pro testovani prvocisla
+bool jePrvocislo(int i) {
+
+	// Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+	for(int j = 2; j <= sqrt(i); j++) {
+
+		// Pokud najdeme jakehokoliv delitele
+		if(i % j == 0) {
+
+			// Vratime false
+			return false;
+
+		} 
+
+	}
+
+	// Po uspesnem projiti vratime true
+	return true;  
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="1-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const i = 20; // Inicializujeme posledni testovane cislo
+
+// Cyklus pro testovani cisel
+for(var j = 2; j <= i; j++) {
+
+  // Inicializujeme mocninu v poradi
+  var k = Math.pow(2, j) - 1;
+
+  // Pokud se jedna o prvocislo
+  if(jePrvocislo(k)) {
+
+    // Vypiseme ho
+    console.log(k);
+
+  }
+
+}
+
+// Funkce pro testovani prvocisla
+function jePrvocislo(i) {
+
+  // Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for(var j = 2; j <= Math.sqrt(i + 1); j++) {
+
+    // Pokud najdeme jakehokoliv delitele
+    if(i % j == 0) {
+
+      // Vratime false
+      return false;
+
+    }   
+
+  }
+
+  // Po uspesnem projiti vratime true
+  return true;
+    
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="1-py">
+<pre data-language="py">
+# Importujeme matematickou knihovnu
+import math
+
+# Funkce pro testovani prvocisla
+def jePrvocislo(i):
+
+  # Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for j in range(2, int(math.sqrt(i + 1)) + 1):
+
+    # Pokud najdeme jakehokoliv delitele
+    if i % j == 0:
+
+      # Vratime False
+      return False
+          
+  # Po uspesnem projiti vratime true
+  return True
+
+
+# Deklarace a inicializace
+i = 20 # Inicializujeme posledni testovane cislo
+
+# Cyklus pro testovani cisel
+for j in range(2, i + 1):
+
+  # Inicializujeme mocninu v poradi
+  k = int(math.pow(2, j)) - 1
+
+  # Pokud se jedna o prvocislo
+  if jePrvocislo(k):
+
+    # Vypiseme ho
+    print(k)
+</pre>
+</div>
+</div>
+</div>
+
+    <p>
+      V případě, že bylo rychlejším žákům zadáno naprogramovat vlastní funkci pro mocninu, představíme a vysvětlíme také varianty <code>1_brute-force<b>B</b></code> (cyklus) a 
+      <code>1_brute-force<b>C</b></code> (rekurze). Řešení konkrétním způsobem může představit ostatním žákům i jeho autor. 
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#2-cpp">1_brute-forceB.cpp</a>
+  <a href="#2-js">1_brute-forceB.js</a>
+  <a href="#2-py">1_brute-forceB.py</a>
+  <a href="#3-cpp">1_brute-forceC.cpp</a>
+  <a href="#3-js">1_brute-forceC.js</a>
+  <a href="#3-py">1_brute-forceC.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="2-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+// Deklarace a inicializace funkci
+bool jePrvocislo(int j); // Funkce pro testovani prvocisla
+int mocnina(int i, int j); // Funkce pro vypocet mocniny
+
+
+int main() {
+
+	// Deklarace a inicializace 
+	const int i = 20; // Inicializujeme posledni testovane cislo
+
+	// Cyklus pro testovani cisel
+	for(int j = 2; j <= i; j++) {
+
+		// Inicializujeme mocninu v poradi
+		int k = mocnina(2, j) - 1;
+
+		// Pokud se jedna o prvocislo
+		if(jePrvocislo(k)) {
+
+			// Vypiseme ho
+			cout << k << endl;
+
+		}
+
+	}
+
+}
+
+// Funkce pro testovani prvocisla
+bool jePrvocislo(int i) {
+
+	// Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+	for(int j = 2; j <= sqrt(i); j++) {
+
+		// Pokud najdeme jakehokoliv delitele
+		if(i % j == 0) {
+
+			// Vratime false
+			return false;
+
+		} 
+
+	}
+
+	// Po uspesnem projiti vratime true
+	return true;  
+
+}
+
+// Funkce pro vypocet mocniny
+int mocnina(int i, int j) {
+
+	// Vratime jednicku, pokud je exponent 0
+  if(j == 0) {
+      return 1;
+  }
+
+  // V opacnem pripade
+  else {
+
+    // Deklarujeme a inicializujeme pomocnou promennou
+    int pom = 1;
+
+    // Pomoci cyklu provedeme umocneni
+    for(int k = 1; k <= j; k++) {
+      pom *= i;
+    }
+
+    // Vratime pomocnou promennou
+    return pom;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="2-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const i = 20; // Inicializujeme posledni testovane cislo
+
+// Cyklus pro testovani cisel
+for(var j = 2; j <= i; j++) {
+
+  // Inicializujeme mocninu v poradi
+  var k = mocnina(2, j) - 1;
+
+  // Pokud se jedna o prvocislo
+  if(jePrvocislo(k)) {
+
+    // Vypiseme ho
+    console.log(k);
+
+  }
+
+}
+
+// Funkce pro testovani prvocisla
+function jePrvocislo(i) {
+
+  // Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for(var j = 2; j <= Math.sqrt(i + 1); j++) {
+
+    // Pokud najdeme jakehokoliv delitele
+    if(i % j == 0) {
+
+      // Vratime false
+      return false;
+
+    }   
+
+  }
+
+  // Po uspesnem projiti vratime true
+  return true;
+  
+}
+
+// Funkce pro vypocet mocniny
+function mocnina(i, j) {
+
+  // Vratime jednicku, pokud je exponent 0
+  if(j == 0) {
+    return 1;
+  }
+
+  // V opacnem pripade
+  else {
+
+    // Deklarujeme a inicializujeme pomocnou promennou
+    var pom = 1;
+
+    // Pomoci cyklu provedeme umocneni
+    for(var k = 1; k <= j; k++) {
+        pom *= i;
+    }
+
+    // Vratime pomocnou promennou
+    return pom;
+
+  }
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="2-py">
+<pre data-language="py">
+# Importujeme matematickou knihovnu
+import math
+
+# Funkce pro vypocet mocniny
+def mocnina(i, j):
+
+  # Vratime jednicku, pokud je exponent 0
+  if(j == 0):
+    return 1
+
+  # V opacnem pripade
+  else:
+
+    # Deklarujeme a inicializujeme pomocnou promennou
+    pom = 1
+
+    # Pomoci cyklu provedeme umocneni
+    for k in range(j):
+      pom *= i
+
+    # Vratime pomocnou promennou
+    return pom
+
+# Funkce pro testovani prvocisla
+def jePrvocislo(i):
+
+  # Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for j in range(2, int(math.sqrt(i + 1)) + 1):
+
+    # Pokud najdeme jakehokoliv delitele
+    if i % j == 0:
+
+      # Vratime False
+      return False
+
+  # Po uspesnem projiti vratime true
+  return True
+
+
+# Deklarace a inicializace
+i = 20 # Inicializujeme posledni testovane cislo
+
+# Cyklus pro testovani cisel
+for j in range(2, i + 1):
+
+  # Pokud je exponent prvocislo
+  if jePrvocislo(j):
+
+    # Inicializujeme mocninu v poradi
+    k = mocnina(2, j) - 1
+
+    # Pokud se jedna o prvocislo
+    if jePrvocislo(k):
+
+      # Vypiseme ho
+      print(k)
+</pre>
+</div>
+<div class="tabs__content" id="3-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+// Deklarace a inicializace funkci
+bool jePrvocislo(int j); // Funkce pro testovani prvocisla
+int mocnina(int i, int j); // Funkce pro vypocet mocniny
+
+
+int main() {
+
+	// Deklarace a inicializace 
+	const int i = 20; // Inicializujeme posledni testovane cislo
+
+	// Cyklus pro testovani cisel
+	for(int j = 2; j <= i; j++) {
+
+		// Inicializujeme mocninu v poradi
+		int k = mocnina(2, j) - 1;
+
+		// Pokud se jedna o prvocislo
+		if(jePrvocislo(k)) {
+
+			// Vypiseme ho
+			cout << k << endl;
+
+		}
+
+	}
+
+}
+
+// Funkce pro testovani prvocisla
+bool jePrvocislo(int i) {
+
+	// Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+	for(int j = 2; j <= sqrt(i); j++) {
+
+		// Pokud najdeme jakehokoliv delitele
+		if(i % j == 0) {
+
+			// Vratime false
+			return false;
+
+		} 
+
+	}
+
+	// Po uspesnem projiti vratime true
+	return true;  
+
+}
+
+// Funkce pro vypocet mocniny
+int mocnina(int i, int j) {
+
+	// Rekurzivne vypocteme odmocninu i^j
+	return j != 0 ? (i * mocnina(i, j - 1)) : 1;
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="3-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const i = 20; // Inicializujeme posledni testovane cislo
+
+// Cyklus pro testovani cisel
+for(var j = 2; j <= i; j++) {
+
+  // Inicializujeme mocninu v poradi
+  var k = mocnina(2, j) - 1;
+
+  // Pokud se jedna o prvocislo
+  if(jePrvocislo(k)) {
+
+    // Vypiseme ho
+    console.log(k);
+
+  }
+
+}
+
+// Funkce pro testovani prvocisla
+function jePrvocislo(i) {
+
+  // Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for(var j = 2; j <= Math.sqrt(i + 1); j++) {
+
+    // Pokud najdeme jakehokoliv delitele
+    if(i % j == 0) {
+
+      // Vratime false
+      return false;
+
+    }   
+
+  }
+
+  // Po uspesnem projiti vratime true
+  return true;
+    
+}
+
+// Funkce pro vypocet mocniny
+function mocnina(i, j) {
+
+  // Rekurzivne vypocteme odmocninu i^j
+  return j != 0 ? (i * mocnina(i, j - 1)) : 1;
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="3-py">
+<pre data-language="py">
+# Importujeme matematickou knihovnu
+import math
+
+# Funkce pro vypocet mocniny
+def mocnina(i, j):
+
+  # Rekurzivne vypocteme odmocninu i^j
+  return (i * mocnina(i, j - 1)) if(j != 0) else 1
+
+# Funkce pro testovani prvocisla
+def jePrvocislo(i):
+
+  # Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for j in range(2, int(math.sqrt(i + 1)) + 1):
+
+    # Pokud najdeme jakehokoliv delitele
+    if i % j == 0:
+
+      # Vratime False
+      return False
+          
+  # Po uspesnem projiti vratime true
+  return True
+
+
+# Deklarace a inicializace
+i = 20 # Inicializujeme posledni testovane cislo
+
+# Cyklus pro testovani cisel
+for j in range(2, i + 1):
+
+  # Inicializujeme mocninu v poradi
+  k = mocnina(2, j) - 1
+
+  # Pokud se jedna o prvocislo
+  if jePrvocislo(k):
+
+    # Vypiseme ho
+    print(k)
+</pre>
+</div>
+</div>
+</div>
+
+    <p>
+      U připraveného rekurzivního řešení (1_brute-forceC) může vyvolat překvapení použití ternárního operátoru, které může být pro některé studenty 
+      (v závislosti na jejich znalostech) dosud neznámá věc. Pomocí návodné otázky jsme schopni zjistit znalost ternárního operátoru: 
+      <i>Jak funguje jednořádkový příkaz pro výpočet mocniny? Jak se tomuto operátoru říká? Jaké má využití?</i> Pokud nebudou 
+      vědět, co výraz znamená, tak je vyzveme k nalezení správného výsledku pomocí informačních zdrojů. 
+    </p>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse
+    </h3>
+    <ol>
+      <li>
+        Které webové stránky jste k vyhledávání informací o ternárním operátoru využili? Znáte nějaké další obdobné?
+      </li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+    <ul>
+      <li>
+        <i>Student nedokáže „začít“.</i> – Bude se jednat pravděpodobně o malou skupinu žáků. Ostatní již pracují na svých programech a my se 
+        případně vrátíme k diskusi, jak by se měl příklad řešit a tu provedeme do většího detailu.
+      </li>
+    </ul>
+
+
+    <hr>
+
+    <h2>
+      Efektivnější metoda
+    </h2>
+
+    <p>
+      Vyzveme studenty, aby našli na internetu, jakým způsobem se dá vyhledávání vylepšit. Ze zdrojů by měli zjistit, že pokud se jedná o Mersennovo prvočíslo, 
+      tak exponent N musí také být prvočíslo. Poté mohou své programy upravit. Jedná se o jednoduchou úpravu přidání jedné podmínky. Výsledné programy jsou 
+      vytvořeny analogicky k těm předchozím: <code>1_optimized<b>A</b></code> (knihovní funkce) <code>1_optimized<b>B</b></code> (cyklus) a 
+      <code>1_optimized<b>C</b></code> (rekurze).
+    </p>
+
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#4-cpp">1_optimizedA.cpp</a>
+  <a href="#4-js">1_optimizedA.js</a>
+  <a href="#4-py">1_optimizedA.py</a>
+  <a href="#5-cpp">1_optimizedB.cpp</a>
+  <a href="#5-js">1_optimizedB.js</a>
+  <a href="#5-py">1_optimizedB.py</a>
+  <a href="#6-cpp">1_optimizedC.cpp</a>
+  <a href="#6-js">1_optimizedC.js</a>
+  <a href="#6-py">1_optimizedC.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="4-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+// Deklarace a inicializace funkci
+bool jePrvocislo(int i); // Funkce pro testovani prvocisla
+
+
+int main() {
+
+  // Deklarace a inicializace 
+  const int i = 20; // Inicializujeme posledni testovane cislo
+
+  // Cyklus pro testovani cisel
+  for(int j = 2; j <= i; j++) {
+
+    // Inicializujeme mocninu v poradi
+    int k = pow(2, j) - 1;
+
+    // Pokud se jedna o prvocislo
+    if(jePrvocislo(k)) {
+
+      // Vypiseme ho
+      cout << k << endl;
+
+    }
+
+  }
+
+}
+
+// Funkce pro testovani prvocisla
+bool jePrvocislo(int i) {
+
+  // Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for(int j = 2; j <= sqrt(i); j++) {
+
+    // Pokud najdeme jakehokoliv delitele
+    if(i % j == 0) {
+
+      // Vratime false
+      return false;
+
+    } 
+
+  }
+
+  // Po uspesnem projiti vratime true
+  return true;  
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="4-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const i = 20; // Inicializujeme posledni testovane cislo
+
+// Cyklus pro testovani cisel
+for(var j = 2; j <= i; j++) {
+
+  // Pokud je exponent prvocislo
+  if(jePrvocislo(j)) {
+
+    // Inicializujeme mocninu v poradi
+    var k = Math.pow(2, j) - 1;
+
+    // Pokud se jedna o prvocislo
+    if(jePrvocislo(k)) {
+
+      // Vypiseme ho
+      console.log(k);
+
+    }
+
+  }
+
+}
+
+// Funkce pro testovani prvocisla
+function jePrvocislo(i) {
+
+  // Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for(var j = 2; j <= Math.sqrt(i + 1); j++) {
+
+    // Pokud najdeme jakehokoliv delitele
+    if(i % j == 0) {
+
+      // Vratime false
+      return false;
+
+    }   
+
+  }
+
+  // Po uspesnem projiti vratime true
+  return true;
+    
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="4-py">
+<pre data-language="py">
+# Importujeme matematickou knihovnu
+import math
+
+# Funkce pro testovani prvocisla
+def jePrvocislo(i):
+
+  # Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for j in range(2, int(math.sqrt(i + 1)) + 1):
+
+    # Pokud najdeme jakehokoliv delitele
+    if i % j == 0:
+
+      # Vratime False
+      return False
+
+  # Po uspesnem projiti vratime true
+  return True
+
+
+# Deklarace a inicializace
+i = 20 # Inicializujeme posledni testovane cislo
+
+# Cyklus pro testovani cisel
+for j in range(2, i + 1):
+
+  # Pokud je exponent prvocislo
+  if jePrvocislo(j):
+
+    # Inicializujeme mocninu v poradi
+    k = int(math.pow(2, j)) - 1
+
+    # Pokud se jedna o prvocislo
+    if jePrvocislo(k):
+
+      # Vypiseme ho
+      print(k)
+</pre>
+</div>
+<div class="tabs__content" id="5-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+// Deklarace a inicializace funkci
+bool jePrvocislo(int i); // Funkce pro testovani prvocisla
+int mocnina(int i, int j); // Funkce pro vypocet mocniny
+
+
+int main() {
+
+	// Deklarace a inicializace 
+	const int i = 20; // Inicializujeme posledni testovane cislo
+
+	// Cyklus pro testovani cisel
+	for(int j = 2; j <= i; j++) {
+
+    // Pokud je exponent prvocislo
+    if(jePrvocislo(j)) {
+
+      // Inicializujeme mocninu v poradi
+      int k = mocnina(2, j) - 1;
+
+      // Pokud se jedna o prvocislo
+      if(jePrvocislo(k)) {
+
+        // Vypiseme ho
+        cout << k << endl;
+          
+      }
+
+    }	
+
+	}
+
+}
+
+// Funkce pro testovani prvocisla
+bool jePrvocislo(int i) {
+
+	// Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+	for(int j = 2; j <= sqrt(i); j++) {
+
+		// Pokud najdeme jakehokoliv delitele
+		if(i % j == 0) {
+
+			// Vratime false
+			return false;
+
+		} 
+
+	}
+
+	// Po uspesnem projiti vratime true
+	return true;  
+
+}
+
+// Funkce pro vypocet mocniny
+int mocnina(int i, int j) {
+
+// Vratime jednicku, pokud je exponent 0
+  if(j == 0) {
+      return 1;
+  }
+
+  // V opacnem pripade
+  else {
+
+    // Deklarujeme a inicializujeme pomocnou promennou
+    int pom = 1;
+
+    // Pomoci cyklu provedeme umocneni
+    for(int k = 1; k <= j; k++) {
+      pom *= i;
+    }
+
+    // Vratime pomocnou promennou
+    return pom;
+
+  }
+
+}
+
+// Funkce pro vypocet mocniny
+int mocnina(int i, int j) {
+
+  // Rekurzivne vypocteme odmocninu i^j
+  return j != 0 ? (i * mocnina(i, j - 1)) : 1;
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="5-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const i = 20; // Inicializujeme posledni testovane cislo
+
+// Cyklus pro testovani cisel
+for(var j = 2; j <= i; j++) {
+
+  // Pokud je exponent prvocislo
+  if(jePrvocislo(j)) {
+
+    // Inicializujeme mocninu v poradi
+    var k = mocnina(2, j) - 1;
+
+    // Pokud se jedna o prvocislo
+    if(jePrvocislo(k)) {
+
+      // Vypiseme ho
+      console.log(k);
+
+    }
+
+  }
+
+}
+
+// Funkce pro testovani prvocisla
+function jePrvocislo(i) {
+
+  // Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for(var j = 2; j <= Math.sqrt(i + 1); j++) {
+
+    // Pokud najdeme jakehokoliv delitele
+    if(i % j == 0) {
+
+      // Vratime false
+      return false;
+
+    }   
+
+  }
+
+  // Po uspesnem projiti vratime true
+  return true;
+    
+}
+
+// Funkce pro vypocet mocniny
+function mocnina(i, j) {
+
+  // Vratime jednicku, pokud je exponent 0
+  if(j == 0) {
+      return 1;
+  }
+
+  // V opacnem pripade
+  else {
+
+    // Deklarujeme a inicializujeme pomocnou promennou
+    var pom = 1;
+
+    // Pomoci cyklu provedeme umocneni
+    for(var k = 1; k <= j; k++) {
+      pom *= i;
+    }
+
+    // Vratime pomocnou promennou
+    return pom;
+
+  }
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="5-py">
+<pre data-language="py">
+# Importujeme matematickou knihovnu
+import math
+
+# Funkce pro vypocet mocniny
+def mocnina(i, j):
+
+  # Vratime jednicku, pokud je exponent 0
+  if(j == 0):
+    return 1
+
+  # V opacnem pripade
+  else:
+
+    # Deklarujeme a inicializujeme pomocnou promennou
+    pom = 1
+
+    # Pomoci cyklu provedeme umocneni
+    for k in range(j):
+      pom *= i
+
+    # Vratime pomocnou promennou
+    return pom
+
+# Funkce pro testovani prvocisla
+def jePrvocislo(i):
+
+  # Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for j in range(2, int(math.sqrt(i + 1)) + 1):
+
+    # Pokud najdeme jakehokoliv delitele
+    if i % j == 0:
+
+      # Vratime False
+      return False
+
+  # Po uspesnem projiti vratime true
+  return True
+
+
+# Deklarace a inicializace
+i = 20 # Inicializujeme posledni testovane cislo
+
+# Cyklus pro testovani cisel
+for j in range(2, i + 1):
+
+  # Pokud je exponent prvocislo
+  if jePrvocislo(j):
+
+    # Inicializujeme mocninu v poradi
+    k = mocnina(2, j) - 1
+
+    # Pokud se jedna o prvocislo
+    if jePrvocislo(k):
+
+      # Vypiseme ho
+      print(k)
+</pre>
+</div>
+<div class="tabs__content" id="6-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+// Deklarace a inicializace funkci
+bool jePrvocislo(int i); // Funkce pro testovani prvocisla
+int mocnina(int i, int j); // Funkce pro vypocet mocniny
+
+
+int main() {
+
+	// Deklarace a inicializace 
+	const int i = 20; // Inicializujeme posledni testovane cislo
+
+	// Cyklus pro testovani cisel
+	for(int j = 2; j <= i; j++) {
+
+    // Pokud je exponent prvocislo
+    if(jePrvocislo(j)) {
+
+      // Inicializujeme mocninu v poradi
+      int k = mocnina(2, j) - 1;
+
+      // Pokud se jedna o prvocislo
+      if(jePrvocislo(k)) {
+
+        // Vypiseme ho
+        cout << k << endl;
+          
+      }
+
+    }	
+
+	}
+
+}
+
+// Funkce pro testovani prvocisla
+bool jePrvocislo(int i) {
+
+	// Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+	for(int j = 2; j <= sqrt(i); j++) {
+
+		// Pokud najdeme jakehokoliv delitele
+		if(i % j == 0) {
+
+			// Vratime false
+			return false;
+
+		} 
+
+	}
+
+	// Po uspesnem projiti vratime true
+	return true;  
+
+}
+
+// Funkce pro vypocet mocniny
+int mocnina(int i, int j) {
+
+	// Rekurzivne vypocteme odmocninu i^j
+	return j != 0 ? (i * mocnina(i, j - 1)) : 1;
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="6-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const i = 20; // Inicializujeme posledni testovane cislo
+
+// Cyklus pro testovani cisel
+for(var j = 2; j <= i; j++) {
+
+  // Pokud je exponent prvocislo
+  if(jePrvocislo(j)) {
+
+    // Inicializujeme mocninu v poradi
+    var k = mocnina(2, j) - 1;
+
+    // Pokud se jedna o prvocislo
+    if(jePrvocislo(k)) {
+
+      // Vypiseme ho
+      console.log(k);
+
+    }
+
+  }
+
+}
+
+// Funkce pro testovani prvocisla
+function jePrvocislo(i) {
+
+  // Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for(var j = 2; j <= Math.sqrt(i + 1); j++) {
+
+    // Pokud najdeme jakehokoliv delitele
+    if(i % j == 0) {
+
+      // Vratime false
+      return false;
+
+    }   
+
+  }
+
+  // Po uspesnem projiti vratime true
+  return true;
+    
+}
+
+// Funkce pro vypocet mocniny
+function mocnina(i, j) {
+
+  // Rekurzivne vypocteme odmocninu j^k
+  return j != 0 ? (i * mocnina(i, j - 1)) : 1;
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="6-py">
+<pre data-language="py">
+# Importujeme matematickou knihovnu
+import math
+
+# Funkce pro vypocet mocniny
+def mocnina(i, j):
+
+  # Rekurzivne vypocteme odmocninu i^j
+  return (i * mocnina(i, j - 1)) if(j != 0) else 1
+
+# Funkce pro testovani prvocisla
+def jePrvocislo(i):
+
+  # Projdeme kazdy prvek pole az do odmocniny z velikosti zaokrouhlene dolu
+  for j in range(2, int(math.sqrt(i + 1)) + 1):
+
+    # Pokud najdeme jakehokoliv delitele
+    if i % j == 0:
+
+      # Vratime False
+      return False
+
+  # Po uspesnem projiti vratime true
+  return True
+
+
+# Deklarace a inicializace
+i = 20 # Inicializujeme posledni testovane cislo
+
+# Cyklus pro testovani cisel
+for j in range(2, i + 1):
+
+  # Pokud je exponent prvocislo
+  if jePrvocislo(j):
+
+    # Inicializujeme mocninu v poradi
+    k = mocnina(2, j) - 1
+
+    # Pokud se jedna o prvocislo
+    if jePrvocislo(k):
+
+      # Vypiseme ho
+      print(k)
+</pre>
+</div>
+</div>
+</div>
+
+  <p>
+    U této úlohy se nebudeme zabývat efektivností funkce na zjištění prvočísla. Ta je popsána a rozebrána v úloze <a href="hledani-prvocisel.html" target="_blank">Hledání prvočísel, Eratosthenovo síto</a>.
+  </p>  
+
+  <hr>
+
+  <h3>
+    Otázky do diskuse
+  </h3>
+  <ol>
+    <li>
+      V čem spočívá výhoda využití vlastních funkcí? Využili jsme těchto výhod? Jaké jsou naopak nevýhody využití vlastních funkcí místo knihovních?
+    </li>
+  </ol>
+
+  <hr>
+
+  <h3>
+    Možné problémy
+  </h3>
+  <ul>
+    <li>
+      Se znalostmi z první části se nepředpokládají dílčí problémy.
+    </li>
+  </ul>
+
+    
+
+  </main>
+
+  <!-- site-main__side -->
+  <aside class="site-main__side" id="meta">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title">
+        Úvodní informace
+      </h2>
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        V této úloze budou studenti hledat Mersennova prvočísla. Jedná se o prvočísla, která jsou o jedna menší, než je mocnina dvojky. 
+        Samotná koncepce příkladu je složitější, než se může na první pohled zdát. V průběhu plnění úlohy si studenti procvičí hlavně 
+        práci s psaním vlastních funkcí a vyhledávání na internetu.
+      </p>
+
+      <p class="link--anchor">
+        <a href="#metodika">▲ Metodika</a>
+      </p>
+    
+    </header>
+
+    <h3>
+      Cíle úlohy
+    </h3>
+    <ul>
+      <li>
+        Procvičení:
+        <ul>
+          <li>Cykly</li>
+          <li>Rekurze</li>
+          <li>Funkce vlastní</li>
+          <li>Funkce knihovní</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>
+      Časová náročnost
+    </h3>
+    <p>
+      1-2 vyučovací hodiny
+    </p>
+
+    <h3>
+      Obtížnost
+    </h3>
+    <img src="../assets/img/3.png" alt="***">
+
+    <h3>
+      Prerekvizity
+    </h3>
+    <ul>
+      <li>Cykly</li>
+      <li>Rekurze</li>
+      <li>Funkce vlastní</li>
+      <li>Funkce knihovní (konkrétně funkce pro mocninu a odmocninu)</li>
+      <li>Definice prvočísla</li>
+      <li>Úloha volně navazuje na <a href="hledani-prvocisel.html" target="_blank">Hledání prvočísel, Eratosthenovo síto</a></li>
+    </ul>
+
+    <h3>
+      Výsledné programy
+    </h3>
+    <ul>
+      <li>1_brute-forceA (knihovní funkce) <a href="files/mersennova-prvocisla/1_brute-forceA.cpp">cpp</a> <a href="files/mersennova-prvocisla/1_brute-forceA.js">js</a> <a href="files/mersennova-prvocisla/1_brute-forceA.py">py</a></li>
+      <li>1_brute-forceB (cyklus) <a href="files/mersennova-prvocisla/1_brute-forceB.cpp">cpp</a> <a href="files/mersennova-prvocisla/1_brute-forceB.js">js</a> <a href="files/mersennova-prvocisla/1_brute-forceB.py">py</a></li>
+      <li>1_brute-forceC (rekurze) <a href="files/mersennova-prvocisla/1_brute-forceC.cpp">cpp</a> <a href="files/mersennova-prvocisla/1_brute-forceC.js">js</a> <a href="files/mersennova-prvocisla/1_brute-forceC.py">py</a></li>
+      <li>2_optimizedA (knihovní funkce) <a href="files/mersennova-prvocisla/2_optimizedA.cpp">cpp</a> <a href="files/mersennova-prvocisla/2_optimizedA.js">js</a> <a href="files/mersennova-prvocisla/2_optimizedA.py">py</a></li>
+      <li>2_optimizedB (cyklus) <a href="files/mersennova-prvocisla/2_optimizedB.cpp">cpp</a> <a href="files/mersennova-prvocisla/2_optimizedB.js">js</a> <a href="files/mersennova-prvocisla/2_optimizedB.py">py</a></li>
+      <li>2_optimizedC (rekurze) <a href="files/mersennova-prvocisla/2_optimizedC.cpp">cpp</a> <a href="files/mersennova-prvocisla/2_optimizedC.js">js</a> <a href="files/mersennova-prvocisla/2_optimizedC.py">py</a></li>
+    </ul>
+
+    <h3>
+      Soubory
+    </h3>
+    <ul>
+      <li><a href="files/mersennova-prvocisla/mersennova-prvocisla.docx">Metodika</a></li>
+      <li><a href="files/mersennova-prvocisla/mersennova-prvocisla.png" target="_blank">mersennova-prvocisla.png</a></li>
+    </ul>
+
+  </aside>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/scripts.js"></script>
+
+</body>
+</html>

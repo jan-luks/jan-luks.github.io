@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modelování obrazců II | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="../index.html">Úvod</a>
+    <a href="../ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__content -->
+  <main class="site-main__content" id="metodika">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Modelování obrazců II
+      </h1>
+
+      <p class="link--anchor">
+        <a href="#meta">▼ Úvodní informace</a>
+      </p>
+
+    </header>
+
+    <p>
+      Úloha se dá rozdělit na 4 menší příklady. Trojúhelník, který studenti vytvoří v prvním příkladu, budou v těch následujících vždy o 90 stupňů otáčet. 
+      Je ale zcela na učiteli, jestli bude chtít po studentech všechny varianty, nebo pouze některé. Jednotlivé programy jsou v očekávaném výstupu 
+      očíslované (a následně je k nim v metodice takto referováno) spolu s názvem souboru, ve kterém se nalézá řešení.
+    </p>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Vymodelujte pomocí zástupného znaku (hvězdičky) rovnostranný trojúhelník. Velikost strany bude zadávat uživatel na vstupu, výstupem bude obrazec 
+        složený z hvězdiček ve tvaru rovnostranného trojúhelníku. K oddělení jednotlivých hvězdiček použijte mezeru.  
+      </i>
+    </p>
+
+    <ul>
+      <li><b>Vstup:</b><br> 4</li>
+      <li>
+        <b>Výstup (program 1 - <code>trojuhelnik-0</code>):</b><br>
+        *<br>
+        *&emsp;*<br>
+        *&emsp;*&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*
+      </li>
+      <li>
+        <b>Výstup (program 2 - <code>trojuhelnik-90</code>):</b><br>
+        *&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;*&emsp;*<br>
+        *&emsp;*<br>
+        *
+      </li>
+      <li>
+        <b>Výstup (program 3 - <code>trojuhelnik-180</code>):</b><br>
+        *&emsp;*&emsp;*&emsp;*<br>
+        &nbsp;&nbsp;&emsp;*&emsp;*&emsp;*<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;*&emsp;*<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;*
+      </li>
+      <li>
+        <b>Výstup (program 4 - <code>trojuhelnik-270</code>):</b><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;*<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;*&emsp;*<br>
+        &nbsp;&nbsp;&emsp;*&emsp;*&emsp;*<br>
+        *&emsp;*&emsp;*&emsp;*
+      </li>
+    </ul>
+
+    <p>
+      Po představení zadání a případném odstranění nevyhovujících příkladů, můžeme provést rozbor algoritmů pro jednotlivé programy:
+    </p>
+
+    <ol>
+      <li>
+        Vnější cyklus bude v intervalu <code>&lt;1, N&gt;</code>, kde N je vstupní velikost trojúhelníka. Vnitřní cyklus v intervalu <code>&lt;1, J&gt;</code>, kde J je horní mez 
+        rovná iterační proměnné vnějšího cyklu. Součástí vnitřního cyklu je vypsání hvězdičky. V případě nepochopení je možné nakreslit tento 
+        trojúhelník na tabuli a před jednotlivé řádky napsat počet hvězdiček. Z toho by mělo být jasné, jak nastavit vnitřní cyklus.
+      </li>
+      <li>
+        Identická situace k prvnímu programu, jen zde dochází k nastavení iterační proměnné vnějšího cyklu v intervalu <code>&lt;N, 1&gt;</code> a postupné dekrementaci 
+        (v ukázkovém výstupu 4, 3, 2, 1). Vnitřní cyklus v intervalu <code>&lt;J, 1&gt;</code>, J je horní mez rovná iterační proměnné vnějšího cyklu.
+      </li>
+      <li>
+        Vnější cyklus bude v intervalu <code>&lt;1, N&gt;</code>. U tohoto a následujícího programu si vypomůžeme pomocnou proměnnou, kterou nastavíme na 0 a budeme ji při 
+        každém průchodu vnějšího cyklu inkrementovat. Vnitřní cyklus bude nastaven v intervalu <code>&lt;1, N&gt;</code>. V případě, že bude hodnota pomocné proměnné 
+        větší nebo rovna aktuální hodnotě iterační proměnné vnitřního cyklu, vypíšeme mezeru. V opačném případě vypíšeme hvězdičku.
+      </li>
+      <li>
+        Identická situace k předchozímu (třetímu) programu, kdy jen pomocnou proměnnou nastavíme rovnou vstupu a ve vnějším cyklu ji budeme dekrementovat. Vypíšeme 
+        mezeru, pokud hodnota iterační proměnné vnitřního cyklu je menší než pomocná proměnná. V opačném případě vypíšeme hvězdičku.
+      </li>
+    </ol>
+
+    <p>
+      Pro vysvětlení je také připraven pomocný obrázek <code>trojuhelniky.png</code>, kde jsou jednotlivé příklady graficky znázorněny.
+    </p>
+
+    <a href="files/modelovani-obrazcu-ii/trojuhelniky.png" target="_blank"><img src="files/modelovani-obrazcu-ii/trojuhelniky.png" alt="Trojúhelníky" class="img--align-center"></a>
+
+    <p>
+      Samotné programování může být rozšířeno (ztíženo) zákazem používání pomocných proměnných. Nemožnost jejich využití zejména u příkladů 3 a 4 klade vyšší nároky 
+      na algoritmické myšlení. Místo zákazu může být otázka vznesena v závěrečné diskusi. Výsledné programy, které jsou ve tvaru 
+      <code>trojuhelnik-X</code>, kde X je rotace ve stupních, neobsahují žádné pomocné proměnné. Součástí jsou také programy <code>trojuhelnik-180-pomocna</code> a 
+      <code>trojuhelnik-270-pomocna</code>, které využívají výhod pomocné proměnné popsané v rozboru algoritmů výše. Je vhodné studentům tyto příklady vysvětlit.
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#1-cpp">trojuhelnik-0.cpp</a>
+  <a href="#1-js">trojuhelnik-0.js</a>
+  <a href="#1-py">trojuhelnik-0.py</a>
+  <a href="#2-cpp">trojuhelnik-90.cpp</a>
+  <a href="#2-js">trojuhelnik-90.js</a>
+  <a href="#2-py">trojuhelnik-90.py</a>
+  <a href="#3-cpp">trojuhelnik-180.cpp</a>
+  <a href="#3-js">trojuhelnik-180.js</a>
+  <a href="#3-py">trojuhelnik-180.py</a>
+  <a href="#4-cpp">trojuhelnik-270.cpp</a>
+  <a href="#4-js">trojuhelnik-270.js</a>
+  <a href="#4-py">trojuhelnik-270.py</a>
+  <a href="#5-cpp">trojuhelnik-180-pomocna.cpp</a>
+  <a href="#5-js">trojuhelnik-180-pomocna.js</a>
+  <a href="#5-py">trojuhelnik-180-pomocna.py</a>
+  <a href="#6-cpp">trojuhelnik-270-pomocna.cpp</a>
+  <a href="#6-js">trojuhelnik-270-pomocna.js</a>
+  <a href="#6-py">trojuhelnik-270-pomocna.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="1-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 6; // Inicializace velikosti trojuhelniku
+
+  // Vnejsi cyklus pro radky
+  for(int i = 1; i <= vel; i++) {
+      
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= i; j++)
+
+      // Vypiseme hvezdicky
+      cout << "* ";
+
+    // Vypiseme novou radku
+    cout << endl;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="1-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 6; // Inicializace velikosti trojuhelniku
+
+// Vnejsi cyklus pro radky
+for(var i = 1; i <= vel; i++) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+  
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= i; j++)
+
+    // Pridame do textoveho retezce hvezdicku
+    rad += "* ";
+
+  // Vypiseme radku
+  console.log(rad);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="1-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 6 # Inicializace velikosti trojuhelniku
+
+# Vnejsi cyklus pro radky
+for i in range(1, vel + 1):
+    
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(1, i + 1):
+
+    # Vypiseme hvezdicky
+    print("* ", sep="", end="")
+
+  # Vypiseme novou radku
+  print(end="\n")
+</pre>
+</div>
+<div class="tabs__content" id="2-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 6; // Inicializace velikosti trojuhelniku
+
+  // Vnejsi cyklus pro radky
+  for(int i = vel; i >= 1; i--) {
+      
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = i; j >= 1; j--)
+
+      // Vypiseme hvezdicky
+      cout << "* ";
+
+    // Vypiseme novou radku
+    cout << endl;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="2-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 6; // Inicializace velikosti trojuhelniku
+
+// Vnejsi cyklus pro radky
+for(var i = vel; i >= 1; i--) {
+    
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = i; j >= 1; j--)
+
+    // Pridame do textoveho retezce hvezdicku
+    rad += "* ";
+
+  // Vypiseme radku
+  console.log(rad);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="2-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 6 # Inicializace velikosti trojuhelniku
+
+# Vnejsi cyklus pro radky
+for i in range(vel + 1, 1, -1):
+    
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(i, 1, -1):
+
+    # Vypiseme hvezdicky
+    print("* ", sep="", end="")
+
+  # Vypiseme novou radku
+  print(end="\n")
+</pre>
+</div>
+<div class="tabs__content" id="3-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 6; // Inicializace velikosti trojuhelniku
+
+  // Vnejsi cyklus pro radky
+  for(int i = vel; i >= 1; i--) {
+      
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= vel; j++) {
+
+      // V pripade, ze budeme v limitu
+      if(j + i <= vel)
+
+        // Vypiseme mezery
+        cout << "  ";
+
+      // V opacnem pripade
+      else
+
+        // Vypiseme hvezdicky
+        cout << "* ";
+
+    }            
+
+    // Vypiseme novou radku
+    cout << endl;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="3-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 6; // Inicializace velikosti trojuhelniku
+
+// Vnejsi cyklus pro radky
+for(var i = vel; i >= 1; i--) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= vel; j++) {
+
+    // V pripade, ze budeme v limitu
+    if(j + i <= vel)
+
+      // Vypiseme mezery
+      rad += "  ";
+
+    // V opacnem pripade
+    else
+
+      // Vypiseme hvezdicky
+      rad += "* ";
+
+  }            
+
+  // Vypiseme radku
+  console.log(rad);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="3-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 6 # Inicializace velikosti trojuhelniku
+
+# Vnejsi cyklus pro radky
+for i in range(vel + 1, 1, -1):
+    
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(1, vel + 1):
+
+    # V pripade, ze budeme v limitu
+    if(j + i <= vel + 1):
+
+      # Vypiseme mezeru
+      print("  ", sep="", end="")
+
+    # V opacnem pripade
+    else:
+
+      # Vypiseme hvezdicky
+      print("* ", sep="", end="")
+
+  # Vypiseme novou radku
+  print(end="\n")
+</pre>
+</div>
+<div class="tabs__content" id="4-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 6; // Inicializace velikosti trojuhelniku
+
+  // Vnejsi cyklus pro radky
+  for(int i = 1; i <= vel; i++) {
+      
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= vel; j++) {
+
+      // V pripade, ze budeme v limitu
+      if(vel - i >= j)
+
+        // Vypiseme mezery
+        cout << "  ";
+
+      // V opacnem pripade
+      else
+
+        // Vypiseme hvezdicky
+        cout << "* ";
+
+    }            
+
+    // Vypiseme novou radku
+    cout << endl;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="4-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 6; // Inicializace velikosti trojuhelniku
+
+// Vnejsi cyklus pro radky
+for(var i = 1; i <= vel; i++) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+  
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= vel; j++) {
+
+    // V pripade, ze budeme v limitu
+    if(vel - i >= j)
+
+      // Vypiseme mezery
+      rad += "  ";
+
+    // V opacnem pripade
+    else
+
+      // Vypiseme hvezdicky
+      rad += "* ";
+
+  }            
+
+  // Vypiseme radku
+  console.log(rad);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="4-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 6; # Inicializace velikosti trojuhelniku
+
+# Vnejsi cyklus pro radky
+for i in range(1, vel + 1):
+    
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(1, vel + 1):
+
+      # V pripade, ze budeme v limitu
+      if(vel - i >=j):
+
+        # Vypiseme mezeru
+        print("  ", sep="", end="")
+
+      # V opacnem pripade
+      else:
+
+        # Vypiseme hvezdicky
+        print("* ", sep="", end="")
+
+  # Vypiseme novou radku
+  print(end="\n")
+</pre>
+</div>
+<div class="tabs__content" id="5-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 6; // Inicializace velikosti trojuhelniku
+  int pom = 0; // Inicializace pomocne promenne
+
+  // Vnejsi cyklus pro radky
+  for(int i = 1; i <= vel; i++) {
+      
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= vel; j++) {
+
+      // V pripade, ze budeme v limitu
+      if(j <= pom)
+
+        // Vypiseme mezery
+        cout << "  ";
+
+      // V opacnem pripade
+      else
+
+        // Vypiseme hvezdicky
+        cout << "* ";
+
+    }            
+
+    // Inkrementujeme pomocnou promennou
+    pom++;
+
+    // Vypiseme novou radku
+    cout << endl;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="5-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 6; // Inicializace velikosti trojuhelniku
+pom = 0; // Inicializace pomocne promenne
+
+// Vnejsi cyklus pro radky
+for(var i = 1; i <= vel; i++) {
+
+    // Inicalizujeme promennou pro vypsani radky
+    var rad = "";
+
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(var j = 1; j <= vel; j++) {
+
+      // V pripade, ze budeme v limitu
+      if(j <= pom)
+
+        // Vypiseme mezery
+        rad += "  ";
+
+      // V opacnem pripade
+      else
+
+        // Vypiseme hvezdicky
+        rad += "* ";
+
+    }            
+
+    // Inkrementujeme pomocnou promennou
+    pom++;
+
+    // Vypiseme radku
+    console.log(rad);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="5-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 6 # Inicializace velikosti trojuhelniku
+pom = 0 # Inicializace pomocne promenne
+
+# Vnejsi cyklus pro radky
+for i in range(1, vel + 1):
+    
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(1, vel + 1):
+
+    # V pripade, ze budeme v limitu
+    if(pom >= j):
+
+      # Vypiseme mezeru
+      print("  ", sep="", end="")
+
+    # V opacnem pripade
+    else:
+
+      # Vypiseme hvezdicky
+      print("* ", sep="", end="")
+
+  # Inkrementujeme pomocnou promennou
+  pom += 1
+
+  # Vypiseme novou radku
+  print(end="\n")
+</pre>
+</div>
+<div class="tabs__content" id="6-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+
+int main() {
+
+  // Deklarace a inicializace
+  const int vel = 6; // Inicializace velikosti trojuhelniku
+  int pom = vel; // Inicializace pomocne promenne
+
+  // Vnejsi cyklus pro radky
+  for(int i = 1; i <= vel; i++) {
+      
+    // Vnitrni cyklus pro jednotlive hvezdicky
+    for(int j = 1; j <= vel; j++) {
+
+      // V pripade, ze budeme v limitu
+      if(j < pom)
+
+        // Vypiseme mezery
+        cout << "  ";
+
+      // V opacnem pripade
+      else
+
+        // Vypiseme hvezdicky
+        cout << "* ";
+
+    }            
+
+    // Inkrementujeme pomocnou promennou
+    pom--;
+
+    // Vypiseme novou radku
+    cout << endl;
+
+  }
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="6-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const vel = 6; // Inicializace velikosti trojuhelniku
+pom = vel; // Inicializace pomocne promenne
+
+// Vnejsi cyklus pro radky
+for(var i = 1; i <= vel; i++) {
+
+  // Inicalizujeme promennou pro vypsani radky
+  var rad = "";
+
+  // Vnitrni cyklus pro jednotlive hvezdicky
+  for(var j = 1; j <= vel; j++) {
+
+    // V pripade, ze budeme v limitu
+    if(j < pom)
+
+      // Vypiseme mezery
+      rad += "  ";
+
+    // V opacnem pripade
+    else
+
+      // Vypiseme hvezdicky
+      rad += "* ";
+
+  }            
+
+  // Inkrementujeme pomocnou promennou
+  pom--;
+
+  // Vypiseme radku
+  console.log(rad);
+
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="6-py">
+<pre data-language="py">
+# Deklarace a inicializace
+vel = 6 # Inicializace velikosti trojuhelniku
+pom = vel # Inicializace pomocne promenne
+
+# Vnejsi cyklus pro radky
+for i in range(1, vel + 1):
+    
+  # Vnitrni cyklus pro jednotlive hvezdicky
+  for j in range(1, vel + 1):
+
+    # V pripade, ze budeme v limitu
+    if(j < pom):
+
+      # Vypiseme mezeru
+      print("  ", sep="", end="")
+
+    # V opacnem pripade
+    else:
+
+      # Vypiseme hvezdicky
+      print("* ", sep="", end="")
+
+  # Inkrementujeme pomocnou promennou
+  pom -= 1
+
+  # Vypiseme novou radku
+  print(end="\n")
+</pre>
+</div>
+</div>
+</div>
+
+
+    <p>
+      První dva příklady by jim neměly dělat problémy. Je možné zadat jejich vypracování a pozorovat, jakým způsobem se s ním vypořádají. V případě větších 
+      problémů s řešením je na zvážení, jestli pokračovat třetím a čtvrtým příkladem, které jsou těžší.
+    </p>
+
+    <p>
+      Po úspěšném splnění (možné i částečném), může následovat rozprava a diskuse nad jednotlivými způsoby řešení.
+    </p>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse
+    </h3>
+
+    <ol>
+      <li>Která z variant vám přišla nejtěžší? Která naopak nejlehčí?</li>
+      <li>Napadá vás jiný způsob řešení jednotlivých příkladů?</li>
+      <li>Používali jste pomocné proměnné? Využili jste je ve všech příkladech?</li>
+      <li>Jaké výhody a nevýhody může přinést použití pomocných proměnných, kde to není vyloženě nutné? </li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+
+    <ul>
+      <li>
+        <i>Student nedokáže vymyslet, jak přistupovat k jednotlivým příkladům.</i> – Zde je nutné zhodnotit, jestli se jedná o individuální problém, 
+        či kolektivní. V situaci, kdy se jedná o problém jednotlivce, je možné mu princip popsaný výše vysvětlit ústně. Kolektivní mezery je vhodné 
+        doplnit znázorněním na tabuli, případně studenty seskupit a provést řízený brainstorming.
+      </li>
+    </ul>
+
+  </main>
+
+  <!-- site-main__side -->
+  <aside class="site-main__side" id="meta">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title">
+        Úvodní informace
+      </h2>
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        V této úloze budou studenti tvořit rovnostranné trojúhelníky pomocí zástupného znaku hvězdičky. Tyto příklady jsou 
+        vhodné zejména k procvičení práce s cyklem for a vnořenými cykly.
+      </p>
+
+      <p class="link--anchor">
+        <a href="#metodika">▲ Metodika</a>
+      </p>
+    
+    </header>
+
+    <h3>
+      Cíle úlohy
+    </h3>
+    <ul>
+      <li>
+        Procvičení:
+        <ul>
+          <li>Cykly</li>
+          <li>Vnořené cykly</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>
+      Časová náročnost
+    </h3>
+    <p>
+      1-2 vyučovací hodiny
+    </p>
+
+    <h3>
+      Obtížnost
+    </h3>
+    <img src="../assets/img/3.png" alt="***">
+
+    <h3>
+      Prerekvizity
+    </h3>
+    <ul>
+      <li>Cykly</li>
+      <li>Vnořené cykly</li>
+    </ul>
+
+    <h3>
+      Výsledné programy
+    </h3>
+    <ul>
+      <li>trojuhelnik-0 <a href="files/modelovani-obrazcu-ii/trojuhelnik-0.cpp">cpp</a> <a href="files/modelovani-obrazcu-ii/trojuhelnik-0.js">js</a> <a href="files/modelovani-obrazcu-ii/trojuhelnik-0.py">py</a></li>
+      <li>trojuhelnik-90 <a href="files/modelovani-obrazcu-ii/trojuhelnik-90.cpp">cpp</a> <a href="files/modelovani-obrazcu-ii/trojuhelnik-90.js">js</a> <a href="files/modelovani-obrazcu-ii/trojuhelnik-90.py">py</a></li>
+      <li>trojuhelnik-180 <a href="files/modelovani-obrazcu-ii/trojuhelnik-180.cpp">cpp</a> <a href="files/modelovani-obrazcu-ii/trojuhelnik-180.js">js</a> <a href="files/modelovani-obrazcu-ii/trojuhelnik-180.py">py</a></li>
+      <li>trojuhelnik-180-pomocna <a href="files/modelovani-obrazcu-ii/trojuhelnik-180-pomocna.cpp">cpp</a> <a href="files/modelovani-obrazcu-ii/trojuhelnik-180-pomocna.js">js</a> <a href="files/modelovani-obrazcu-ii/trojuhelnik-180-pomocna.py">py</a></li>
+      <li>trojuhelnik-270 <a href="files/modelovani-obrazcu-ii/trojuhelnik-270.cpp">cpp</a> <a href="files/modelovani-obrazcu-ii/trojuhelnik-270.js">js</a> <a href="files/modelovani-obrazcu-ii/trojuhelnik-270.py">py</a></li>
+      <li>trojuhelnik-270-pomocna <a href="files/modelovani-obrazcu-ii/trojuhelnik-270-pomocna.cpp">cpp</a> <a href="files/modelovani-obrazcu-ii/trojuhelnik-270-pomocna.js">js</a> <a href="files/modelovani-obrazcu-ii/trojuhelnik-270-pomocna.py">py</a></li>
+    </ul>
+
+    <h3>
+      Soubory
+    </h3>
+    <ul>
+      <li><a href="files/modelovani-obrazcu-ii/modelovani-obrazcu-ii.docx">Metodika</a></li>
+      <li><a href="files/modelovani-obrazcu-ii/trojuhelniky.png" target="_blank">trojuhelniky.png</a></li>
+    </ul>
+    
+
+  </aside>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/scripts.js"></script>
+
+</body>
+</html>

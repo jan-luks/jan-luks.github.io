@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pascalův trojúhelník | Sbírka programovacích úloh</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- site-head -->
+<header class="site-head">
+
+  <!-- site-head__title -->
+  <span class="site-head__title">
+    Sbírka programovacích úloh
+  </span>
+
+  <!-- site-head__nav -->
+  <nav class="site-head__nav">
+    <a href="../index.html">Úvod</a>
+    <a href="../ulohy.html" class="--active">Úlohy</a>
+  </nav>
+
+</header>
+
+<!-- site-main -->
+<div class="site-main">
+
+  <!-- site-main__content -->
+  <main class="site-main__content" id="metodika">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h1 class="site-main__title">
+        Pascalův trojúhelník
+      </h1>
+
+      <p class="link--anchor">
+        <a href="#meta">▼ Úvodní informace</a>
+      </p>
+
+    </header>
+
+    <p>
+      Pascalův trojúhelník slouží jako skvělý příklad k procvičení práce s víceúrovňovým polem.
+    </p>
+
+    <p>
+      Zadání: 
+      <i class="task">
+        Napište program, který vypíše Pascalův trojúhelník. Pro uložení jednotlivých hodnot použijte víceúrovňové pole. Vstup bude počet řádků 
+        Pascalova trojúhelníku. Oddělovač jednotlivých čísel bude tabulátor.
+      </i>
+    </p>
+
+    <p>
+      <ul>
+        <li><b>Vstup:</b> <br> 8 </li>
+        <li><b>Výstup</b> (tolerujeme, že trojúhelník není souměrný dle vertikály):<br> 
+          1 <br>
+          1&emsp;1 <br>
+          1&emsp;2&emsp;1 <br>
+          1&emsp;3&emsp;3&emsp;&ensp;1 <br>
+          1&emsp;4&emsp;6&emsp;&ensp;4&emsp;&ensp;&nbsp;1 <br>
+          1&emsp;5&emsp;10&emsp;10&emsp;5&emsp;&ensp;1 <br>
+          1&emsp;6&emsp;15&emsp;20&emsp;15&emsp;6&emsp;&ensp;1 <br>
+          1&emsp;7&emsp;21&emsp;35&emsp;35&emsp;21&emsp;7&emsp;1
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      Pro vysvětlení PT je možné použít přiložený soubor <code><a href="files/pascaluv-trojuhelnik/pascaluv-trojuhelnik.html" target="_blank">pascaluv-trojuhelnik.html</a></code>, 
+      kde se nechá do formuláře zadat počet řádků. Při odeslání se trojúhelník graficky vygeneruje. Pro změnu počtu řádků není třeba znovu načítat tento soubor, 
+      stačí pouze změnit číslovku a odeslat znovu formulář. Čísla v PT se v případě dlouhé délky zkrátí, tudíž od 27. řádku jsou již poslední číslice skryté, 
+      aby nedošlo k přetečení čísel mimo vymezený prostor a případnému rozbití trojúhelníku. To ale autor nepovažuje za podstatné a limit formuláře pro 
+      odesílání je tudíž nastaven na 100.
+    </p>
+
+    <p>
+      Jelikož je PT vcelku jednoduchý na pochopení, je vhodné zvolit deduktivní metodu. Pomocí souboru 
+      <code><a href="files/pascaluv-trojuhelnik/pascaluv-trojuhelnik.html" target="_blank">pascaluv-trojuhelnik.html</a></code> vypíšeme přednastavených 8 řádků.
+    </p>
+
+    <a href="files/pascaluv-trojuhelnik/pascaluv-trojuhelnik.png" target="_blank"><img src="files/pascaluv-trojuhelnik/pascaluv-trojuhelnik.png" alt="Pascalův trojúhelník" class="img--align-center"></a>
+    
+    <p>
+      Jedná se o ideální velikost, jelikož je z pohledu již algoritmus výpočtu jednotlivých polí zřejmý a zároveň nedochází k přehlcení daty. Necháme studenty, 
+      aby sami vymysleli, jak se trojúhelník počítá. Zkontrolujeme jejich řešení (možno například napsat na kus papíru, nebo do poznámkového bloku – aby 
+      neprozradili výsledek ostatním) a necháme je pracovat na samotné úloze.
+    </p>
+
+    <p>
+      Algoritmus bychom mohli shrnout následovně: <i>Výsledná hodnota buňky je součtem hodnot dvou buněk nad ní.</i> V samotném vytváření programu není žádná záludnost, 
+      která by mohla studenty zastavit, kromě posledního kroku a tím je vypsání trojúhelníka. Způsob řešení je popsán v části Možné problémy.
+    </p>
+
+    <p>
+      Nyní už nic nebrání tomu, abychom nechali studenty pracovat na svých programech. Demonstrativní řešení <code>pascaluv-trojuhelnik</code> je vhodné studentům 
+      ukázat a následně v případě dotazů vysvětlit. Můžeme poté dále navázat otázkami do diskuse.
+    </p>
+
+<div class="tabs">
+
+<div class="tabs__nav">
+  <a href="#1-cpp">pascaluv-trojuhelnik.cpp</a>
+  <a href="#1-js">pascaluv-trojuhelnik.js</a>
+  <a href="#1-py">pascaluv-trojuhelnik.py</a>
+  <span class="tabs__copy">Copy</span>
+</div>
+
+<div class="tabs__wrapper">
+<div class="tabs__content" id="1-cpp">
+<pre data-language="cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+// Deklarace a inicializace funkci
+int nejvetsiDelitel(int i, int j); // Funkce pro nalezeni nejvetsiho spolecneho delitele
+int nejmensiNasobek(int i, int j); // Funkce pro nalezeni nejmensiho spolecneho nasobku
+
+
+int main() {
+
+  // Deklarace a inicializace 
+  const int i = 8; // Inicializujeme velikost trojuhelniku
+  int pole[i][i]; // Deklarujeme dvourozmerne pole
+
+  // Cyklus pro radky
+  for (int j = 0; j < i; j++) {
+
+    // Cyklus pro sloupce (jednotlive hodnoty)
+    for (int k = 0; k < i; k++) {
+
+      // Pokud se jedna o prvni nebo posledni cislo
+      if(k == 0 || k == j) {
+
+        // Vzdy je 1
+        pole[j][k] = 1;
+
+      }
+
+      // Pro ostatni cisla mezi prvnim a poslednim
+      else if(k > 0 && k < j) {
+
+        // Vlozime hodnoty podle vzorecku
+        pole[j][k] = pole[j-1][k-1] + pole[j-1][k];
+
+      }
+
+      // Pokud jsou mimo rozsah
+      else {
+
+        // Vynulujeme
+        pole[j][k] = 0;
+
+      }
+
+    }
+
+  }
+
+  // Vypiseme Pascaluv trojuhelnik, cyklus pro radky
+  for (int j = 0; j < i; j++) {
+
+    // Cyklus pro sloupce (jednotlive hodnoty)
+    for (int k = 0; k < i; k++) {
+
+      // Pokud neni hodnota nula
+      if(pole[j][k] != 0) {
+
+        // Vypiseme ji
+        cout << pole[j][k] << "\t";
+
+      }
+
+    }
+
+    // Na konci vlozime novy radek
+    cout << endl;
+
+  }    
+
+}
+</pre>
+</div>
+
+<div class="tabs__content" id="1-js">
+<pre data-language="js">
+// Deklarace a inicializace
+const i = 13; // Inicializujeme velikost trojuhelniku
+var pole = []; // Deklarujeme pole
+
+// Cyklus pro radky
+for(var j = 0; j < i; j++) {
+
+  // Do pole vlozime vlozime dalsi pole
+  pole[j] = [];
+
+  // Cyklus pro sloupce (jednotlive hodnoty)
+  for(var k = 0; k <= j; k++) {
+
+    // Pokud se jedna o prvni nebo posledni cislo
+    if(k == 0 || k == j) {
+
+      // Vzdy je 1
+      pole[j][k] = 1;
+
+    }
+
+    // Pro ostatni cisla mezi prvnim a poslednim
+    else {
+
+      // Vlozime hodnoty podle vzorecku
+      pole[j][k] = pole[j-1][k-1] + pole[j-1][k];
+
+    }
+
+  }
+
+}
+
+// Vypiseme Pascaluv trojuhelnik, cyklus pro radky
+for(var j = 0; j < pole.length; j++) {
+
+  // Deklarujeme a incializujeme
+  var rad = ""; // Vypisovat musime radku jako text
+
+  // Cyklus pro sloupce (jednotlive hodnoty) 
+  for(var k = 0; k < pole[j].length; k++) {
+
+    // Kazdou hodnotu pridame jako string do textu a oddelime tabulatorem
+    rad += pole[j][k] + "\t";
+
+  }
+
+  // Vypiseme radku
+  console.log(rad);
+    
+}
+</pre>  
+</div>
+
+<div class="tabs__content" id="1-py">
+<pre data-language="py">
+# Deklarace a inicializace
+i = 13 # Inicializujeme velikost trojuhelniku
+pole = [] # Deklarujeme pole
+
+# Cyklus pro radky
+for j in range(i):
+
+  # Deklarujeme a inicializujeme
+  rad = [] # Prazdne pole, ktere pak budeme vkladat do promenne pole
+
+  # Cyklus pro sloupce (jednotlive hodnoty) 
+  for k in range(j + 1):
+
+    # Pokud se jedna o prvni nebo posledni cislo
+    if(k == 0 or k == j):
+
+      # Vzdy je 1
+      rad.append(1)
+
+    # Pro ostatni cisla mezi prvnim a poslednim
+    else:
+
+      # Vlozime hodnoty podle vzorecku
+      rad.append(pole[j-1][k-1] + pole[j-1][k])
+  
+  # Do vysledneho pole appendujeme (vlozime) celou radku
+  pole.append(rad)
+
+# Vypiseme Pascaluv trojuhelnik, cyklus pro radky
+for j in range(i):
+
+  # Cyklus pro sloupce (jednotlive hodnoty) 
+  for k in range(len(pole[j])):
+
+    # Vypiseme jednotlive hodnoty, ktere oddelime tabulatorem
+    print(pole[j][k], end="\t")
+
+  # Na konci vlozime novou radku
+  print("")
+</pre>
+</div>
+</div>
+</div>
+
+    <hr>
+
+    <h3>
+      Otázky do diskuse
+    </h3>
+    <ol>
+      <li>Existuje jiný způsob, jak vypsat PT bez toho, aniž bychom použili víceúrovňové pole?</li>
+      <li>Jaká je hodnota pole na klíči [17][6] (případně další na jiném klíči)?</li>
+      <li>Co nám jednotlivá čísla PT určují (použijte na hledání informační zdroje)?</li>
+    </ol>
+
+    <hr>
+
+    <h3>
+      Možné problémy
+    </h3>
+    <ul>
+      <li>
+        <i>Student nedokáže algoritmus vymyslet.</i> – Vybereme číslo uprostřed trojúhelníka pro pochopitelnější demonstraci a vyzveme studenta, aby se podíval 
+        na sousední čísla, jestli mezi nimi nenajde nějakou korelaci.
+      </li>
+      <li>
+        <i>Student nedokáže trojúhelník vypsat.</i> – Jedná se o specifický problém programovacího jazyka. Například v JavaScriptu je pro vypsání pomocí 
+        <code>console.log</code> nutné předat parametr jako textový řetězec, kterým bude celá jedna řádka, jelikož tento příkaz vždy vypíše výstup 
+        na řádku novou. V Pythonu je to jednodušší, tam už stačí předat parametr <code>end=““</code>.
+      </li>
+
+    </ul>
+
+  </main>
+
+  <!-- site-main__side -->
+  <aside class="site-main__side" id="meta">
+
+    <!-- site-main__head -->
+    <header class="site-main__head">
+
+      <!-- site-main__title -->
+      <h2 class="site-main__title">
+        Úvodní informace
+      </h2>
+
+      <!-- site-main__excerpt -->
+      <p class="site-main__excerpt">
+        V tomto příkladu budou studenti vymýšlet program na vytvoření Pascalova trojúhelníku (dále jako PT). Jedná se o jednofázovou úlohu, ve 
+        které dochází k procvičení cyklů a také víceúrovňového pole.
+      </p>
+
+      <p class="link--anchor">
+        <a href="#metodika">▲ Metodika</a>
+      </p>
+    
+    </header>
+
+    <h3>
+      Cíle úlohy
+    </h3>
+    <ul>
+      <li>
+        Procvičení:
+        <ul>
+          <li>Cykly</li>
+          <li>Vnořené cykly</li>
+          <li>Víceúrovňové pole</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>
+      Časová náročnost
+    </h3>
+    <p>
+      1 vyučovací hodina
+    </p>
+
+    <h3>
+      Obtížnost
+    </h3>
+    <img src="../assets/img/3.png" alt="***">
+
+    <h3>
+      Prerekvizity
+    </h3>
+    <ul>
+      <li>Cykly</li>
+      <li>Vnořené cykly</li>
+      <li>Víceúrovňové pole</li>
+    </ul>
+
+    <h3>
+      Výsledné programy
+    </h3>
+    <ul>
+      <li>pascaluv-trojuhelnik <a href="files/pascaluv-trojuhelnik/pascaluv-trojuhelnik.cpp">cpp</a> <a href="files/pascaluv-trojuhelnik/pascaluv-trojuhelnik.js">js</a> <a href="files/pascaluv-trojuhelnik/pascaluv-trojuhelnik.py">py</a></li>
+    </ul>
+
+    <h3>
+      Soubory
+    </h3>
+    <ul>
+      <li><a href="files/pascaluv-trojuhelnik/pascaluv-trojuhelnik.docx">Metodika</a></li>
+      <li><a href="files/pascaluv-trojuhelnik/pascaluv-trojuhelnik.png" target="_blank">pascaluv-trojuhelnik.png</a></li>
+      <li><a href="files/pascaluv-trojuhelnik/pascaluv-trojuhelnik.html" target="_blank">pascaluv-trojuhelnik.html</a></li>
+    </ul>
+
+  </aside>
+
+</div>
+
+<!-- site-foot -->
+<footer class="site-foot">
+  Vytvořil: Jan Lukš, 2023, Verze: 1.0
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/scripts.js"></script>
+
+</body>
+</html>
